@@ -1,6 +1,7 @@
 package io.github.StoneDigger;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 /** First screen of the application. Displayed after the application is created. */
 public class FirstScreen implements Screen {
@@ -31,7 +32,12 @@ public class FirstScreen implements Screen {
     }
 
     private void draw() {
+        ScreenUtils.clear(Color.BLACK);
+        game.viewport.apply();
+        game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+        game.spriteBatch.begin();
 
+        game.spriteBatch.end();
     }
 
     @Override
