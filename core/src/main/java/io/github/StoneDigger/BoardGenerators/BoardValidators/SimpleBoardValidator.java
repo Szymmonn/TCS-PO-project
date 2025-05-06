@@ -18,7 +18,7 @@ public class SimpleBoardValidator implements IBoardValidator {
     }
 
     private boolean isPossibleToGo(TileType tile) {
-        if(tile == TileType.WALL || tile == TileType.ROCK) return false;
+        if (tile == TileType.WALL || tile == TileType.ROCK) return false;
         return true;
     }
 
@@ -30,15 +30,17 @@ public class SimpleBoardValidator implements IBoardValidator {
     };
 
     @Override
-    public boolean validate(Board board, int sx, int sy) {
-        int height = board.getHeight();
+    public boolean validate(Board board) {
         int width  = board.getWidth();
+        int height = board.getHeight();
+        int sx = board.getStartingPositionX();
+        int sy = board.getStartingPositionY();
 
-        boolean[][] visited = new boolean[height][width];
+        boolean[][] visited = new boolean[width][height];
         Queue<Pair> q = new ArrayDeque<>();
 
         q.add(new Pair(sx, sy));
-        visited[sy][sx] = true;
+        visited[sx][sy] = true;
 
         while (!q.isEmpty()) {
             Pair cur = q.remove();
@@ -52,12 +54,12 @@ public class SimpleBoardValidator implements IBoardValidator {
                 int nx = x + d.x;
                 int ny = y + d.y;
                 if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
-                if (visited[ny][nx]) continue;
-                TileType t = board.get(ny, nx);
+                if (visited[nx][ny]) continue;
+                TileType t = board.get(nx, ny);
 
-                if (isPossibleToGo(t)) continue;
+                if (!isPossibleToGo(t)) continue;
 
-                visited[ny][nx] = true;
+                visited[nx][ny] = true;
                 q.add(new Pair(nx, ny));
             }
         }

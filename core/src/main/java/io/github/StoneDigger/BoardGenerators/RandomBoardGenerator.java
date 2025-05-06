@@ -15,7 +15,6 @@ public class RandomBoardGenerator implements IBoardGenerator {
         double sum = wall + rock + diamond;
         if (sum > 1.0)
             throw new IllegalArgumentException(String.format("Sum of densities must be <= 1.0, but was %.2f", sum));
-
     }
 
     private void validateGenerateFunctionArguments(int startingPositionX, int startingPositionY, int height, int width) {
@@ -30,43 +29,43 @@ public class RandomBoardGenerator implements IBoardGenerator {
     }
 
     private void fillWithDirt(TileType[][] board) {
-        int width = board[0].length;
-        int height = board.length;
+        int width = board.length;
+        int height = board[0].length;
 
-        for (int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-                board[y][x] = TileType.DIRT;
+        for (int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                board[x][y] = TileType.DIRT;
             }
         }
     }
 
     private void placeBorders(TileType[][] board) {
-        int width = board[0].length;
-        int height = board.length;
+        int width = board.length;
+        int height = board[0].length;
 
         for (int x = 0; x < width; x++) {
-            board[0][x] = TileType.WALL;
-            board[height-1][x] = TileType.WALL;
+            board[x][0] = TileType.WALL;
+            board[x][height - 1] = TileType.WALL;
         }
         for (int y = 0; y < height; y++) {
-            board[y][0] = TileType.WALL;
-            board[y][width-1] = TileType.WALL;
+            board[0][y] = TileType.WALL;
+            board[width - 1][y] = TileType.WALL;
         }
     }
 
     private void scatterObstacles(TileType[][] board) {
-        int width = board[0].length;
-        int height = board.length;
+        int width = board.length;
+        int height = board[0].length;
 
-        for (int y = 1; y < height-1; y++) {
-            for (int x = 1; x < width-1; x++) {
+        for (int x = 1; x < width - 1; x++) {
+            for (int y = 1; y < height - 1; y++) {
                 double r = random.nextDouble();
                 if (r < wallDensity) {
-                    board[y][x] = TileType.WALL;
+                    board[x][y] = TileType.WALL;
                 } else if (r < wallDensity + rockDensity) {
-                    board[y][x] = TileType.ROCK;
+                    board[x][y] = TileType.ROCK;
                 } else if (r < wallDensity + rockDensity + diamondDensity) {
-                    board[y][x] = TileType.DIAMOND;
+                    board[x][y] = TileType.DIAMOND;
                 }
                 // else pozostaje dirtem
             }
@@ -74,11 +73,11 @@ public class RandomBoardGenerator implements IBoardGenerator {
     }
 
     private void placeStartAndExit(TileType[][] board, int sx, int sy) {
-        int width = board[0].length;
-        int height = board.length;
+        int width = board.length;
+        int height = board[0].length;
 
-        board[sy][sx] = TileType.START;
-        board[height-2][width-2] = TileType.EXIT;
+        board[sx][sy] = TileType.START;
+        board[width - 2][height - 2] = TileType.EXIT;
     }
 
     // dziala to tak, ze kazda ze zmienncyh oznacza szanse na wystapienie danego obstacle i
@@ -95,9 +94,9 @@ public class RandomBoardGenerator implements IBoardGenerator {
     }
 
     @Override
-    public TileType[][] generate(int width, int height, int startingPositionX, int startingPositionY) {
+    public Board generate(int width, int height, int startingPositionX, int startingPositionY) {
         validateGenerateFunctionArguments(startingPositionX, startingPositionY, height, width);
-        TileType[][] board = new TileType[height][width];
+        TileType[][] board = new TileType[width][height];
 
         // wypelnia pustymi polami
         fillWithDirt(board);
@@ -111,6 +110,6 @@ public class RandomBoardGenerator implements IBoardGenerator {
         // losowo wrzuca skaly i diamwnty
         scatterObstacles(board);
 
-        return board;
+        return new Board(board, startingPositionX, startingPositionY);
     }
 }
