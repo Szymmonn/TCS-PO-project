@@ -1,7 +1,6 @@
 package io.github.StoneDigger;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -21,7 +20,7 @@ public class FirstScreen implements Screen {
 
     @Override
     public void show() {
-        // Prepare your screen here.
+        //Gdx.input.setInputProcessor(new PlayerInput(player));
     }
 
     @Override
@@ -32,7 +31,7 @@ public class FirstScreen implements Screen {
     }
 
     private void input() {
-        player.handleInput();
+        player.updateMotion();
     }
 
     private void logic() {
