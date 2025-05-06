@@ -4,6 +4,12 @@ import com.badlogic.gdx.Screen;
 
 /** First screen of the application. Displayed after the application is created. */
 public class FirstScreen implements Screen {
+    final Main game;
+
+    public FirstScreen(Main game) {
+        this.game = game;
+    }
+
     @Override
     public void show() {
         // Prepare your screen here.
