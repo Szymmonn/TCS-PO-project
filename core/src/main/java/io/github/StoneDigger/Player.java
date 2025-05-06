@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 public class Player {
     float breakTimer=0;
     boolean arrowPressed;
-    Main game;
+    //CaveDigger game;
     Texture caverTexture;
     Sprite caverSprite;
 
@@ -18,23 +18,27 @@ public class Player {
     float caverWidth;
     float caverHeight;
 
-    public Player(Main game) {
+    public Player() {}
+
+    /*
+    public Player(CaveDigger game) {
         this.game = game;
         this.caverTexture = new Texture("Player.png");
         this.caverSprite = new Sprite(caverTexture);
         this.worldWidth = game.viewport.getWorldWidth();
         this.worldHeight = game.viewport.getWorldHeight();
 
-        //caver size set-up
+        caver size set-up
         caverSprite.setSize(1,1);
         caverSprite.setX(MathUtils.clamp(caverSprite.getX(), 0, worldWidth - caverWidth));
         this.caverWidth = caverSprite.getWidth();
         this.caverHeight = caverSprite.getHeight();
-
     }
 
+     */
+
     public void draw() {
-        caverSprite.draw(game.spriteBatch);
+        //caverSprite.draw(game.spriteBatch);
     }
 
     public void move(float x,float y) {
@@ -56,5 +60,12 @@ public class Player {
                 move(0, -1);
             }
         }
+    }
+
+    public int getX_position() {
+        return 2;
+    }
+    public int getY_position() {
+        return 2;
     }
 }

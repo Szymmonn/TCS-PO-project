@@ -14,6 +14,14 @@ public class Board {
         return tiles[x][y];
     }
 
+    public TileType[][] getTiles() {
+        int width = getWidth();
+        int height = getHeight();
+        TileType[][] newArr = new TileType[width][height];
+        for(int i=0;i<width;i++) System.arraycopy(tiles[i], 0, newArr[i], 0, height);
+        return newArr;
+    }
+
     public boolean set(int x, int y, TileType t) {
         if(x == 0 || y == 0 || x == getWidth() - 1 || y == getWidth() - 1 ||
                 (x == getWidth() - 2 && y == getWidth() - 2)) return false;

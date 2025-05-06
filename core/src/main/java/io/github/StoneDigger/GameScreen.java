@@ -1,22 +1,20 @@
 package io.github.StoneDigger;
 
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 
 /** First screen of the application. Displayed after the application is created. */
-public class FirstScreen implements Screen {
+public class GameScreen implements Screen {
+    private Stage stage;
+    final CaveDiggerGame game;
 
-    final Main game;
-    Player player;
-
-
-    public FirstScreen(Main game) {
-        this.game = game;
-        this.player = new Player(game);
+    public GameScreen() {
+        game = new CaveDiggerGame();
+        stage = new Stage();
+        stage.addActor(game);
     }
 
     @Override
@@ -26,33 +24,10 @@ public class FirstScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        input();
-        logic();
-        draw();
-    }
-
-    private void input() {
-        player.handleInput();
-    }
-
-    private void logic() {
-
-    }
-
-    private void draw() {
-        ScreenUtils.clear(Color.BLACK);
-        game.viewport.apply();
-        game.spriteBatch.setProjectionMatrix(game.viewport.getCamera().combined);
-        game.spriteBatch.begin();
-
-
-        //Rysujemy na ekranie wszystkie struktury
-
-        //Rysujemy playera
-        player.draw();
-
-
-        game.spriteBatch.end();
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(0);
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
