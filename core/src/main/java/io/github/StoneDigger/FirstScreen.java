@@ -1,5 +1,7 @@
 package io.github.StoneDigger;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -7,10 +9,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 /** First screen of the application. Displayed after the application is created. */
 public class FirstScreen implements Screen {
+
     final Main game;
+    Player player;
+
 
     public FirstScreen(Main game) {
         this.game = game;
+        this.player = new Player(game);
     }
 
     @Override
@@ -26,7 +32,15 @@ public class FirstScreen implements Screen {
     }
 
     private void input() {
-
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            player.move(1,0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            player.move(-1,0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            player.move(0,1);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            player.move(0,-1);
+        }
     }
 
     private void logic() {
@@ -38,6 +52,14 @@ public class FirstScreen implements Screen {
         game.viewport.apply();
         game.spriteBatch.setProjectionMatrix(game.viewport.getCamera().combined);
         game.spriteBatch.begin();
+
+
+        //Rysujemy na ekranie wszystkie struktury
+
+        //Rysujemy playera
+        player.draw();
+
+
         game.spriteBatch.end();
     }
 
