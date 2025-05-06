@@ -32,15 +32,7 @@ public class FirstScreen implements Screen {
     }
 
     private void input() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            player.move(1,0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            player.move(-1,0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            player.move(0,1);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            player.move(0,-1);
-        }
+        player.handleInput();
     }
 
     private void logic() {
