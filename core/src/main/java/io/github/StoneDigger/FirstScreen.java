@@ -1,4 +1,4 @@
-package io.github.StoneDigger;
+package github.StoneDigger;
 
 import com.badlogic.gdx.Screen;
 
