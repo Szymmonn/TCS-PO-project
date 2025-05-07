@@ -26,7 +26,7 @@ public class MyGameScreen implements Screen {
        myCamera.setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);   // makes camera static pointing 'down' (bc false)
 
        stage = new Stage();
-//       Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
+       Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
        stage.addActor(myBackground);
        stage.addActor(myBoard);
    }
