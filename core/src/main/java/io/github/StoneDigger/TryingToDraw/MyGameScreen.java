@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import io.github.StoneDigger.MyGame;
 
 
 public class MyGameScreen implements Screen {
@@ -13,10 +12,12 @@ public class MyGameScreen implements Screen {
 
     final MyGame game;
     final MyBoard myBoard;
+    final MyBackground myBackground;
 
    public MyGameScreen(final MyGame game) {
         this.game = game;
         myBoard = new MyBoard();
+        myBackground = new MyBackground();
    }
 
    @Override
@@ -26,6 +27,7 @@ public class MyGameScreen implements Screen {
 
        stage = new Stage();
 //       Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
+       stage.addActor(myBackground);
        stage.addActor(myBoard);
    }
 

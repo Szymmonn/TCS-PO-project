@@ -1,4 +1,4 @@
-package io.github.StoneDigger.TryingToDraw;
+package io.github.StoneDigger.useless;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
