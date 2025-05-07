@@ -13,22 +13,26 @@ import io.github.StoneDigger.TryingToDraw.MyGameScreen;
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
 import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
 import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
+import static io.github.StoneDigger.TryingToDraw.MyGameScreen.BOARD_UNIT;
 
 public class PlayerActor extends Actor {
     private int x=0,y=0;
     private final Sprite sprite;
     private float moveTimer = 0;
-    private final float moveByDistance;
     private final Board board;
 
     public PlayerActor(Board board) {
         sprite = new Sprite(PLAYER_TEXTURE);
         sprite.setSize(BLOCK_SIZE,BLOCK_SIZE);
-        setPosition(10f, 10f);
-        moveByDistance = BLOCK_SIZE + GAP_SIZE;
-        moveBy(moveByDistance-GAP_SIZE/2,moveByDistance-GAP_SIZE/2); // starting position // for now in (1,1)
+        ///  TODO : change starting position
+        //x = 1;
+        //y = 1;
+        setPosition(BOARD_UNIT + GAP_SIZE/2, BOARD_UNIT + GAP_SIZE/2);  // for now in (1,1)
+
         this.board = board;
     }
+
+
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -47,28 +51,28 @@ public class PlayerActor extends Actor {
         moveTimer+=delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             if(checkNextMove(1,0)) {
-                moveBy(moveByDistance, 0);
+                moveBy(BOARD_UNIT, 0);
                 moveTimer = 0f;
                 x++;
             }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
             if(checkNextMove(-1,0)) {
-                moveBy(-moveByDistance, 0);
+                moveBy(-BOARD_UNIT, 0);
                 moveTimer = 0f;
                 x--;
             }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             if(checkNextMove(0,1)) {
-                moveBy(0, moveByDistance);
+                moveBy(0, BOARD_UNIT);
                 moveTimer = 0f;
                 y++;
             }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
             if(checkNextMove(0,-1)) {
-                moveBy(0, -moveByDistance);
+                moveBy(0, -BOARD_UNIT);
                 moveTimer = 0f;
                 y--;
             }
@@ -79,25 +83,25 @@ public class PlayerActor extends Actor {
         if (moveTimer >= 0.4f) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 if(checkNextMove(1,0)) {
-                    moveBy(moveByDistance, 0);
+                    moveBy(BOARD_UNIT, 0);
                     moveTimer = 0f;
                     x++;
                 }
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 if(checkNextMove(-1,0)) {
-                    moveBy(-moveByDistance, 0);
+                    moveBy(-BOARD_UNIT, 0);
                     moveTimer = 0f;
                     x--;
                 }
             } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 if(checkNextMove(0,1)) {
-                    moveBy(0, moveByDistance);
+                    moveBy(0, BOARD_UNIT);
                     moveTimer = 0f;
                     y++;
                 }
             } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
                 if(checkNextMove(0,-1)) {
-                    moveBy(0, -moveByDistance);
+                    moveBy(0, -BOARD_UNIT);
                     moveTimer = 0f;
                     y--;
                 }
@@ -106,8 +110,8 @@ public class PlayerActor extends Actor {
         }
 
         super.act(delta);
-        int tileX = (int) ((getX() + getWidth() / 2) / moveByDistance);
-        int tileY = (int) ((getY() + getHeight() / 2) / moveByDistance);
+        int tileX = (int) ((getX() + getWidth() / 2) / BOARD_UNIT);
+        int tileY = (int) ((getY() + getHeight() / 2) / BOARD_UNIT);
 
         if (board.get(tileX, tileY) == TileType.DIRT) {
             board.set(tileX, tileY, TileType.EMPTY);
@@ -117,8 +121,8 @@ public class PlayerActor extends Actor {
     }
 
     public boolean checkNextMove(int x,int y) {
-        float nextX = getX() + x*moveByDistance;
-        float nextY = getY() + y*moveByDistance;
+        float nextX = getX() + x* BOARD_UNIT;
+        float nextY = getY() + y* BOARD_UNIT;
 
         //na sciane
 
@@ -126,11 +130,11 @@ public class PlayerActor extends Actor {
         return true;
     }
 
-    public float getPositionX() {
+    public int getPositionX() {
         return x;
     }
 
-    public float getPositionY() {
+    public int getPositionY() {
         return y;
     }
 }

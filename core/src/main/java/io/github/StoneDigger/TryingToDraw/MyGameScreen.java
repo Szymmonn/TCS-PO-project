@@ -10,7 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
 import io.github.StoneDigger.BoardGenerators.TileType;
@@ -18,14 +19,19 @@ import io.github.StoneDigger.BoardGenerators.TileType;
 import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
 import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
 import static io.github.StoneDigger.TryingToDraw.MyGame.GAME_HEIGHT;
-import static io.github.StoneDigger.TryingToDraw.MyGame.GAME_WIDTH;
 
 
 public class MyGameScreen implements Screen {
-    public static float WORLD_UNIT = BLOCK_SIZE + GAP_SIZE;
+    public static int TILES_ON_SCREEN_WIDTH = 9;
+    public static int TILES_ON_SCREEN_HEIGHT = 7;
+
+    public static int BOARD_UNIT = BLOCK_SIZE + GAP_SIZE;
+    public static float SCREEN_HEIGHT = TILES_ON_SCREEN_HEIGHT * BOARD_UNIT;
+    public static float SCREEN_WIDTH = TILES_ON_SCREEN_WIDTH * BOARD_UNIT;
 
     private Stage stage;    // sets up the stage
-    OrthographicCamera myCamera;    // sets up the camera
+    private OrthographicCamera myCamera;    // sets up the camera
+    private Viewport myViewport;
 
     final MyGame game;
     final MyBoard myBoard;
@@ -34,8 +40,10 @@ public class MyGameScreen implements Screen {
     final BitmapFont font = new BitmapFont();
     public static int diamondsCollected = 0;
 
-    public final float WORLD_WIDTH;
-    public final float WORLD_HEIGHT;
+    public final int BOARD_TILES_WIDTH;
+    public final int BOARD_TILES_HEIGHT;
+    public final int BOARD_WIDTH;
+    public final int BOARD_HEIGHT;
 
    public MyGameScreen(final MyGame game) {
         this.game = game;
@@ -43,40 +51,51 @@ public class MyGameScreen implements Screen {
         myBackground = new MyBackground(Math.max(myBoard.BoardSizeX, myBoard.BoardSizeY));
         playerActor = new PlayerActor(myBoard.getBoard());
 
-        WORLD_WIDTH = myBoard.BoardSizeX*WORLD_UNIT;
-        WORLD_HEIGHT = myBoard.BoardSizeY*WORLD_UNIT;
+        BOARD_TILES_HEIGHT = myBoard.BoardSizeY;
+        BOARD_TILES_WIDTH = myBoard.BoardSizeX;
+
+        BOARD_HEIGHT = BOARD_TILES_HEIGHT* BOARD_UNIT;
+        BOARD_WIDTH = BOARD_TILES_WIDTH* BOARD_UNIT;
+
    }
 
    @Override
    public void show() {    // when the stage is (mainly but not exclusive) created
-       myCamera = new OrthographicCamera();
-       myCamera.setToOrtho(false, MyGame.GAME_WIDTH, GAME_HEIGHT);   // makes camera static pointing 'down' (bc false)
+       //myCamera = new OrthographicCamera();
+       //myCamera.setToOrtho(false, TILES_ON_SCREEN_WIDTH*BOARD_UNIT, TILES_ON_SCREEN_HEIGHT*BOARD_UNIT);   // makes camera static pointing 'down' (bc false)
+        myViewport = new FitViewport(TILES_ON_SCREEN_WIDTH * BOARD_UNIT, TILES_ON_SCREEN_HEIGHT * BOARD_UNIT);
+        myViewport.apply();
+        myCamera = (OrthographicCamera) myViewport.getCamera();
 
-       stage = new Stage(new ScreenViewport(myCamera));
+       stage = new Stage(myViewport);
        Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
        stage.addActor(myBackground);
        stage.addActor(myBoard);
        stage.addActor(playerActor);
 
+       /// TODO : CLEAN UP THIS INPUT_LISTENER.   .
        stage.addListener(new InputListener() {
            @Override
           public boolean keyDown(InputEvent event, int keycode) {
-               float unitMove = BLOCK_SIZE + GAP_SIZE;
                if(keycode == Input.Keys.UP) {
-                  if(myCamera.position.y + myCamera.viewportHeight/2 < WORLD_HEIGHT - unitMove)
-                    myCamera.translate(0, unitMove);
+                  if(myCamera.position.y + myCamera.viewportHeight/2 < BOARD_HEIGHT - BOARD_UNIT
+                    && playerActor.getPositionY() > TILES_ON_SCREEN_HEIGHT /2)
+                    myCamera.translate(0, BOARD_UNIT);
               }
               if(keycode == Input.Keys.DOWN) {
-                  if(myCamera.position.y - myCamera.viewportHeight/2 - unitMove > 0)
-                    myCamera.translate(0, -unitMove);
+                  if(myCamera.position.y - myCamera.viewportHeight/2 - BOARD_UNIT > 0
+                  && playerActor.getPositionY() < BOARD_TILES_HEIGHT - TILES_ON_SCREEN_HEIGHT /2)
+                    myCamera.translate(0, -BOARD_UNIT);
               }
               if(keycode == Input.Keys.RIGHT) {
-                  if(myCamera.position.x + myCamera.viewportWidth/2 < WORLD_WIDTH - unitMove)
-                    myCamera.translate(unitMove, 0);
+                  if(myCamera.position.x + myCamera.viewportWidth/2 < BOARD_WIDTH - BOARD_UNIT
+                  && playerActor.getPositionX() > TILES_ON_SCREEN_WIDTH /2)
+                    myCamera.translate(BOARD_UNIT, 0);
               }
               if(keycode == Input.Keys.LEFT) {
-                  if(myCamera.position.x - myCamera.viewportWidth/2 - unitMove > 0)
-                    myCamera.translate(-unitMove, 0);
+                  if(myCamera.position.x - myCamera.viewportWidth/2 - BOARD_UNIT > 0
+                  && playerActor.getPositionX() < BOARD_TILES_WIDTH - TILES_ON_SCREEN_WIDTH /2)
+                    myCamera.translate(-BOARD_UNIT, 0);
               }
               myCamera.update();
               return super.keyDown(event, keycode);
@@ -105,7 +124,7 @@ public class MyGameScreen implements Screen {
         font.setColor(Color.BLUE);
         String text = "DIAXY " + diamondsCollected;
         float textX = iconX - 8 - font.getRegion().getRegionWidth() * text.length() * 0.3f;
-        float textY = iconY + BLOCK_SIZE / 2 + font.getCapHeight() / 2;
+        float textY = iconY + (float) BLOCK_SIZE / 2 + font.getCapHeight() / 2;
         font.draw(batch, text, textX, textY);
         batch.end();
     }
@@ -113,7 +132,7 @@ public class MyGameScreen implements Screen {
 
     @Override
     public void resize(int i, int i1) {
-
+        myViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
