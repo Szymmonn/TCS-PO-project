@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
 
@@ -32,7 +34,7 @@ public class MyGameScreen implements Screen {
        myCamera = new OrthographicCamera();
        myCamera.setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);   // makes camera static pointing 'down' (bc false)
 
-       stage = new Stage();
+       stage = new Stage(new ScreenViewport(myCamera));
        Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
        stage.addActor(myBackground);
        stage.addActor(myBoard);
