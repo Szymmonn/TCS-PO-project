@@ -13,15 +13,13 @@ public class PlayerActor extends Actor {
     private final Sprite sprite;
 //    private final Player player;
     private float moveTimer=0;
-    private final float moveByDistance;
+    private final float moveByDistance = SIZE_TEXTURE + 20;
 
     public PlayerActor() {
         sprite = new Sprite(PLAYER_TEXTURE);
-//        player = new Player();
         sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
         setPosition(10f, 10f);
-        moveByDistance = SIZE_TEXTURE + 20;
-
+        moveBy(moveByDistance, moveByDistance);
     }
 
     @Override
