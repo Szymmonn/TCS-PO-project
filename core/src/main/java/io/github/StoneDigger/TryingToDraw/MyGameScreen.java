@@ -60,6 +60,7 @@ public class MyGameScreen implements Screen {
                   myCamera.translate(0, -120);
               }
               if(keycode == Input.Keys.RIGHT) {
+                  myCamera.translate(120, 0);
               }
               if(keycode == Input.Keys.LEFT) {
                   myCamera.translate(-120, 0);
