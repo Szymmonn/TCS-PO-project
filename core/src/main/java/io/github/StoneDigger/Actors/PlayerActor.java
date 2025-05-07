@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import io.github.StoneDigger.BoardGenerators.TileType;
+import io.github.StoneDigger.BoardGenerators.Board;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
 import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
@@ -12,11 +14,9 @@ import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
 public class PlayerActor extends Actor {
     private int x=0,y=0;
     private final Sprite sprite;
-//    private final Player player;
     private float moveTimer=0;
-    private final float moveByDistance;
-    private float clampedX;
-    private float clampedY;
+    private final float moveByDistance = SIZE_TEXTURE+20;
+    private Board board;
 
     public PlayerActor() {
         sprite = new Sprite(PLAYER_TEXTURE);
@@ -29,8 +29,7 @@ public class PlayerActor extends Actor {
     public void draw(Batch batch, float parentAlpha) {
 
         super.draw(batch, parentAlpha); // default empty
-        clampedX = getStage().getWidth()-SIZE_TEXTURE;
-        clampedY = getStage().getHeight()-SIZE_TEXTURE;
+
 
         sprite.setPosition(getX(),getY());
         sprite.draw(batch);
@@ -40,62 +39,78 @@ public class PlayerActor extends Actor {
     public void act(float delta) {
         moveTimer+=delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            moveBy(moveByDistance, 0);
-            moveTimer = 0f;
-            x++;
-            clamp(1);
+            if(checkNextMove(1,0)) {
+                moveBy(moveByDistance, 0);
+                moveTimer = 0f;
+                x++;
+            }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            moveBy(-moveByDistance, 0);
-            moveTimer = 0f;
-            x--;
-            clamp(-1);
+            if(checkNextMove(-1,0)) {
+                moveBy(-moveByDistance, 0);
+                moveTimer = 0f;
+                x--;
+            }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            moveBy(0, moveByDistance);
-            moveTimer = 0f;
-            y++;
-            clamp(1);
+            if(checkNextMove(0,1)) {
+                moveBy(0, moveByDistance);
+                moveTimer = 0f;
+                y++;
+            }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            moveBy(0, -moveByDistance);
-            moveTimer = 0f;
-            y--;
-            clamp(-1);
+            if(checkNextMove(0,-1)) {
+                moveBy(0, -moveByDistance);
+                moveTimer = 0f;
+                y--;
+            }
             return;
         }
 
         // Ruch ciagly przy przytrzymaniu klawisza
         if (moveTimer >= 0.4f) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                moveBy(moveByDistance, 0);
-                moveTimer = 0f;
-                x++;
-                clamp(1);
+                if(checkNextMove(1,0)) {
+                    moveBy(moveByDistance, 0);
+                    moveTimer = 0f;
+                    x++;
+                }
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                moveBy(-moveByDistance, 0);
-                moveTimer = 0f;
-                x--;
-                clamp(-1);
+                if(checkNextMove(-1,0)) {
+                    moveBy(-moveByDistance, 0);
+                    moveTimer = 0f;
+                    x--;
+                }
             } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                moveBy(0, moveByDistance);
-                moveTimer = 0f;
-                y++;
-                clamp(1);
+                if(checkNextMove(0,1)) {
+                    moveBy(0, moveByDistance);
+                    moveTimer = 0f;
+                    y++;
+                }
             } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                moveBy(0, -moveByDistance);
-                moveTimer = 0f;
-                clamp(-1);
+                if(checkNextMove(0,-1)) {
+                    moveBy(0, -moveByDistance);
+                    moveTimer = 0f;
+                    y--;
+                }
             }
 
         }
     }
-    public void clamp(int value) {
-        if(getX(x)<0 || getX(x)>clampedX) {
-            moveBy(value*moveByDistance,0); x+=value;
-        } else if(getY(y)<0 || getY(y)>clampedY) {
-            moveBy(0,value*moveByDistance); y+=value;
-        }
+
+    public boolean checkNextMove(int x,int y) {
+        float nextX = getX() + x*moveByDistance;
+        float nextY = getY() + y*moveByDistance;
+
+        //poza granice mapy
+        if(nextX < 0 || nextX > getStage().getWidth()-SIZE_TEXTURE) return false;
+        if(nextY < 0 || nextY > getStage().getHeight()-SIZE_TEXTURE) return false;
+
+        //na sciane
+
+        if(Board.get(this.x+x,this.y+y).equals(TileType.WALL)) return false;
+        return true;
     }
 
     public float getPositionX() {

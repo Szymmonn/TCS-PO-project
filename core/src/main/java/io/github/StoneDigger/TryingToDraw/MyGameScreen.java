@@ -8,8 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
-import io.github.StoneDigger.MyGame;
-import io.github.StoneDigger.TryingToDraw.*;
 
 
 
