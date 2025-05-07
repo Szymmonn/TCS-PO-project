@@ -25,7 +25,7 @@ public class CaveDiggerGame extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        playerActor.getPlayer().handleInput();
+//        playerActor.getPlayer().handleInput();
         // more logic
     }
 
