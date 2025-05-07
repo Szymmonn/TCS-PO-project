@@ -14,23 +14,13 @@ public enum TileType {
     EXIT;
 
     public static Texture getTexture(TileType type) {
-        if (type == EMPTY) {
-            return null;
-        }
-        if (type == DIRT) {
-            return DIRT_TEXTURE;
-        }
-        if (type == WALL) {
-            return WALL_TEXTURE;
-        }
-        if (type == ROCK) {
-            return ROCK_TEXTURE;
-        }
-        if (type == DIAMOND) {
-            return DIAMOND_TEXTURE;
-        }
-        if (type == START) { return START_TEXTURE; }
-        if(type == EXIT) { return EXIT_TEXTURE; }
+        if (type == DIRT) return DIRT_TEXTURE;
+        if (type == WALL) return WALL_TEXTURE;
+        if (type == ROCK) return ROCK_TEXTURE;
+        if (type == DIAMOND) return DIAMOND_TEXTURE;
+        if(type == EMPTY) return EMPTY_TEXTURE;
+        if (type == START) return START_TEXTURE;
+        if(type == EXIT) return EXIT_TEXTURE;
         return null;
     }
 }
