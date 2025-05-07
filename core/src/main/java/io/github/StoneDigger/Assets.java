@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
+    public static int SIZE_TEXTURE = 100;
+
     public static Texture ROCK_TEXTURE;
     public static Texture DIRT_TEXTURE;
     public static Texture DIAMOND_TEXTURE;

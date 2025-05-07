@@ -3,8 +3,8 @@ package io.github.StoneDigger;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import io.github.StoneDigger.BoardGenerators.BoardActor;
-import io.github.StoneDigger.BoardGenerators.PlayerActor;
+import io.github.StoneDigger.TryingToDraw.BoardActor;
+import io.github.StoneDigger.TryingToDraw.PlayerActor;
 
 public class CaveDiggerGame extends Group {
     private final PlayerActor playerActor;

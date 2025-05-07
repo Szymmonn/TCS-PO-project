@@ -1,4 +1,4 @@
-package io.github.StoneDigger.BoardGenerators;
+package io.github.StoneDigger.TryingToDraw;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
