@@ -11,7 +11,8 @@ import io.github.StoneDigger.BoardGenerators.TileType;
 import io.github.StoneDigger.TryingToDraw.MyGameScreen;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
-import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
+import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
+import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
 
 public class PlayerActor extends Actor {
     private int x=0,y=0;
@@ -22,9 +23,9 @@ public class PlayerActor extends Actor {
 
     public PlayerActor(Board board) {
         sprite = new Sprite(PLAYER_TEXTURE);
-        sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
+        sprite.setSize(BLOCK_SIZE,BLOCK_SIZE);
         setPosition(10f, 10f);
-        moveByDistance = SIZE_TEXTURE + 20;
+        moveByDistance = BLOCK_SIZE + GAP_SIZE;
         moveBy(moveByDistance,moveByDistance);
         this.board = board;
     }
