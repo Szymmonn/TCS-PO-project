@@ -93,6 +93,15 @@ public class RandomBoardGenerator implements IBoardGenerator {
         this.random = Objects.requireNonNull(random);
     }
 
+    public RandomBoardGenerator(double wallDensity, double rockDensity, double diamondDensity) {
+        validateDensities(wallDensity, rockDensity, diamondDensity);
+        this.wallDensity = wallDensity;
+        this.rockDensity = rockDensity;
+        this.diamondDensity = diamondDensity;
+        this.random = new Random();
+    }
+
+
     @Override
     public Board generate(int width, int height, int startingPositionX, int startingPositionY) {
         validateGenerateFunctionArguments(startingPositionX, startingPositionY, height, width);
