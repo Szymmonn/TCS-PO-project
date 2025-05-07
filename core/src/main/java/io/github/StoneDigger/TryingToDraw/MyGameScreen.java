@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import io.github.StoneDigger.MyGame;
+import com.badlogic.gdx.graphics.GL20;
+
 
 
 public class MyGameScreen implements Screen {
@@ -13,11 +16,13 @@ public class MyGameScreen implements Screen {
     final MyGame game;
     final MyBoard myBoard;
     final MyBackground myBackground;
+    final PlayerActor playerActor;
 
    public MyGameScreen(final MyGame game) {
         this.game = game;
         myBoard = new MyBoard();
         myBackground = new MyBackground();
+        playerActor = new PlayerActor();
    }
 
    @Override
@@ -26,16 +31,18 @@ public class MyGameScreen implements Screen {
        myCamera.setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);   // makes camera static pointing 'down' (bc false)
 
        stage = new Stage();
-//       Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
+       Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
        stage.addActor(myBackground);
        stage.addActor(myBoard);
+       stage.addActor(playerActor);
    }
 
    @Override
    public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,0);
-        stage.act(delta);
-        stage.draw();
+       Gdx.gl.glClearColor(0,0,0,0);
+       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+       stage.act(delta);
+       stage.draw();
    }
 
     @Override

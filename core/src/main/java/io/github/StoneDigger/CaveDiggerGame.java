@@ -3,8 +3,8 @@ package io.github.StoneDigger;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import io.github.StoneDigger.useless.BoardActor;
-import io.github.StoneDigger.useless.PlayerActor;
+import io.github.StoneDigge.useless.BoardActor;
+import io.github.StoneDigge.useless.PlayerActor;
 
 public class CaveDiggerGame extends Group {
     private final PlayerActor playerActor;
@@ -25,7 +25,7 @@ public class CaveDiggerGame extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        playerActor.getPlayer().handleInput();
+//        playerActor.getPlayer().handleInput();
         // more logic
     }
 
