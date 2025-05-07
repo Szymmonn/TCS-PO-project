@@ -13,8 +13,9 @@ public class Board {
         this.tiles = tiles;
     }
 
-    public int getWidth() {return tiles[0].length;}
-    public int getHeight() {return tiles.length;}
+    public int getWidth()  { return tiles.length; }
+    public int getHeight() { return tiles[0].length; }
+
     public int getStartingPositionX() {return startingPositionX;}
     public int getStartingPositionY() {return startingPositionY;}
 
@@ -71,8 +72,12 @@ public class Board {
     }
 
     public boolean set(int x, int y, TileType t) {
-        if(x == 0 || y == 0 || x == getWidth() - 1 || y == getWidth() - 1 ||
-                (x == getWidth() - 2 && y == getWidth() - 2)) return false;
+        if (x == 0 || y == 0
+                || x == getWidth() - 1
+                || y == getHeight() - 1
+                || (x == getWidth() - 2 && y == getHeight() - 2)
+        ) return false;
+
         tiles[x][y] = t;
         return true;
     }

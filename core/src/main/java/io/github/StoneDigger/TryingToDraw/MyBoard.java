@@ -28,11 +28,18 @@ public class MyBoard extends Actor {
 
         float temp = sizeOfObstacleOnScreen;
         float translate = (temp-SIZE_TEXTURE)/2;
-        for(int i=0;i<BoardSizeX;i++) {
-            for(int j = 0; j< BoardSizeX; j++) {
-                batch.draw(TileType.getTexture(obstacleArray[i][j]), i*temp +translate, j*temp + translate, SIZE_TEXTURE, SIZE_TEXTURE);
+        int cols = obstacleArray.length;          // 30
+        int rows = obstacleArray[0].length;       // 20
+
+        for (int x = 0; x < cols; x++) {
+            for (int y = 0; y < rows; y++) {
+                batch.draw(TileType.getTexture(obstacleArray[x][y]),
+                        x * temp + translate,
+                        y * temp + translate,
+                        SIZE_TEXTURE, SIZE_TEXTURE);
             }
         }
+
         batch.setColor(prev);
     }
 
