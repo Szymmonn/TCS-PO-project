@@ -1,9 +1,17 @@
 package io.github.StoneDigger.BoardGenerators;
 
+import io.github.StoneDigger.Obstacles.*;
+
 public class Board {
     private final TileType[][] tiles;
     private final int startingPositionX;
     private final int startingPositionY;
+
+    public Board(TileType[][] tiles, int startingPositionX, int startingPositionY) {
+        this.startingPositionX = startingPositionX;
+        this.startingPositionY = startingPositionY;
+        this.tiles = tiles;
+    }
 
     public int getWidth() {return tiles[0].length;}
     public int getHeight() {return tiles.length;}
@@ -22,6 +30,46 @@ public class Board {
         return newArr;
     }
 
+    public Obstacle[][] getObstacles() {
+        int width = getWidth();
+        int height = getHeight();
+        Obstacle[][] newArr = new Obstacle[width][height];
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < height; j++) {
+                    switch (tiles[i][j]) {
+                        case DIRT:
+                            newArr[i][j] = new DirtObstacle();
+                            break;
+
+                        case WALL:
+                            newArr[i][j] = new WallObstacle();
+                            break;
+
+                        case ROCK:
+                            newArr[i][j] = new RockObstacle();
+                            break;
+
+                        case DIAMOND:
+                            newArr[i][j] = new DiamondObstacle();
+                            break;
+
+                        case START:
+                            newArr[i][j] = new StartObstacle();
+                            break;
+
+                        case EXIT:
+                            newArr[i][j] = new ExitObstacle();
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
+        return newArr;
+    }
+
     public boolean set(int x, int y, TileType t) {
         if(x == 0 || y == 0 || x == getWidth() - 1 || y == getWidth() - 1 ||
                 (x == getWidth() - 2 && y == getWidth() - 2)) return false;
@@ -29,9 +77,5 @@ public class Board {
         return true;
     }
 
-    public Board(TileType[][] tiles, int startingPositionX, int startingPositionY) {
-        this.startingPositionX = startingPositionX;
-        this.startingPositionY = startingPositionY;
-        this.tiles = tiles;
-    }
+
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import io.github.StoneDigger.MyGame;
+import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
 
 
