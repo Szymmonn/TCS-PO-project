@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import io.github.StoneDigger.BoardGenerators.Board;
+import io.github.StoneDigger.BoardGenerators.TileType;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
 import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
@@ -14,13 +16,16 @@ public class PlayerActor extends Actor {
 //    private final Player player;
     private float moveTimer=0;
     private final float moveByDistance;
+    private final Board board;
+    private final float tileSize = 1;
 
-    public PlayerActor() {
+    public PlayerActor(Board board) {
         sprite = new Sprite(PLAYER_TEXTURE);
 //        player = new Player();
         sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
         setPosition(10f, 10f);
         moveByDistance = SIZE_TEXTURE + 20;
+        this.board = board;
 
     }
 
@@ -67,8 +72,13 @@ public class PlayerActor extends Actor {
                 moveTimer = 0f;
             }
         }
+
+        super.act(delta);
+        int tileX = (int) ((getX() + getWidth() / 2) / tileSize);
+        int tileY = (int) ((getY() + getHeight() / 2) / tileSize);
+
+        if (board.get(tileX, tileY) == TileType.DIRT) {
+            board.set(tileX, tileY, TileType.EMPTY);
+        }
     }
-
-
-
 }
