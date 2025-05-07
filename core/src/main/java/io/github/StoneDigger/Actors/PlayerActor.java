@@ -41,6 +41,7 @@ public class PlayerActor extends Actor {
 
     @Override
     public void act(float delta) {
+        moveTimer+=delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             moveBy(playerHeight, 0);
             moveTimer = 0f;
@@ -94,9 +95,9 @@ public class PlayerActor extends Actor {
         }
     }
     public void clamp(int value) {
-        if(getX(x)<0 || getX(x)>clampedX) {
+        if(getX()<0 || getX()>clampedX) {
             moveBy(value*playerHeight,0); x+=value;
-        } else if(getY(y)<0 || getY(y)>clampedY) {
+        } else if(getY()<0 || getY()>clampedY) {
             moveBy(0,value*playerHeight); y+=value;
         }
     }
