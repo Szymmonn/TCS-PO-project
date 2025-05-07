@@ -18,11 +18,12 @@ public class PlayerActor extends Actor {
     private final float moveByDistance = SIZE_TEXTURE+20;
     private Board board;
 
-    public PlayerActor() {
+    public PlayerActor(Board board) {
         sprite = new Sprite(PLAYER_TEXTURE);
         sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
         setPosition(10f, 10f);
         moveBy(moveByDistance, moveByDistance);
+        this.board = board;
     }
 
     @Override
@@ -97,6 +98,13 @@ public class PlayerActor extends Actor {
             }
 
         }
+
+        int tileX = (int) ((getX() + getWidth() / 2) / tileSize);
+        int tileY = (int) ((getY() + getHeight() / 2) / tileSize);
+
+        if (board.get(tileX, tileY) == TileType.DIRT) {
+            board.set(tileX, tileY, TileType.EMPTY);
+        }
     }
 
     public boolean checkNextMove(int x,int y) {
@@ -109,7 +117,7 @@ public class PlayerActor extends Actor {
 
         //na sciane
 
-        if(Board.get(this.x+x,this.y+y).equals(TileType.WALL)) return false;
+        if(board.get(this.x+x,this.y+y).equals(TileType.WALL)) return false;
         return true;
     }
 

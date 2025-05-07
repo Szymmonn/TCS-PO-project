@@ -19,7 +19,7 @@ public class Board {
     public int getStartingPositionX() {return startingPositionX;}
     public int getStartingPositionY() {return startingPositionY;}
 
-    public static TileType get(int x, int y) {
+    public TileType get(int x, int y) {
         return tiles[x][y];
     }
 
