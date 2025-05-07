@@ -80,22 +80,22 @@ public class MyGameScreen implements Screen {
            @Override
           public boolean keyDown(InputEvent event, int keycode) {
                if(keycode == Input.Keys.UP) {
-                  if(myCamera.position.y + myCamera.viewportHeight/2 < BOARD_HEIGHT - BOARD_UNIT
-                    && playerActor.getPositionY() > TILES_ON_SCREEN_HEIGHT /2)
+                  if(myCamera.position.y + myCamera.viewportHeight/2 <= BOARD_HEIGHT - BOARD_UNIT
+                    && playerActor.getPositionY() > TILES_ON_SCREEN_HEIGHT /2 - 1)
                     myCamera.translate(0, BOARD_UNIT);
               }
               if(keycode == Input.Keys.DOWN) {
-                  if(myCamera.position.y - myCamera.viewportHeight/2 - BOARD_UNIT > 0
+                  if(myCamera.position.y - myCamera.viewportHeight/2 - BOARD_UNIT >= 0
                   && playerActor.getPositionY() < BOARD_TILES_HEIGHT - TILES_ON_SCREEN_HEIGHT /2)
                     myCamera.translate(0, -BOARD_UNIT);
               }
               if(keycode == Input.Keys.RIGHT) {
-                  if(myCamera.position.x + myCamera.viewportWidth/2 < BOARD_WIDTH - BOARD_UNIT
-                  && playerActor.getPositionX() > TILES_ON_SCREEN_WIDTH /2)
+                  if(myCamera.position.x + myCamera.viewportWidth/2 <= BOARD_WIDTH - BOARD_UNIT
+                  && playerActor.getPositionX() > TILES_ON_SCREEN_WIDTH /2 - 1)
                     myCamera.translate(BOARD_UNIT, 0);
               }
               if(keycode == Input.Keys.LEFT) {
-                  if(myCamera.position.x - myCamera.viewportWidth/2 - BOARD_UNIT > 0
+                  if(myCamera.position.x - myCamera.viewportWidth/2 - BOARD_UNIT >= 0
                   && playerActor.getPositionX() < BOARD_TILES_WIDTH - TILES_ON_SCREEN_WIDTH /2)
                     myCamera.translate(-BOARD_UNIT, 0);
               }
