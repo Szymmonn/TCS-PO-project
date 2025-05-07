@@ -1,16 +1,15 @@
 package io.github.StoneDigger.TryingToDraw;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
-
-
 
 public class MyGameScreen implements Screen {
     private Stage stage;    // sets up the stage
@@ -40,10 +39,23 @@ public class MyGameScreen implements Screen {
        stage.addActor(playerActor);
 
        stage.addListener(new InputListener() {
-           @Override
-           public boolean keyDown(InputEvent event, int keycode) {
-               return false;
-           }
+          @Override
+          public boolean keyDown(InputEvent event, int keycode) {
+              if(keycode == Input.Keys.UP) {
+                  myCamera.translate(0, 120);
+              }
+              if(keycode == Input.Keys.DOWN) {
+                  myCamera.translate(0, -120);
+              }
+              if(keycode == Input.Keys.RIGHT) {
+                  myCamera.translate(120, 0);
+              }
+              if(keycode == Input.Keys.LEFT) {
+                  myCamera.translate(-120, 0);
+              }
+              myCamera.update();
+              return super.keyDown(event, keycode);
+          }
        });
    }
 

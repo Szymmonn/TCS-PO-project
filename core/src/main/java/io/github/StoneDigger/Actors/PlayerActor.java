@@ -2,6 +2,7 @@ package io.github.StoneDigger.Actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -27,6 +28,8 @@ public class PlayerActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        Color prev = batch.getColor();
+        batch.setColor(1,1,1,1);
 
         super.draw(batch, parentAlpha); // default empty
         clampedX = getStage().getWidth()-SIZE_TEXTURE;
@@ -34,6 +37,8 @@ public class PlayerActor extends Actor {
 
         sprite.setPosition(getX(),getY());
         sprite.draw(batch);
+
+        batch.setColor(prev);
     }
 
     @Override
