@@ -13,19 +13,16 @@ import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
 
 public class PlayerActor extends Actor {
     private final Sprite sprite;
-//    private final Player player;
-    private float moveTimer=0;
+    private float moveTimer = 0;
     private final float moveByDistance;
-    private final Board board = null;
-    private final float tileSize = 1;
+    private final Board board;
 
-    public PlayerActor() {
+    public PlayerActor(Board board) {
         sprite = new Sprite(PLAYER_TEXTURE);
-//        player = new Player();
         sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
         setPosition(10f, 10f);
         moveByDistance = SIZE_TEXTURE + 20;
-
+        this.board = board;
     }
 
     @Override
@@ -73,8 +70,8 @@ public class PlayerActor extends Actor {
         }
 
         super.act(delta);
-        int tileX = (int) ((getX() + getWidth() / 2) / tileSize);
-        int tileY = (int) ((getY() + getHeight() / 2) / tileSize);
+        int tileX = (int) ((getX() + getWidth() / 2) / moveByDistance);
+        int tileY = (int) ((getY() + getHeight() / 2) / moveByDistance);
 
         if (board.get(tileX, tileY) == TileType.DIRT) {
             board.set(tileX, tileY, TileType.EMPTY);

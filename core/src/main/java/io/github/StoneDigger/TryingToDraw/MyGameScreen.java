@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
-
+import io.github.StoneDigger.BoardGenerators.Board;
 
 
 public class MyGameScreen implements Screen {
@@ -25,7 +25,7 @@ public class MyGameScreen implements Screen {
         this.game = game;
         myBoard = new MyBoard();
         myBackground = new MyBackground();
-        playerActor = new PlayerActor();
+        playerActor = new PlayerActor(myBoard.getBoard());
    }
 
    @Override
