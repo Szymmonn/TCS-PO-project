@@ -16,16 +16,15 @@ public class PlayerActor extends Actor {
 //    private final Player player;
     private float moveTimer=0;
     private final float moveByDistance;
-    private final Board board;
+    private final Board board = null;
     private final float tileSize = 1;
 
-    public PlayerActor(Board board) {
+    public PlayerActor() {
         sprite = new Sprite(PLAYER_TEXTURE);
 //        player = new Player();
         sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
         setPosition(10f, 10f);
         moveByDistance = SIZE_TEXTURE + 20;
-        this.board = board;
 
     }
 

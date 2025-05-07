@@ -25,7 +25,7 @@ public class MyGameScreen implements Screen {
         this.game = game;
         myBoard = new MyBoard();
         myBackground = new MyBackground();
-        playerActor = new PlayerActor(myBoard);
+        playerActor = new PlayerActor();
    }
 
    @Override
