@@ -26,7 +26,7 @@ public class MyGameScreen implements Screen {
     final MyBackground myBackground;
     final PlayerActor playerActor;
     final BitmapFont font = new BitmapFont();
-    private int diamondsCollected = 0;
+    public static int diamondsCollected = 0;
 
    public MyGameScreen(final MyGame game) {
         this.game = game;
@@ -62,22 +62,22 @@ public class MyGameScreen implements Screen {
         stage.act(delta);
         stage.draw();
 
-//        Batch batch = stage.getBatch();
-//        batch.setProjectionMatrix(stage.getViewport().getCamera().combined);
-//
-//        batch.begin();
-//        float iconX = MyGame.WIDTH  - SIZE_TEXTURE - 20;
-//        float iconY = MyGame.HEIGHT - SIZE_TEXTURE - 20;
-//        batch.draw(TileType.getTexture(TileType.DIAMOND),
-//                iconX, iconY,
-//                SIZE_TEXTURE, SIZE_TEXTURE);
-//
-//        font.setColor(Color.BLUE);
-//        String text = "diaxy " + diamondsCollected;
-//        float textX = iconX - 8 - font.getRegion().getRegionWidth() * text.length() * 0.3f;
-//        float textY = iconY + SIZE_TEXTURE / 2 + font.getCapHeight() / 2;
-//        font.draw(batch, text, textX, textY);
-//        batch.end();
+        Batch batch = stage.getBatch();
+        batch.setProjectionMatrix(stage.getViewport().getCamera().combined);
+
+        batch.begin();
+        float iconX = MyGame.WIDTH  - SIZE_TEXTURE - 20;
+        float iconY = MyGame.HEIGHT - SIZE_TEXTURE - 20;
+        batch.draw(TileType.getTexture(TileType.DIAMOND),
+            iconX, iconY,
+            SIZE_TEXTURE, SIZE_TEXTURE);
+
+        font.setColor(Color.BLUE);
+        String text = "DIAXY " + diamondsCollected;
+        float textX = iconX - 8 - font.getRegion().getRegionWidth() * text.length() * 0.3f;
+        float textY = iconY + SIZE_TEXTURE / 2 + font.getCapHeight() / 2;
+        font.draw(batch, text, textX, textY);
+        batch.end();
     }
 
 
