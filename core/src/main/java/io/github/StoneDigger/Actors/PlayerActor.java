@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Array;
 import io.github.StoneDigger.BoardGenerators.Board;
 import io.github.StoneDigger.BoardGenerators.TileType;
 import io.github.StoneDigger.TryingToDraw.MyGameScreen;
-
 import java.util.Map;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
@@ -29,9 +28,6 @@ public class PlayerActor extends Actor {
     public PlayerActor(Board board) {
         sprite = new Sprite(PLAYER_TEXTURE);
         sprite.setSize(BLOCK_SIZE,BLOCK_SIZE);
-        ///  TODO : change starting position
-        //x = 1;
-        //y = 1;
         setPosition(BOARD_UNIT + GAP_SIZE/2, BOARD_UNIT + GAP_SIZE/2);  // for now in (1,1)
 
         this.board = board;
@@ -151,22 +147,27 @@ public class PlayerActor extends Actor {
 
         for (int j = 1; j < tiles[0].length; j++) {
             for (int i = 1; i < tiles.length; i++) {
-                if(tiles[i][j] != TileType.ROCK) continue;
-                if(tiles[i][j - 1] == TileType.EMPTY) {
+                //jak nie kamień to dupa
+                if(board.get(i,j) != TileType.ROCK) continue;
+
+                //jak pod to idziemy
+                if(board.get(i,j) == TileType.EMPTY) {
                     board.set(i, j - 1, TileType.ROCK);
                     board.set(i, j, TileType.EMPTY);
                     fallingStone[i][j] = false;
                     fallingStone[i][j-1] = true;
                     continue;
                 }
+
+                //jesli na lewo lub prawo to tom idziemy
                 if(fallingStone[i][j]) {
-                    if(tiles[i-1][j] == TileType.EMPTY && tiles[i-1][j-1] == TileType.EMPTY) {
+                    if(board.get(i-1,j) == TileType.EMPTY && board.get(i-1,j-1) == TileType.EMPTY) {
                         board.set(i-1, j, TileType.ROCK);
                         board.set(i, j, TileType.EMPTY);
                         fallingStone[i][j] = false;
                         fallingStone[i-1][j] = true;
                     }
-                    if(tiles[i+1][j] == TileType.EMPTY && tiles[i+1][j-1] == TileType.EMPTY) {
+                    if(board.get(i+1,j) == TileType.EMPTY && board.get(i+1,j-1) == TileType.EMPTY) {
                         board.set(i+1, j, TileType.ROCK);
                         board.set(i, j, TileType.EMPTY);
                         fallingStone[i][j] = false;
@@ -179,7 +180,6 @@ public class PlayerActor extends Actor {
         rockDropTimer=0f;
     }
 
-    public float getPositionX() {
     public int getPositionX() {
         return x;
     }

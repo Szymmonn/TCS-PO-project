@@ -10,10 +10,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
 import io.github.StoneDigger.BoardGenerators.Board;
 import io.github.StoneDigger.BoardGenerators.TileType;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
 import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
