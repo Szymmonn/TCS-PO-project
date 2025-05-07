@@ -30,7 +30,7 @@ public class Board {
         return newArr;
     }
 
-    public Obstacle[][] getObstacles() {
+    public Obstacle[][] getObstacleArray() {
         int width = getWidth();
         int height = getHeight();
         Obstacle[][] newArr = new Obstacle[width][height];
