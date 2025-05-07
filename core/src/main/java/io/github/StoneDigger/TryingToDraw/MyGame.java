@@ -3,6 +3,7 @@ package io.github.StoneDigger;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import io.github.StoneDigger.Assets;
+import io.github.StoneDigger.TryingToDraw.MyGameScreen;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MyGame extends Game {
