@@ -3,6 +3,8 @@ package io.github.StoneDigger.TryingToDraw;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,11 +17,13 @@ public class MyGameScreen implements Screen {
 
     final MyGame game;
     final MyBoard myBoard;
+    final MyBackground myBackground;
     final PlayerActor playerActor;
 
    public MyGameScreen(final MyGame game) {
         this.game = game;
         myBoard = new MyBoard();
+        myBackground = new MyBackground();
         playerActor = new PlayerActor();
    }
 
@@ -29,9 +33,15 @@ public class MyGameScreen implements Screen {
        myCamera.setToOrtho(false, MyGame.WIDTH, MyGame.HEIGHT);   // makes camera static pointing 'down' (bc false)
 
        stage = new Stage();
-//       Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
+       Gdx.input.setInputProcessor(stage); // stage is now a manager of inputs // inputs are directed to stage
+       stage.addActor(myBackground);
        stage.addActor(myBoard);
        stage.addActor(playerActor);
+
+       stage.addListener(new InputListener() {
+           @Override
+           public boolean keyDown(InputEvent event, int keycode) {return false;}
+       });
    }
 
    @Override

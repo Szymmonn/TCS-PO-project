@@ -1,12 +1,12 @@
-package io.github.StoneDigger.TryingToDraw;
+package io.github.StoneDigger;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import io.github.StoneDigger.Assets;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MyGame extends Game {
-    FitViewport viewport;
+    ExtendViewport viewport;
 
     public static int WIDTH = 800;
     public static int HEIGHT = 480;
@@ -15,7 +15,7 @@ public class MyGame extends Game {
     @Override
     public void create() {
         Assets.load();
-        viewport = new FitViewport(WIDTH, HEIGHT);
+        viewport = new ExtendViewport(WIDTH, HEIGHT);
         gameScreen = new MyGameScreen(this);
         setScreen(gameScreen);
     }

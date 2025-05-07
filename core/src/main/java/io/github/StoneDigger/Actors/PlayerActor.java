@@ -14,7 +14,7 @@ public class PlayerActor extends Actor {
     private final Sprite sprite;
 //    private final Player player;
     private float moveTimer=0;
-    private final float playerHeight;
+    private final float moveByDistance;
     private float clampedX;
     private float clampedY;
 
@@ -22,13 +22,14 @@ public class PlayerActor extends Actor {
         sprite = new Sprite(PLAYER_TEXTURE);
 //        player = new Player();
         sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
-        setPosition(10f,10f);
-        playerHeight = SIZE_TEXTURE+20;
+        setPosition(10f, 10f);
+        moveByDistance = SIZE_TEXTURE + 20;
 
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha); // default empty
         clampedX = getStage().getWidth()-SIZE_TEXTURE;
         clampedY = getStage().getHeight()-SIZE_TEXTURE;
 //        super.draw(batch, parentAlpha);
@@ -43,62 +44,64 @@ public class PlayerActor extends Actor {
     public void act(float delta) {
         moveTimer+=delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            moveBy(playerHeight, 0);
+            moveBy(moveByDistance, 0);
             moveTimer = 0f;
             x++;
             clamp(1);
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            moveBy(-playerHeight, 0);
+            moveBy(-moveByDistance, 0);
             moveTimer = 0f;
             x--;
             clamp(-1);
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            moveBy(0, playerHeight);
+            moveBy(0, moveByDistance);
             moveTimer = 0f;
             y++;
             clamp(1);
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            moveBy(0, -playerHeight);
+            moveBy(0, -moveByDistance);
             moveTimer = 0f;
             y--;
             clamp(-1);
             return;
         }
 
-        // Ruch ciagly przy przytrzymaniu klawisza
+        // Ruch ciągły przy przytrzymaniu klawisza
         if (moveTimer >= 0.4f) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                moveBy(playerHeight, 0);
+                moveBy(1, 0);
                 moveTimer = 0f;
                 x++;
                 clamp(1);
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                moveBy(-playerHeight, 0);
+                moveBy(-1, 0);
                 moveTimer = 0f;
                 x--;
                 clamp(-1);
             } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                moveBy(0, playerHeight);
+                moveBy(0, 1);
                 moveTimer = 0f;
                 y++;
                 clamp(1);
             } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                moveBy(0, -playerHeight);
-                y--;
+                moveBy(0, -1);
                 moveTimer = 0f;
                 clamp(-1);
             }
 
         }
     }
+
+
+
     public void clamp(int value) {
         if(getX()<0 || getX()>clampedX) {
-            moveBy(value*playerHeight,0); x+=value;
+            moveBy(value*moveByDistance,0); x+=value;
         } else if(getY()<0 || getY()>clampedY) {
-            moveBy(0,value*playerHeight); y+=value;
+            moveBy(0,value*moveByDistance); y+=value;
         }
     }
 
