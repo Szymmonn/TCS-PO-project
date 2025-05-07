@@ -19,6 +19,7 @@ import io.github.StoneDigger.BoardGenerators.Board;
 import io.github.StoneDigger.BoardGenerators.TileType;
 
 import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
+import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
 
 
 public class MyGameScreen implements Screen {
@@ -54,16 +55,16 @@ public class MyGameScreen implements Screen {
           @Override
           public boolean keyDown(InputEvent event, int keycode) {
               if(keycode == Input.Keys.UP) {
-                  myCamera.translate(0, 120);
+                  myCamera.translate(0, BLOCK_SIZE + GAP_SIZE);
               }
               if(keycode == Input.Keys.DOWN) {
-                  myCamera.translate(0, -120);
+                  myCamera.translate(0, -BLOCK_SIZE - GAP_SIZE);
               }
               if(keycode == Input.Keys.RIGHT) {
-                  myCamera.translate(120, 0);
+                  myCamera.translate(BLOCK_SIZE + GAP_SIZE, 0);
               }
               if(keycode == Input.Keys.LEFT) {
-                  myCamera.translate(-120, 0);
+                  myCamera.translate(-BLOCK_SIZE - GAP_SIZE, 0);
               }
               myCamera.update();
               return super.keyDown(event, keycode);

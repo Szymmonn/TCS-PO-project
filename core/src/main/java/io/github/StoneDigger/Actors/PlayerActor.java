@@ -26,7 +26,7 @@ public class PlayerActor extends Actor {
         sprite.setSize(BLOCK_SIZE,BLOCK_SIZE);
         setPosition(10f, 10f);
         moveByDistance = BLOCK_SIZE + GAP_SIZE;
-        moveBy(moveByDistance,moveByDistance);
+        moveBy(moveByDistance-GAP_SIZE/2,moveByDistance-GAP_SIZE/2); // starting position // for now in (1,1)
         this.board = board;
     }
 
