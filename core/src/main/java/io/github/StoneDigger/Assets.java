@@ -1,6 +1,7 @@
 package io.github.StoneDigger;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -11,15 +12,18 @@ public class Assets {
     public static Texture DIRT_TEXTURE;
     public static Texture DIAMOND_TEXTURE;
     public static Texture WALL_TEXTURE;
+    public static Texture EMPTY_TEXTURE;
     public static Texture PLAYER_TEXTURE;
     public static Texture START_TEXTURE;
     public static Texture EXIT_TEXTURE;
+    public static BitmapFont font;
 
     public static void load() {
         ROCK_TEXTURE = new Texture("rock.png");
         DIRT_TEXTURE = new Texture("dirt.png");
         DIAMOND_TEXTURE = new Texture("diamond.png");
         WALL_TEXTURE = new Texture("wall.png");
+        EMPTY_TEXTURE = new Texture("bg.png");
         PLAYER_TEXTURE = new Texture("player.png");
         START_TEXTURE = new Texture("start.png");
         EXIT_TEXTURE = new Texture("exit.png");
@@ -30,6 +34,7 @@ public class Assets {
         DIAMOND_TEXTURE.dispose();
         DIAMOND_TEXTURE.dispose();
         WALL_TEXTURE.dispose();
+        EMPTY_TEXTURE.dispose();
         PLAYER_TEXTURE.dispose();
         START_TEXTURE.dispose();
         EXIT_TEXTURE.dispose();

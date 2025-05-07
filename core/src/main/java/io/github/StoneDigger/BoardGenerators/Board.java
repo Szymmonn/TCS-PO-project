@@ -4,6 +4,7 @@ import io.github.StoneDigger.Obstacles.*;
 
 public class Board {
     private final TileType[][] tiles;
+    private final Obstacle[][] obstacles;
     private final int startingPositionX;
     private final int startingPositionY;
 
@@ -11,13 +12,22 @@ public class Board {
         this.startingPositionX = startingPositionX;
         this.startingPositionY = startingPositionY;
         this.tiles = tiles;
+
+        int width = getWidth();
+        int height = getHeight();
+        this.obstacles = new Obstacle[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                obstacles[x][y] = createObstacleForTile(tiles[x][y]);
+            }
+        }
     }
 
     public int getWidth()  { return tiles.length; }
     public int getHeight() { return tiles[0].length; }
 
-    public int getStartingPositionX() {return startingPositionX;}
-    public int getStartingPositionY() {return startingPositionY;}
+    public int getStartingPositionX() { return startingPositionX; }
+    public int getStartingPositionY() { return startingPositionY; }
 
     public TileType get(int x, int y) {
         return tiles[x][y];
@@ -26,61 +36,45 @@ public class Board {
     public TileType[][] getTiles() {
         int width = getWidth();
         int height = getHeight();
-        TileType[][] newArr = new TileType[width][height];
-        for(int i=0;i<width;i++) System.arraycopy(tiles[i], 0, newArr[i], 0, height);
-        return newArr;
+        TileType[][] copy = new TileType[width][height];
+        for (int x = 0; x < width; x++) {
+            System.arraycopy(tiles[x], 0, copy[x], 0, height);
+        }
+        return copy;
     }
 
     public Obstacle[][] getObstacleArray() {
         int width = getWidth();
         int height = getHeight();
-        Obstacle[][] newArr = new Obstacle[width][height];
-        for(int i = 0; i < width; i++) {
-            for(int j = 0; j < height; j++) {
-                    switch (tiles[i][j]) {
-                        case DIRT:
-                            newArr[i][j] = new DirtObstacle();
-                            break;
-
-                        case WALL:
-                            newArr[i][j] = new WallObstacle();
-                            break;
-
-                        case ROCK:
-                            newArr[i][j] = new RockObstacle();
-                            break;
-
-                        case DIAMOND:
-                            newArr[i][j] = new DiamondObstacle();
-                            break;
-
-                        case START:
-                            newArr[i][j] = new StartObstacle();
-                            break;
-
-                        case EXIT:
-                            newArr[i][j] = new ExitObstacle();
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-            }
-
-        return newArr;
+        Obstacle[][] copy = new Obstacle[width][height];
+        for (int x = 0; x < width; x++) {
+            System.arraycopy(obstacles[x], 0, copy[x], 0, height);
+        }
+        return copy;
     }
 
     public boolean set(int x, int y, TileType t) {
         if (x == 0 || y == 0
                 || x == getWidth() - 1
                 || y == getHeight() - 1
-                || (x == getWidth() - 2 && y == getHeight() - 2)
-        ) return false;
+                || (x == getWidth() - 2 && y == getHeight() - 2)) {
+            return false;
+        }
 
         tiles[x][y] = t;
+        obstacles[x][y] = createObstacleForTile(t);
         return true;
     }
 
-
+    private Obstacle createObstacleForTile(TileType type) {
+        switch (type) {
+            case DIRT: return new DirtObstacle();
+            case WALL: return new WallObstacle();
+            case ROCK: return new RockObstacle();
+            case DIAMOND: return new DiamondObstacle();
+            case START: return new StartObstacle();
+            case EXIT: return new ExitObstacle();
+            default: return null;
+        }
+    }
 }
