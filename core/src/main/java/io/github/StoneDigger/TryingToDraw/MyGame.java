@@ -2,7 +2,6 @@ package io.github.StoneDigger.TryingToDraw;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.StoneDigger.Assets;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
