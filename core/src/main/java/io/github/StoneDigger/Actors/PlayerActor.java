@@ -27,12 +27,10 @@ public class PlayerActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+
         super.draw(batch, parentAlpha); // default empty
         clampedX = getStage().getWidth()-SIZE_TEXTURE;
         clampedY = getStage().getHeight()-SIZE_TEXTURE;
-//        super.draw(batch, parentAlpha);
-//        float x_pos = 40 * player.getX_position();
-//        float y_pos = 24 * player.getY_position();
 
         sprite.setPosition(getX(),getY());
         sprite.draw(batch);
