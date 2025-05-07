@@ -42,7 +42,9 @@ public class MyGameScreen implements Screen {
 
        stage.addListener(new InputListener() {
            @Override
-           public boolean keyDown(InputEvent event, int keycode) {return false;}
+           public boolean keyDown(InputEvent event, int keycode) {
+               return false;
+           }
        });
    }
 

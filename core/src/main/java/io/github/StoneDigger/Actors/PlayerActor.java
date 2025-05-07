@@ -20,21 +20,17 @@ public class PlayerActor extends Actor {
 
     public PlayerActor() {
         sprite = new Sprite(PLAYER_TEXTURE);
-//        player = new Player();
         sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
         setPosition(10f, 10f);
-        moveByDistance = SIZE_TEXTURE + 20;
-
+        moveBy(moveByDistance, moveByDistance);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+
         super.draw(batch, parentAlpha); // default empty
         clampedX = getStage().getWidth()-SIZE_TEXTURE;
         clampedY = getStage().getHeight()-SIZE_TEXTURE;
-//        super.draw(batch, parentAlpha);
-//        float x_pos = 40 * player.getX_position();
-//        float y_pos = 24 * player.getY_position();
 
         sprite.setPosition(getX(),getY());
         sprite.draw(batch);
@@ -69,38 +65,35 @@ public class PlayerActor extends Actor {
             return;
         }
 
-        // Ruch ciągły przy przytrzymaniu klawisza
+        // Ruch ciagly przy przytrzymaniu klawisza
         if (moveTimer >= 0.4f) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                moveBy(1, 0);
+                moveBy(moveByDistance, 0);
                 moveTimer = 0f;
                 x++;
                 clamp(1);
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                moveBy(-1, 0);
+                moveBy(-moveByDistance, 0);
                 moveTimer = 0f;
                 x--;
                 clamp(-1);
             } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                moveBy(0, 1);
+                moveBy(0, moveByDistance);
                 moveTimer = 0f;
                 y++;
                 clamp(1);
             } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                moveBy(0, -1);
+                moveBy(0, -moveByDistance);
                 moveTimer = 0f;
                 clamp(-1);
             }
 
         }
     }
-
-
-
     public void clamp(int value) {
-        if(getX()<0 || getX()>clampedX) {
+        if(getX(x)<0 || getX(x)>clampedX) {
             moveBy(value*moveByDistance,0); x+=value;
-        } else if(getY()<0 || getY()>clampedY) {
+        } else if(getY(y)<0 || getY(y)>clampedY) {
             moveBy(0,value*moveByDistance); y+=value;
         }
     }
