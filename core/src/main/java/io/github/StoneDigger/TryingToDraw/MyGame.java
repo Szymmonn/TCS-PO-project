@@ -8,14 +8,14 @@ import io.github.StoneDigger.Assets;
 public class MyGame extends Game {
     ExtendViewport viewport;
 
-    public static int WIDTH = 800;
-    public static int HEIGHT = 480;
+    public static int GAME_WIDTH = 800;
+    public static int GAME_HEIGHT = 480;
     private MyGameScreen gameScreen;
 
     @Override
     public void create() {
         Assets.load();
-        viewport = new ExtendViewport(WIDTH, HEIGHT);
+        viewport = new ExtendViewport(GAME_WIDTH, GAME_HEIGHT);
         gameScreen = new MyGameScreen(this);
         setScreen(gameScreen);
     }
