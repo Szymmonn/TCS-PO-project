@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import io.github.StoneDigger.BoardGenerators.Board;
 import io.github.StoneDigger.BoardGenerators.TileType;
+import io.github.StoneDigger.TryingToDraw.MyGameScreen;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
 import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
@@ -17,14 +18,16 @@ public class PlayerActor extends Actor {
     private float moveTimer = 0;
     private final float moveByDistance;
     private final Board board;
+    private Integer diamondsCollected;
 
-    public PlayerActor(Board board) {
+    public PlayerActor(Board board, Integer diamondsCollected) {
         sprite = new Sprite(PLAYER_TEXTURE);
         sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
         setPosition(10f, 10f);
         moveByDistance = SIZE_TEXTURE + 20;
         moveBy(moveByDistance,moveByDistance);
         this.board = board;
+        this.diamondsCollected = diamondsCollected;
     }
 
     @Override
@@ -103,6 +106,11 @@ public class PlayerActor extends Actor {
 
         if (board.get(tileX, tileY) == TileType.DIRT) {
             board.set(tileX, tileY, TileType.EMPTY);
+        }
+
+        if(board.get(tileX, tileY) == TileType.DIAMOND) {
+            board.set(tileX, tileY, TileType.EMPTY);
+            diamondsCollected++;
         }
     }
 
