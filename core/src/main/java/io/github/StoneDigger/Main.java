@@ -3,11 +3,12 @@ package io.github.StoneDigger;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import io.github.StoneDigger.Screens.FirstScreen;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
-    SpriteBatch spriteBatch;
-    FitViewport viewport;
+    public SpriteBatch spriteBatch;
+    public FitViewport viewport;
 
     @Override
     public void create() {
