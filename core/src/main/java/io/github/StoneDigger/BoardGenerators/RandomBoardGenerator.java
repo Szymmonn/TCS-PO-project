@@ -94,11 +94,7 @@ public class RandomBoardGenerator implements IBoardGenerator {
     }
 
     public RandomBoardGenerator(double wallDensity, double rockDensity, double diamondDensity) {
-        validateDensities(wallDensity, rockDensity, diamondDensity);
-        this.wallDensity = wallDensity;
-        this.rockDensity = rockDensity;
-        this.diamondDensity = diamondDensity;
-        this.random = new Random();
+        this(wallDensity, rockDensity, diamondDensity, new Random());
     }
 
 

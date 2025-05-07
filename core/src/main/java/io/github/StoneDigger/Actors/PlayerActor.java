@@ -7,27 +7,26 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
+import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
 
 public class PlayerActor extends Actor {
     private final Sprite sprite;
 //    private final Player player;
     private float moveTimer=0;
-    private final float playerHeight;
+    private final float moveByDistance;
 
     public PlayerActor() {
         sprite = new Sprite(PLAYER_TEXTURE);
 //        player = new Player();
-        sprite.setSize(300,300);
-        playerHeight = 300;
+        sprite.setSize(SIZE_TEXTURE,SIZE_TEXTURE);
+        setPosition(10f, 10f);
+        moveByDistance = SIZE_TEXTURE + 20;
 
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-//        super.draw(batch, parentAlpha);
-//        float x_pos = 40 * player.getX_position();
-//        float y_pos = 24 * player.getY_position();
-//
+        super.draw(batch, parentAlpha); // default empty
         sprite.setPosition(getX(),getY());
         sprite.draw(batch);
     }
@@ -35,19 +34,19 @@ public class PlayerActor extends Actor {
     @Override
     public void act(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            moveBy(playerHeight, 0);
+            moveBy(moveByDistance, 0);
             moveTimer = 0f;
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            moveBy(-playerHeight, 0);
+            moveBy(-moveByDistance, 0);
             moveTimer = 0f;
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            moveBy(0, playerHeight);
+            moveBy(0, moveByDistance);
             moveTimer = 0f;
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            moveBy(0, -playerHeight);
+            moveBy(0, -moveByDistance);
             moveTimer = 0f;
             return;
         }
@@ -69,4 +68,7 @@ public class PlayerActor extends Actor {
             }
         }
     }
+
+
+
 }
