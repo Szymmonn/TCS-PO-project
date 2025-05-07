@@ -18,7 +18,7 @@ import com.badlogic.gdx.graphics.GL20;
 import io.github.StoneDigger.BoardGenerators.Board;
 import io.github.StoneDigger.BoardGenerators.TileType;
 
-import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
+import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
 
 
 public class MyGameScreen implements Screen {
@@ -35,7 +35,7 @@ public class MyGameScreen implements Screen {
    public MyGameScreen(final MyGame game) {
         this.game = game;
         myBoard = new MyBoard();
-        myBackground = new MyBackground();
+        myBackground = new MyBackground(Math.max(myBoard.BoardSizeX, myBoard.BoardSizeY));
         playerActor = new PlayerActor(myBoard.getBoard());
    }
 
@@ -83,16 +83,16 @@ public class MyGameScreen implements Screen {
         batch.setProjectionMatrix(stage.getViewport().getCamera().combined);
 
         batch.begin();
-        float iconX = MyGame.WIDTH  - SIZE_TEXTURE - 20;
-        float iconY = MyGame.HEIGHT - SIZE_TEXTURE - 20;
+        float iconX = MyGame.WIDTH  - BLOCK_SIZE - 20;
+        float iconY = MyGame.HEIGHT - BLOCK_SIZE - 20;
         batch.draw(TileType.getTexture(TileType.DIAMOND),
             iconX, iconY,
-            SIZE_TEXTURE, SIZE_TEXTURE);
+            BLOCK_SIZE, BLOCK_SIZE);
 
         font.setColor(Color.BLUE);
         String text = "DIAXY " + diamondsCollected;
         float textX = iconX - 8 - font.getRegion().getRegionWidth() * text.length() * 0.3f;
-        float textY = iconY + SIZE_TEXTURE / 2 + font.getCapHeight() / 2;
+        float textY = iconY + BLOCK_SIZE / 2 + font.getCapHeight() / 2;
         font.draw(batch, text, textX, textY);
         batch.end();
     }

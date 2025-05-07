@@ -9,13 +9,15 @@ import io.github.StoneDigger.BoardGenerators.TileType;
 import io.github.StoneDigger.Obstacles.Obstacle;
 
 import static io.github.StoneDigger.Assets.*;
+import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
+import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
 
 public class MyBoard extends Actor {
     int BoardSizeY;
     int BoardSizeX;
     Board board;
 
-    float sizeOfObstacleOnScreen = SIZE_TEXTURE + 20;
+    float sizeOfObstacleOnScreen = BLOCK_SIZE + GAP_SIZE;
 
     public MyBoard() {
         BoardSizeX = 30;
@@ -33,7 +35,7 @@ public class MyBoard extends Actor {
         batch.setColor(1f,1f,1f,1f);
 
         float temp = sizeOfObstacleOnScreen;
-        float translate = (temp-SIZE_TEXTURE)/2;
+        float translate = (temp-BLOCK_SIZE)/2;
         int cols = board.getObstacleArray().length;
         int rows = board.getObstacleArray()[0].length;
 
@@ -41,7 +43,7 @@ public class MyBoard extends Actor {
             for (int y = 0; y < rows; y++) {
                 TileType type = board.get(x, y);
                 batch.draw(TileType.getTexture(type), x * temp + translate, y * temp + translate,
-                        SIZE_TEXTURE, SIZE_TEXTURE);
+                        BLOCK_SIZE, BLOCK_SIZE);
             }
         }
 
