@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+//import io.github.StoneDigger.Actors.GravityActor;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
 import io.github.StoneDigger.BoardGenerators.Board;
@@ -25,6 +26,7 @@ public class MyGameScreen implements Screen {
     final MyBoard myBoard;
     final MyBackground myBackground;
     final PlayerActor playerActor;
+//    final GravityActor gravityActor;
     final BitmapFont font = new BitmapFont();
     public static int diamondsCollected = 0;
 
@@ -33,6 +35,7 @@ public class MyGameScreen implements Screen {
         myBoard = new MyBoard();
         myBackground = new MyBackground();
         playerActor = new PlayerActor(myBoard.getBoard());
+//        gravityActor = new GravityActor(myBoard.getBoard());
    }
 
    @Override
@@ -45,6 +48,7 @@ public class MyGameScreen implements Screen {
        stage.addActor(myBackground);
        stage.addActor(myBoard);
        stage.addActor(playerActor);
+//       stage.addActor(gravityActor);
 
        stage.addListener(new InputListener() {
            @Override

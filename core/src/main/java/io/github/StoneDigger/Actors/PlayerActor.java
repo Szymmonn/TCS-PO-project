@@ -5,19 +5,24 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import io.github.StoneDigger.BoardGenerators.Board;
 import io.github.StoneDigger.BoardGenerators.TileType;
 import io.github.StoneDigger.TryingToDraw.MyGameScreen;
+
+import java.util.Map;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
 import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
 
 public class PlayerActor extends Actor {
-    private int x=0,y=0;
+    private int x=1,y=1;
     private final Sprite sprite;
     private float moveTimer = 0;
     private final float moveByDistance;
     private final Board board;
+    private float rockDropTimer=0;
+
 
     public PlayerActor(Board board) {
         sprite = new Sprite(PLAYER_TEXTURE);
@@ -37,6 +42,7 @@ public class PlayerActor extends Actor {
 
     @Override
     public void act(float delta) {
+        updateFallingBlocks(delta);
         moveTimer+=delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             if(checkNextMove(1,0)) {
@@ -69,7 +75,7 @@ public class PlayerActor extends Actor {
         }
 
         // Ruch ciagly przy przytrzymaniu klawisza
-        if (moveTimer >= 0.4f) {
+        if (moveTimer >= 0.25f) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 if(checkNextMove(1,0)) {
                     moveBy(moveByDistance, 0);
@@ -95,7 +101,6 @@ public class PlayerActor extends Actor {
                     y--;
                 }
             }
-
         }
 
         super.act(delta);
@@ -104,19 +109,59 @@ public class PlayerActor extends Actor {
 
         if (board.get(tileX, tileY) == TileType.DIRT) {
             board.set(tileX, tileY, TileType.EMPTY);
+
         }
 
-        if(board.get(this.x+x+1,this.y+y+1).equals(TileType.DIAMOND)) MyGameScreen.diamondsCollected++;
+        if(board.get(this.x,this.y).equals(TileType.DIAMOND)) {
+            board.set(this.x,this.y,TileType.EMPTY);
+            MyGameScreen.diamondsCollected++;
+        }
     }
 
     public boolean checkNextMove(int x,int y) {
-        float nextX = getX() + x*moveByDistance;
-        float nextY = getY() + y*moveByDistance;
-
         //na sciane
 
-        if(board.get(this.x+x+1,this.y+y+1).equals(TileType.WALL)) return false;
+        if(board.get(this.x+x,this.y+y).equals(TileType.WALL)) return false;
         return true;
+    }
+
+    public void updateFallingBlocks(float delta) {
+//        rockDropTimer+=delta; //timer czeka az minie 0.2 sekundy, i leci z kolejna petla aby obnizyc
+        rockDropTimer+=delta;
+        TileType[][] tiles = board.getOriginalTilesArray();
+        boolean[][] fallingStone = new boolean[board.getWidth()][board.getHeight()];
+
+        //czeka 0.2 sekundy
+        if(rockDropTimer<0.5f) return;
+
+        for (int j = 1; j < tiles[0].length; j++) {
+            for (int i = 1; i < tiles.length; i++) {
+                if(tiles[i][j] != TileType.ROCK) continue;
+                if(tiles[i][j - 1] == TileType.EMPTY) {
+                    board.set(i, j - 1, TileType.ROCK);
+                    board.set(i, j, TileType.EMPTY);
+                    fallingStone[i][j] = false;
+                    fallingStone[i][j-1] = true;
+                    continue;
+                }
+                if(fallingStone[i][j]) {
+                    if(tiles[i-1][j] == TileType.EMPTY && tiles[i-1][j-1] == TileType.EMPTY) {
+                        board.set(i-1, j, TileType.ROCK);
+                        board.set(i, j, TileType.EMPTY);
+                        fallingStone[i][j] = false;
+                        fallingStone[i-1][j] = true;
+                    }
+                    if(tiles[i+1][j] == TileType.EMPTY && tiles[i+1][j-1] == TileType.EMPTY) {
+                        board.set(i+1, j, TileType.ROCK);
+                        board.set(i, j, TileType.EMPTY);
+                        fallingStone[i][j] = false;
+                        fallingStone[i+1][j] = true;
+                    }
+                }
+            }
+        }
+
+        rockDropTimer=0f;
     }
 
     public float getPositionX() {

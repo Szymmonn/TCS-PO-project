@@ -53,6 +53,10 @@ public class Board {
         return copy;
     }
 
+    public TileType[][] getOriginalTilesArray() {
+        return tiles;
+    }
+
     public boolean set(int x, int y, TileType t) {
         if (x == 0 || y == 0
                 || x == getWidth() - 1
