@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Player {
-    float moveTimer;
-    Main game;
+    float breakTimer=0;
+    boolean arrowPressed;
+    //CaveDigger game;
     Texture caverTexture;
     Sprite caverSprite;
 
@@ -40,44 +41,27 @@ public class Player {
         caverSprite.translate(x*caverWidth,y*caverHeight);
     }
 
-    public void updateMotion() {
-        moveTimer += Gdx.graphics.getDeltaTime();
-
-        // Pojedynczy ruch - bez czekania
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            move(1, 0);
-            moveTimer = 0f;
-            return;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            move(-1, 0);
-            moveTimer = 0f;
-            return;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            move(0, 1);
-            moveTimer = 0f;
-            return;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            move(0, -1);
-            moveTimer = 0f;
-            return;
-        }
-
-        // Ruch ciągły przy przytrzymaniu klawisza
-        if (moveTimer >= 0.4f) {
+    public void handleInput() {
+        float delta = Gdx.graphics.getDeltaTime(); //Player nie moze ruszyc sie wiecej niz 1 raz na pol sekundy
+        breakTimer+=delta;
+        if(breakTimer>=0.2f) {
+            breakTimer = 0f;
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 move(1, 0);
-                moveTimer = 0f;
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 move(-1, 0);
-                moveTimer = 0f;
             } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 move(0, 1);
-                moveTimer = 0f;
             } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
                 move(0, -1);
-                moveTimer = 0f;
             }
         }
     }
 
+    public int getX_position() {
+        return 2;
+    }
+    public int getY_position() {
+        return 2;
+    }
 }
