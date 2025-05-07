@@ -12,6 +12,7 @@ import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
 import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
 
 public class PlayerActor extends Actor {
+    private int x=0,y=0;
     private final Sprite sprite;
 //    private final Player player;
     private float moveTimer=0;
@@ -37,39 +38,65 @@ public class PlayerActor extends Actor {
 
     @Override
     public void act(float delta) {
+        moveTimer+=delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            moveBy(moveByDistance, 0);
-            moveTimer = 0f;
+            if(checkNextMove(1,0)) {
+                moveBy(moveByDistance, 0);
+                moveTimer = 0f;
+                x++;
+            }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            moveBy(-moveByDistance, 0);
-            moveTimer = 0f;
+            if(checkNextMove(-1,0)) {
+                moveBy(-moveByDistance, 0);
+                moveTimer = 0f;
+                x--;
+            }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            moveBy(0, moveByDistance);
-            moveTimer = 0f;
+            if(checkNextMove(0,1)) {
+                moveBy(0, moveByDistance);
+                moveTimer = 0f;
+                y++;
+            }
             return;
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            moveBy(0, -moveByDistance);
-            moveTimer = 0f;
+            if(checkNextMove(0,-1)) {
+                moveBy(0, -moveByDistance);
+                moveTimer = 0f;
+                y--;
+            }
             return;
         }
 
-        // Ruch ciągły przy przytrzymaniu klawisza
+        // Ruch ciagly przy przytrzymaniu klawisza
         if (moveTimer >= 0.4f) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                moveBy(1, 0);
-                moveTimer = 0f;
+                if(checkNextMove(1,0)) {
+                    moveBy(moveByDistance, 0);
+                    moveTimer = 0f;
+                    x++;
+                }
             } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                moveBy(-1, 0);
-                moveTimer = 0f;
+                if(checkNextMove(-1,0)) {
+                    moveBy(-moveByDistance, 0);
+                    moveTimer = 0f;
+                    x--;
+                }
             } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                moveBy(0, 1);
-                moveTimer = 0f;
+                if(checkNextMove(0,1)) {
+                    moveBy(0, moveByDistance);
+                    moveTimer = 0f;
+                    y++;
+                }
             } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                moveBy(0, -1);
-                moveTimer = 0f;
+                if(checkNextMove(0,-1)) {
+                    moveBy(0, -moveByDistance);
+                    moveTimer = 0f;
+                    y--;
+                }
             }
+
         }
 
         int tileX = (int) ((getX() + getWidth() / 2) / tileSize);
