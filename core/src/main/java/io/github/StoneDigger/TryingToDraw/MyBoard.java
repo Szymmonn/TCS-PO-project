@@ -16,6 +16,7 @@ public class MyBoard extends Actor {
         ROCK_TEXTURE,
         DIAMOND_TEXTURE
     };
+    float sizeOfObstacleOnScreen = SIZE_TEXTURE + 20;
 
     public MyBoard() {
         size_x = 2;
@@ -25,9 +26,11 @@ public class MyBoard extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        float temp = sizeOfObstacleOnScreen;
+        float translate = (temp-SIZE_TEXTURE)/2;
         for(int i=0;i<size_x;i++) {
             for(int j=0;j<size_y;j++) {
-                batch.draw(textureIds[obstacleArray[i][j]], i*SIZE_TEXTURE, j*SIZE_TEXTURE, SIZE_TEXTURE, SIZE_TEXTURE);
+                batch.draw(textureIds[obstacleArray[i][j]], i*temp +translate, j*temp + translate, SIZE_TEXTURE, SIZE_TEXTURE);
             }
         }
     }

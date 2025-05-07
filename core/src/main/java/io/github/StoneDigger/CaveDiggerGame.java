@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import io.github.StoneDigger.TryingToDraw.BoardActor;
-import io.github.StoneDigger.Actors.PlayerActor;
+import io.github.StoneDigger.TryingToDraw.PlayerActor;
 
 public class CaveDiggerGame extends Group {
     private final PlayerActor playerActor;
@@ -25,7 +25,7 @@ public class CaveDiggerGame extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-//        playerActor.getPlayer().handleInput();
+        playerActor.getPlayer().handleInput();
         // more logic
     }
 
