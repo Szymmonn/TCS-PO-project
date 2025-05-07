@@ -1,17 +1,21 @@
 package io.github.StoneDigger.TryingToDraw;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
+import io.github.StoneDigger.BoardGenerators.Board;
+import io.github.StoneDigger.BoardGenerators.TileType;
+
+
 
 public class MyGameScreen implements Screen {
     private Stage stage;    // sets up the stage
@@ -21,12 +25,14 @@ public class MyGameScreen implements Screen {
     final MyBoard myBoard;
     final MyBackground myBackground;
     final PlayerActor playerActor;
+    final BitmapFont font = new BitmapFont();
+    private int diamondsCollected = 0;
 
    public MyGameScreen(final MyGame game) {
         this.game = game;
         myBoard = new MyBoard();
         myBackground = new MyBackground();
-        playerActor = new PlayerActor();
+        playerActor = new PlayerActor(myBoard.getBoard());
    }
 
    @Override
