@@ -7,12 +7,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import io.github.StoneDigger.TryingToDraw.MyGame;
 
+import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
+import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
+
 public class MyBackground extends Actor {
     private final Texture background;
 
-    public MyBackground() {
+    public MyBackground(int size) {
         // 1. Allocate and paint once
-        Pixmap pix = new Pixmap(MyGame.WIDTH, MyGame.HEIGHT, Pixmap.Format.RGBA8888);
+        Pixmap pix = new Pixmap((int) (size*(BLOCK_SIZE + GAP_SIZE)), (int) (size*(BLOCK_SIZE + GAP_SIZE)), Pixmap.Format.RGBA8888);
         pix.setColor(0.6f, 0.3f, 0.1f, 1);
         pix.fill();                           // <— actually paint
         background = new Texture(pix);

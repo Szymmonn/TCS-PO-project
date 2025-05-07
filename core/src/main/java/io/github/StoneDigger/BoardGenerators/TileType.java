@@ -13,6 +13,9 @@ public enum TileType {
     START,
     EXIT;
 
+    public static final int BLOCK_SIZE = 100;
+    public static final int GAP_SIZE = 20;
+
     public static Texture getTexture(TileType type) {
         if (type == DIRT) return DIRT_TEXTURE;
         if (type == WALL) return WALL_TEXTURE;
