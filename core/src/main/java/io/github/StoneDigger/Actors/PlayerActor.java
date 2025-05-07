@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import io.github.StoneDigger.BoardGenerators.Board;
 import io.github.StoneDigger.BoardGenerators.TileType;
+import io.github.StoneDigger.TryingToDraw.MyGameScreen;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
 import static io.github.StoneDigger.Assets.SIZE_TEXTURE;
@@ -110,15 +111,13 @@ public class PlayerActor extends Actor {
         if (board.get(tileX, tileY) == TileType.DIRT) {
             board.set(tileX, tileY, TileType.EMPTY);
         }
+
+        if(board.get(this.x+x+1,this.y+y+1).equals(TileType.DIAMOND)) MyGameScreen.diamondsCollected++;
     }
 
     public boolean checkNextMove(int x,int y) {
         float nextX = getX() + x*moveByDistance;
         float nextY = getY() + y*moveByDistance;
-
-        //poza granice mapy
-        if(nextX < 0 || nextX > getStage().getWidth()-SIZE_TEXTURE) return false;
-        if(nextY < 0 || nextY > getStage().getHeight()-SIZE_TEXTURE) return false;
 
         //na sciane
 
