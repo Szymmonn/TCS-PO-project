@@ -1,8 +1,11 @@
 package io.github.StoneDigger.TryingToDraw;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.StoneDigger.Actors.PlayerActor;
 import com.badlogic.gdx.graphics.GL20;
@@ -35,6 +38,11 @@ public class MyGameScreen implements Screen {
        stage.addActor(myBackground);
        stage.addActor(myBoard);
        stage.addActor(playerActor);
+
+       stage.addListener(new InputListener() {
+           @Override
+           public boolean keyDown(InputEvent event, int keycode) {return false;}
+       });
    }
 
    @Override
