@@ -1,13 +1,10 @@
-package io.github.StoneDigger.Screens;
+package io.github.StoneDigger;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
-import io.github.StoneDigger.BoardGenerators.RandomBoardGenerator;
-import io.github.StoneDigger.Main;
-import io.github.StoneDigger.Player;
-
-import java.util.Random;
 
 
 /** First screen of the application. Displayed after the application is created. */
@@ -49,7 +46,6 @@ public class FirstScreen implements Screen {
         game.spriteBatch.begin();
 
 
-
         //Rysujemy na ekranie wszystkie struktury
 
         //Rysujemy playera
@@ -57,9 +53,6 @@ public class FirstScreen implements Screen {
 
 
         game.spriteBatch.end();
-        game.setScreen(new BoardScreen(
-            new RandomBoardGenerator(0.1, 0.1, 0.1, new Random())
-                .generate(10, 10, 2, 2)));
     }
 
     @Override
