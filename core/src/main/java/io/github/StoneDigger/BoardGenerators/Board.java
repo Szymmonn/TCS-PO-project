@@ -1,6 +1,7 @@
 package io.github.StoneDigger.BoardGenerators;
 
 import io.github.StoneDigger.Obstacles.*;
+import io.github.StoneDigger.models.TileType;
 
 public class Board {
     private final TileType[][] tiles;

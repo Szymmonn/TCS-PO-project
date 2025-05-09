@@ -17,12 +17,11 @@ dependencies {
   implementation "com.badlogicgames.gdx:gdx-platform:1.11.0:natives-desktop"
 }
 
-application {
-  mainClass = 'io.github.StoneDigger.desktop.DesktopLauncher'
+def isMac = org.gradle.internal.os.OperatingSystem.current().isMacOsX()
 
-  applicationDefaultJvmArgs = [
-    '-XstartOnFirstThread',
-    '--add-opens=java.base/java.lang=ALL-UNNAMED',
-    '--add-opens=java.base/sun.misc=ALL-UNNAMED'
-  ]
+application {
+  mainClass = "io.github.StoneDigger.lwjgl3.Lwjgl3Launcher"
+
+  applicationDefaultJvmArgs = isMac ? ["-XstartOnFirstThread"] : []
 }
+

@@ -6,15 +6,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.Array;
 import io.github.StoneDigger.BoardGenerators.Board;
-import io.github.StoneDigger.BoardGenerators.TileType;
+import io.github.StoneDigger.models.TileType;
 import io.github.StoneDigger.TryingToDraw.MyGameScreen;
-import java.util.Map;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
-import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
-import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
+import static io.github.StoneDigger.models.TileType.BLOCK_SIZE;
+import static io.github.StoneDigger.models.TileType.GAP_SIZE;
 import static io.github.StoneDigger.TryingToDraw.MyGameScreen.BOARD_UNIT;
 
 public class PlayerActor extends Actor {

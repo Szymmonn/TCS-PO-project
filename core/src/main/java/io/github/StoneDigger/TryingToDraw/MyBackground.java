@@ -5,10 +5,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.TryingToDraw.MyGame;
 
-import static io.github.StoneDigger.BoardGenerators.TileType.BLOCK_SIZE;
-import static io.github.StoneDigger.BoardGenerators.TileType.GAP_SIZE;
+import static io.github.StoneDigger.models.TileType.BLOCK_SIZE;
+import static io.github.StoneDigger.models.TileType.GAP_SIZE;
 
 public class MyBackground extends Actor {
     private final Texture background;
