@@ -17,8 +17,7 @@ import io.github.StoneDigger.models.TileType;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
-import static io.github.StoneDigger.models.TileType.BLOCK_SIZE;
-import static io.github.StoneDigger.models.TileType.GAP_SIZE;
+import static io.github.StoneDigger.models.Constants.*;
 import static io.github.StoneDigger.TryingToDraw.MyGame.GAME_HEIGHT;
 
 

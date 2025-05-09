@@ -4,13 +4,13 @@ public class PlayerModel {
     private int positionX;
     private int positionY;
 
-    PlayerModel() {
+    public PlayerModel() {
         positionX = -1;
         positionY = -1;
     }
-    PlayerModel(int x, int y) {
-        positionX = x;
-        positionY = y;
+    public PlayerModel(int startX, int startY) {
+        positionX = startX;
+        positionY = startY;
     }
 
     public void moveTo(int x, int y) {

@@ -11,8 +11,7 @@ import io.github.StoneDigger.models.TileType;
 import io.github.StoneDigger.TryingToDraw.MyGameScreen;
 
 import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
-import static io.github.StoneDigger.models.TileType.BLOCK_SIZE;
-import static io.github.StoneDigger.models.TileType.GAP_SIZE;
+import static io.github.StoneDigger.models.Constants.*;
 import static io.github.StoneDigger.TryingToDraw.MyGameScreen.BOARD_UNIT;
 
 public class PlayerActor extends Actor {

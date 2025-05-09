@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import static io.github.StoneDigger.models.TileType.BLOCK_SIZE;
-import static io.github.StoneDigger.models.TileType.GAP_SIZE;
+import static io.github.StoneDigger.models.Constants.*;
 
 public class MyBackground extends Actor {
     private final Texture background;

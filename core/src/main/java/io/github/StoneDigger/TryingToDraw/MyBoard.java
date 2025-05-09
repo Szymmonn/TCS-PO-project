@@ -7,8 +7,7 @@ import io.github.StoneDigger.BoardGenerators.Board;
 import io.github.StoneDigger.BoardGenerators.RandomBoardGenerator;
 import io.github.StoneDigger.models.TileType;
 
-import static io.github.StoneDigger.models.TileType.BLOCK_SIZE;
-import static io.github.StoneDigger.models.TileType.GAP_SIZE;
+import static io.github.StoneDigger.models.Constants.*;
 
 public class MyBoard extends Actor {
     int BoardSizeY;
