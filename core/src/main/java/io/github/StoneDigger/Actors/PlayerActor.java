@@ -23,6 +23,7 @@ public class PlayerActor extends Actor {
     private float moveTimer = 0;
     private final Board board;
     private float rockDropTimer=0;
+    int[][] fallingStone;
 
 
     public PlayerActor(Board board) {
@@ -31,6 +32,7 @@ public class PlayerActor extends Actor {
         setPosition(BOARD_UNIT + GAP_SIZE/2, BOARD_UNIT + GAP_SIZE/2);  // for now in (1,1)
 
         this.board = board;
+        fallingStone = new int[board.getWidth()][board.getHeight()];
     }
 
 
@@ -49,6 +51,7 @@ public class PlayerActor extends Actor {
 
     @Override
     public void act(float delta) {
+        if(board.get(x,y) == TileType.ROCK) restart();
         updateFallingBlocks(delta);
         moveTimer+=delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
@@ -82,7 +85,7 @@ public class PlayerActor extends Actor {
         }
 
         // Ruch ciagly przy przytrzymaniu klawisza
-        if (moveTimer >= 0.25f) {
+        if (moveTimer >= 0.18f) {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 if(checkNextMove(1,0)) {
                     moveBy(BOARD_UNIT, 0);
@@ -131,8 +134,17 @@ public class PlayerActor extends Actor {
         float nextY = getY() + y* BOARD_UNIT;
 
         //na sciane
-
         if(board.get(this.x+x,this.y+y).equals(TileType.WALL)) return false;
+
+        //na kamien jesli dalej nie ma pustego
+        if(board.get(this.x+x,this.y+y) == TileType.ROCK) {
+            if (board.get(this.x + 2 * x, this.y + 2 * y) != TileType.EMPTY) return false;
+            else {
+                board.set(this.x + 2 * x, this.y + 2 * y,TileType.ROCK);
+                board.set(this.x+x,this.y+y,TileType.EMPTY);
+                return true;
+            }
+        }
         return true;
     }
 
@@ -140,44 +152,50 @@ public class PlayerActor extends Actor {
 //        rockDropTimer+=delta; //timer czeka az minie 0.2 sekundy, i leci z kolejna petla aby obnizyc
         rockDropTimer+=delta;
         TileType[][] tiles = board.getOriginalTilesArray();
-        boolean[][] fallingStone = new boolean[board.getWidth()][board.getHeight()];
 
         //czeka 0.2 sekundy
-        if(rockDropTimer<0.5f) return;
+        if(rockDropTimer<0.3f) return;
 
         for (int j = 1; j < tiles[0].length; j++) {
             for (int i = 1; i < tiles.length; i++) {
                 //jak nie kamień to dupa
-                if(board.get(i,j) != TileType.ROCK) continue;
+                if(tiles[i][j] != TileType.ROCK) continue;
 
                 //jak pod to idziemy
-                if(board.get(i,j) == TileType.EMPTY) {
+                if(tiles[i][j-1] == TileType.EMPTY) {
                     board.set(i, j - 1, TileType.ROCK);
                     board.set(i, j, TileType.EMPTY);
-                    fallingStone[i][j] = false;
-                    fallingStone[i][j-1] = true;
+                    fallingStone[i][j-1] = fallingStone[i][j]+1;
+                    fallingStone[i][j] = 0;
                     continue;
                 }
 
                 //jesli na lewo lub prawo to tom idziemy
-                if(fallingStone[i][j]) {
-                    if(board.get(i-1,j) == TileType.EMPTY && board.get(i-1,j-1) == TileType.EMPTY) {
-                        board.set(i-1, j, TileType.ROCK);
-                        board.set(i, j, TileType.EMPTY);
-                        fallingStone[i][j] = false;
-                        fallingStone[i-1][j] = true;
-                    }
-                    if(board.get(i+1,j) == TileType.EMPTY && board.get(i+1,j-1) == TileType.EMPTY) {
+                if(fallingStone[i][j]!=0) {
+                    if(tiles[i+1][j] == TileType.EMPTY && tiles[i+1][j-1] == TileType.EMPTY) {
                         board.set(i+1, j, TileType.ROCK);
                         board.set(i, j, TileType.EMPTY);
-                        fallingStone[i][j] = false;
-                        fallingStone[i+1][j] = true;
+                        fallingStone[i+1][j] = fallingStone[i][j]+1;
+                        fallingStone[i][j] = 0;i++;
+                    } else if(tiles[i-1][j] == TileType.EMPTY && tiles[i-1][j-1] == TileType.EMPTY) {
+                        board.set(i-1, j, TileType.ROCK);
+                        board.set(i, j, TileType.EMPTY);
+                        fallingStone[i-1][j] = fallingStone[i][j]+1;
+                        fallingStone[i][j] = 0;
                     }
                 }
             }
         }
 
         rockDropTimer=0f;
+    }
+
+    public void restart() {
+        /// TO DO: Exploding blocks
+        x = 1;
+        y = 1;
+        setPosition(x * BOARD_UNIT + GAP_SIZE / 2, y * BOARD_UNIT + GAP_SIZE / 2);
+
     }
 
     public int getPositionX() {

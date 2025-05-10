@@ -119,9 +119,9 @@ public class MyGameScreen implements Screen {
         batch.begin();
         float iconX = MyGame.GAME_WIDTH - BLOCK_SIZE - 20;
         float iconY = GAME_HEIGHT - BLOCK_SIZE - 20;
-        batch.draw(TileType.getTexture(TileType.DIAMOND),
-            iconX, iconY,
-            BLOCK_SIZE, BLOCK_SIZE);
+//        batch.draw(TileType.getTexture(TileType.DIAMOND),
+//            iconX, iconY,
+//            BLOCK_SIZE, BLOCK_SIZE);
 
         font.setColor(Color.BLUE);
         String text = "DIAXY " + diamondsCollected;
