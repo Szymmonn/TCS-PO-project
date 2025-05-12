@@ -1,6 +1,5 @@
 package io.github.StoneDigger.viewmodels;
 
-
 import io.github.StoneDigger.models.BoardModel;
 import io.github.StoneDigger.models.PlayerModel;
 import io.github.StoneDigger.models.TileType;

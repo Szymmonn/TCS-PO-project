@@ -1,12 +1,17 @@
 package io.github.StoneDigger.BoardGenerators.BoardValidators;
 
-import io.github.StoneDigger.BoardGenerators.Board;
+import io.github.StoneDigger.models.BoardModel;
 import io.github.StoneDigger.models.TileType;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+import static io.github.StoneDigger.screen.GameScreen.BOARD_HEIGHT;
+import static io.github.StoneDigger.screen.GameScreen.BOARD_WIDTH;
+
 public class SimpleBoardValidator implements IBoardValidator {
+    /// TODO: move this to its own class
+    /// to convert every coordinates to this class
     private static class Pair {
         public final int x;
         public final int y;
@@ -30,11 +35,11 @@ public class SimpleBoardValidator implements IBoardValidator {
     };
 
     @Override
-    public boolean validate(Board board) {
-        int width  = board.getWidth();
-        int height = board.getHeight();
-        int sx = board.getStartingPositionX();
-        int sy = board.getStartingPositionY();
+    public boolean validate(BoardModel board) {
+        int width  = BOARD_WIDTH;
+        int height = BOARD_HEIGHT;
+        int sx = board.getStartingX();
+        int sy = board.getStartingY();
 
         boolean[][] visited = new boolean[width][height];
         Queue<Pair> q = new ArrayDeque<>();
@@ -55,7 +60,7 @@ public class SimpleBoardValidator implements IBoardValidator {
                 int ny = y + d.y;
                 if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
                 if (visited[nx][ny]) continue;
-                TileType t = board.get(nx, ny);
+                TileType t = board.getTile(nx, ny);
 
                 if (!isPossibleToGo(t)) continue;
 

@@ -1,5 +1,6 @@
 package io.github.StoneDigger.BoardGenerators;
 
+import io.github.StoneDigger.models.BoardModel;
 import io.github.StoneDigger.models.TileType;
 
 import java.util.Objects;
@@ -101,7 +102,7 @@ public class RandomBoardGenerator implements IBoardGenerator {
 
 
     @Override
-    public Board generate(int width, int height, int startingPositionX, int startingPositionY) {
+    public BoardModel generate(int width, int height, int startingPositionX, int startingPositionY) {
         validateGenerateFunctionArguments(startingPositionX, startingPositionY, height, width);
         TileType[][] board = new TileType[width][height];
 
@@ -117,6 +118,6 @@ public class RandomBoardGenerator implements IBoardGenerator {
         // losowo wrzuca skaly i diamwnty
         scatterObstacles(board);
 
-        return new Board(board, startingPositionX, startingPositionY);
+        return new BoardModel(board, startingPositionX, startingPositionY);
     }
 }

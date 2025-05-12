@@ -45,8 +45,9 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        // TODO: change with starting position
         PlayerModel playerModel = new PlayerModel(1, 1);
-        BoardModel boardModel = new BoardModel(new RandomBoardGenerator(0.1f, 0.1f, 0.1f).generate(BOARD_WIDTH, BOARD_HEIGHT, 1, 1).getTiles());
+        BoardModel boardModel = new RandomBoardGenerator(0.1f, 0.1f, 0.1f).generate(BOARD_WIDTH, BOARD_HEIGHT, 1, 1);
 
         gameViewModel = new GameViewModel(playerModel, boardModel);
         gameController = new GameController(gameViewModel);
@@ -54,7 +55,6 @@ public class GameScreen extends ScreenAdapter {
         viewport = new FitViewport(VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT);
         camera = (OrthographicCamera) viewport.getCamera();
         viewport.apply();
-        // TODO: change with starting position
         camera.position.set(viewport.getWorldWidth(), viewport.getWorldHeight(),0);
         camera.update();
 
