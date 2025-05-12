@@ -4,10 +4,6 @@ public class PlayerModel {
     private int positionX;
     private int positionY;
 
-    public PlayerModel() {
-        positionX = -1;
-        positionY = -1;
-    }
     public PlayerModel(int startX, int startY) {
         positionX = startX;
         positionY = startY;
@@ -17,18 +13,7 @@ public class PlayerModel {
         positionX = x;
         positionY = y;
     }
-    public void moveRight() {
-        positionX++;
-    }
-    public void moveLeft() {
-        positionX--;
-    }
-    public void moveUp() {
-        positionY++;
-    }
-    public void moveDown() {
-        positionY--;
-    }
+
     public int getPositionX() {
         return positionX;
     }
