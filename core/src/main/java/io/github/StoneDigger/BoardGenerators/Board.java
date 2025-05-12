@@ -1,8 +1,13 @@
 package io.github.StoneDigger.BoardGenerators;
 
+import io.github.StoneDigger.Actors.BoardObserver;
 import io.github.StoneDigger.Obstacles.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
+    private final List<BoardObserver> observers = new ArrayList<>(); // obserwatorzy boards, na razie do obserwator kamieni
     private final TileType[][] tiles;
     private final Obstacle[][] obstacles;
     private final int startingPositionX;
@@ -21,6 +26,10 @@ public class Board {
                 obstacles[x][y] = createObstacleForTile(tiles[x][y]);
             }
         }
+    }
+
+    public void addObserver(BoardObserver observer) {
+        observers.add(observer);
     }
 
     public int getWidth()  { return tiles.length; }
@@ -64,9 +73,14 @@ public class Board {
                 || (x == getWidth() - 2 && y == getHeight() - 2)) {
             return false;
         }
+        TileType previousTile = get(x,y);
 
         tiles[x][y] = t;
         obstacles[x][y] = createObstacleForTile(t);
+
+        for (BoardObserver observer : observers) {
+            observer.onTileChanged(x, y, previousTile, this);
+        }
         return true;
     }
 

@@ -22,9 +22,7 @@ public class PlayerActor extends Actor {
     private final Sprite sprite;
     private float moveTimer = 0;
     private final Board board;
-    private float rockDropTimer=0;
-    int[][] fallingStone;
-
+    private RockObserver rockObserver;
 
     public PlayerActor(Board board) {
         sprite = new Sprite(PLAYER_TEXTURE);
@@ -32,7 +30,8 @@ public class PlayerActor extends Actor {
         setPosition(BOARD_UNIT + GAP_SIZE/2, BOARD_UNIT + GAP_SIZE/2);  // for now in (1,1)
 
         this.board = board;
-        fallingStone = new int[board.getWidth()][board.getHeight()];
+        this.rockObserver = new RockObserver(board);
+        board.addObserver(rockObserver);
     }
 
 
@@ -51,8 +50,8 @@ public class PlayerActor extends Actor {
 
     @Override
     public void act(float delta) {
+        rockObserver.update(delta);
         if(board.get(x,y) == TileType.ROCK) restart();
-        updateFallingBlocks(delta);
         moveTimer+=delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             if(checkNextMove(1,0)) {
@@ -146,48 +145,6 @@ public class PlayerActor extends Actor {
             }
         }
         return true;
-    }
-
-    public void updateFallingBlocks(float delta) {
-//        rockDropTimer+=delta; //timer czeka az minie 0.2 sekundy, i leci z kolejna petla aby obnizyc
-        rockDropTimer+=delta;
-        TileType[][] tiles = board.getOriginalTilesArray();
-
-        //czeka 0.2 sekundy
-        if(rockDropTimer<0.3f) return;
-
-        for (int j = 1; j < tiles[0].length; j++) {
-            for (int i = 1; i < tiles.length; i++) {
-                //jak nie kamień to dupa
-                if(tiles[i][j] != TileType.ROCK) continue;
-
-                //jak pod to idziemy
-                if(tiles[i][j-1] == TileType.EMPTY) {
-                    board.set(i, j - 1, TileType.ROCK);
-                    board.set(i, j, TileType.EMPTY);
-                    fallingStone[i][j-1] = fallingStone[i][j]+1;
-                    fallingStone[i][j] = 0;
-                    continue;
-                }
-
-                //jesli na lewo lub prawo to tom idziemy
-                if(fallingStone[i][j]!=0) {
-                    if(tiles[i+1][j] == TileType.EMPTY && tiles[i+1][j-1] == TileType.EMPTY) {
-                        board.set(i+1, j, TileType.ROCK);
-                        board.set(i, j, TileType.EMPTY);
-                        fallingStone[i+1][j] = fallingStone[i][j]+1;
-                        fallingStone[i][j] = 0;i++;
-                    } else if(tiles[i-1][j] == TileType.EMPTY && tiles[i-1][j-1] == TileType.EMPTY) {
-                        board.set(i-1, j, TileType.ROCK);
-                        board.set(i, j, TileType.EMPTY);
-                        fallingStone[i-1][j] = fallingStone[i][j]+1;
-                        fallingStone[i][j] = 0;
-                    }
-                }
-            }
-        }
-
-        rockDropTimer=0f;
     }
 
     public void restart() {
