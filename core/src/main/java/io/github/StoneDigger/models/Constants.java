@@ -1,0 +1,6 @@
+package io.github.StoneDigger.models;
+
+public class Constants {
+    public static final int BLOCK_SIZE = 100;
+    public static final int GAP_SIZE = 20;
+}

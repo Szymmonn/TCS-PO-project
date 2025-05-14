@@ -1,7 +1,9 @@
 package io.github.StoneDigger.BoardGenerators;
 
 
+import io.github.StoneDigger.models.BoardModel;
+
 public interface IBoardGenerator {
-    Board generate(int width, int height, int startingPositionX, int startingPositionY);
+    BoardModel generate(int width, int height, int startingPositionX, int startingPositionY);
 }
 
