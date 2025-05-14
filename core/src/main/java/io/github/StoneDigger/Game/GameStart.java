@@ -1,17 +1,17 @@
 package io.github.StoneDigger.Game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import io.github.StoneDigger.Assets;
 import io.github.StoneDigger.screen.GameScreen;
+import io.github.StoneDigger.screen.MenuScreen;
 
 public class GameStart extends Game {
-    private GameScreen gameScreen;
 
     @Override
     public void create() {
         Assets.load();
-        gameScreen = new GameScreen(this);
-        setScreen(gameScreen);
+        setScreen(new MenuScreen(this));
     }
 
     @Override

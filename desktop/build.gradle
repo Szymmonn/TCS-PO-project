@@ -13,15 +13,18 @@ repositories {
 dependencies {
   implementation project(':core')
   implementation project(':lwjgl3')
+
   implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:1.11.0"
   implementation "com.badlogicgames.gdx:gdx-platform:1.11.0:natives-desktop"
+
+  // 🆕 GDX FreeType support
+  implementation "com.badlogicgames.gdx:gdx-freetype:1.11.0"
+  implementation "com.badlogicgames.gdx:gdx-freetype-platform:1.11.0:natives-desktop"
 }
 
 def isMac = org.gradle.internal.os.OperatingSystem.current().isMacOsX()
 
 application {
   mainClass = "io.github.StoneDigger.lwjgl3.Lwjgl3Launcher"
-
   applicationDefaultJvmArgs = isMac ? ["-XstartOnFirstThread"] : []
 }
-
