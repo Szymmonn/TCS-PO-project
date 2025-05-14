@@ -1,16 +1,12 @@
 package io.github.StoneDigger.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.crypto.provider.BlowfishKeyGenerator;
-import io.github.StoneDigger.BoardGenerators.RandomBoardGenerator;
 import io.github.StoneDigger.Game.GameStart;
 import io.github.StoneDigger.controller.GameController;
 import io.github.StoneDigger.models.BoardModel;
@@ -28,9 +24,6 @@ public class GameScreen extends ScreenAdapter {
 
     private final GameStart gameStart;
 
-    public static int BOARD_HEIGHT = 20;
-    public static int BOARD_WIDTH = 30;
-
     private GameViewModel gameViewModel;
     private GameController gameController;
 
@@ -39,6 +32,8 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private Viewport viewport;
 
+    private int boardWidth, boardHeight;
+
     public GameScreen(GameStart gameStart) {
         this.gameStart = gameStart;
     }
@@ -46,23 +41,23 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         // TODO: change with starting position
-        PlayerModel playerModel = new PlayerModel(1, 1);
-        BoardModel boardModel = new RandomBoardGenerator(0.1f, 0.1f, 0.1f).generate(BOARD_WIDTH, BOARD_HEIGHT, 1, 1);
-
-        gameViewModel = new GameViewModel(playerModel, boardModel);
-        gameController = new GameController(gameViewModel);
-
         viewport = new FitViewport(VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT);
         camera = (OrthographicCamera) viewport.getCamera();
         viewport.apply();
-        camera.position.set(viewport.getWorldWidth(), viewport.getWorldHeight(),0);
+        camera.position.set(viewport.getWorldWidth(), viewport.getWorldHeight(), 0);
         camera.update();
 
         stage = new Stage(viewport);
 
-        stage.addActor(new BoardView(boardModel));
-        stage.addActor(new PlayerView(playerModel));
+        gameViewModel = new GameViewModel();
+        gameViewModel.setLevelLoadedCallback(this::updateVisibleModels);
+        gameController = new GameController(gameViewModel);
+        gameViewModel.prepareLevel(20, 30);
+
+        boardWidth  = gameViewModel.getBoardModel().getWidth();
+        boardHeight = gameViewModel.getBoardModel().getHeight();
     }
+
 
     @Override
     public void render(float delta) {
@@ -75,9 +70,9 @@ public class GameScreen extends ScreenAdapter {
             float cameraY = GAP_SIZE /2f + gameViewModel.getPlayerPositionY()*(BLOCK_SIZE+GAP_SIZE) + BLOCK_SIZE/2f;
 
             if(cameraX < VISIBLE_WORLD_WIDTH/2) cameraX = VISIBLE_WORLD_WIDTH/2;
-            else if(cameraX > BOARD_WIDTH*(BLOCK_SIZE+GAP_SIZE) - VISIBLE_WORLD_WIDTH/2) cameraX = BOARD_WIDTH*(BLOCK_SIZE + GAP_SIZE) - VISIBLE_WORLD_WIDTH/2;
+            else if(cameraX > boardWidth*(BLOCK_SIZE+GAP_SIZE) - VISIBLE_WORLD_WIDTH/2) cameraX = boardWidth*(BLOCK_SIZE + GAP_SIZE) - VISIBLE_WORLD_WIDTH/2;
             if(cameraY < VISIBLE_WORLD_HEIGHT/2) cameraY = VISIBLE_WORLD_HEIGHT/2;
-            else if(cameraY > BOARD_HEIGHT*(BLOCK_SIZE+GAP_SIZE) - VISIBLE_WORLD_HEIGHT/2) cameraY = BOARD_HEIGHT*(BLOCK_SIZE + GAP_SIZE) - VISIBLE_WORLD_HEIGHT/2;
+            else if(cameraY > boardHeight*(BLOCK_SIZE+GAP_SIZE) - VISIBLE_WORLD_HEIGHT/2) cameraY = boardHeight*(BLOCK_SIZE + GAP_SIZE) - VISIBLE_WORLD_HEIGHT/2;
 
             camera.position.set(cameraX, cameraY, 0);
             // need to smoothen camera movement
@@ -94,4 +89,14 @@ public class GameScreen extends ScreenAdapter {
     public void dispose() {
 
     }
+
+    public void updateVisibleModels() {
+        stage.clear();
+        stage.addActor(new BoardView(gameViewModel.getBoardModel()));
+        stage.addActor(new PlayerView(gameViewModel.getPlayerModel()));
+        camera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
+        camera.update();
+    }
+
+
 }

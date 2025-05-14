@@ -1,19 +1,34 @@
 package io.github.StoneDigger.viewmodels;
 
+import io.github.StoneDigger.BoardGenerators.RandomBoardGenerator;
 import io.github.StoneDigger.models.BoardModel;
 import io.github.StoneDigger.models.PlayerModel;
 import io.github.StoneDigger.models.TileType;
 
 public class GameViewModel {
-    private final PlayerModel playerModel;
-    private final BoardModel boardModel;
+    private PlayerModel playerModel;
+    private BoardModel boardModel;
 
-    public GameViewModel(PlayerModel playerModel, BoardModel boardModel) {
-        this.playerModel = playerModel;
-        this.boardModel = boardModel;
+    private Runnable levelLoadedCallback;
+
+    public GameViewModel() {}
+
+    public void setLevelLoadedCallback(Runnable callback) {
+        this.levelLoadedCallback = callback;
+    }
+
+    public void prepareLevel(int width, int height) {
+        playerModel = new PlayerModel(1, 1);
+        boardModel  = new RandomBoardGenerator(0.1f,0.1f,0.1f)
+            .generate(width, height, 1, 1);
+
+        if (levelLoadedCallback != null) {
+            levelLoadedCallback.run();
+        }
     }
 
     /// main logic
+
     public void handleInput(String direction) {
         int newX = playerModel.getPositionX();
         int newY = playerModel.getPositionY();
@@ -43,7 +58,9 @@ public class GameViewModel {
             boardModel.updateTile(newX, newY, TileType.EMPTY);
             playerModel.moveTo(newX, newY);
         }
-        if(tileToMove == TileType.EXIT) System.exit(0);
+        if(tileToMove == TileType.EXIT) {
+          prepareLevel(20, 30);
+        }
     }
 
     // rock falling mechanic
@@ -51,4 +68,6 @@ public class GameViewModel {
 
     public int getPlayerPositionX() { return playerModel.getPositionX(); }
     public int getPlayerPositionY() { return playerModel.getPositionY(); }
+    public BoardModel getBoardModel() { return boardModel; }
+    public PlayerModel getPlayerModel() { return playerModel; }
 }

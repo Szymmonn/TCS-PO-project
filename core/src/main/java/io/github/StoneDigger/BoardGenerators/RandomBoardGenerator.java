@@ -109,14 +109,14 @@ public class RandomBoardGenerator implements IBoardGenerator {
         // wypelnia pustymi polami
         fillWithDirt(board);
 
-        // ustawia pole start i end
-        placeStartAndExit(board, startingPositionX, startingPositionY);
-
         // daje sciany na obwodzie
         placeBorders(board);
 
         // losowo wrzuca skaly i diamwnty
         scatterObstacles(board);
+
+        // ustawia pole start i end
+        placeStartAndExit(board, startingPositionX, startingPositionY);
 
         return new BoardModel(board, startingPositionX, startingPositionY);
     }
