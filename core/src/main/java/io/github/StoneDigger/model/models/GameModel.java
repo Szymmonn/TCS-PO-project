@@ -4,12 +4,25 @@ public class GameModel {
     private PlayerModel playerModel;
     private BoardModel boardModel;
 
+    public GameModel(PlayerModel playerModel, BoardModel boardModel) {
+        this.playerModel = playerModel;
+        this.boardModel = boardModel;
+    }
+
     public BoardModel getBoard() {
         return boardModel;
     }
 
     public PlayerModel getPlayer() {
         return playerModel;
+    }
+
+    public void setBoardModel(BoardModel boardModel) {
+        this.boardModel = boardModel;
+    }
+
+    public void setPlayerModel(PlayerModel playerModel) {
+        this.playerModel = playerModel;
     }
 
     public void movePlayer(Direction direction) {
