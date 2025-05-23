@@ -1,6 +1,7 @@
 package io.github.StoneDigger.viewmodel.viewmodels;
 
 
+import io.github.StoneDigger.model.BoardGenerators.BoardValidators.SimpleBoardValidator;
 import io.github.StoneDigger.model.BoardGenerators.RandomBoardGenerator;
 import io.github.StoneDigger.model.models.BoardModel;
 import io.github.StoneDigger.model.models.Direction;
@@ -22,8 +23,14 @@ public class GameViewModel {
 
     public void prepareLevel(int width, int height) {
         gameModel.setPlayerModel(new PlayerModel(1, 1));
-        gameModel.setBoardModel(new RandomBoardGenerator(0.1f,0.1f,0.1f)
-            .generate(width, height, 1, 1));
+        SimpleBoardValidator validator = new SimpleBoardValidator();
+        BoardModel boardModel = new RandomBoardGenerator(0.1f,0.1f,0.1f)
+            .generate(width, height, 1, 1);
+
+        while(!validator.validate(boardModel)) {
+            gameModel.setBoardModel(new RandomBoardGenerator(0.1f,0.1f,0.1f)
+                .generate(width, height, 1, 1));
+        }
 
         if (levelLoadedCallback != null) {
             levelLoadedCallback.run();
