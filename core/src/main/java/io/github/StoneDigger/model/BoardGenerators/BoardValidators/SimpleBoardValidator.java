@@ -1,13 +1,10 @@
-package io.github.StoneDigger.model.BoardGenerators.BoardValidators;
+package io.github.StoneDigger.BoardGenerators.BoardValidators;
 
-import io.github.StoneDigger.model.models.BoardModel;
-import io.github.StoneDigger.model.models.TileType;
+import io.github.StoneDigger.models.BoardModel;
+import io.github.StoneDigger.models.TileType;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
-
-import static io.github.StoneDigger.view.screen.GameScreen.BOARD_HEIGHT;
-import static io.github.StoneDigger.view.screen.GameScreen.BOARD_WIDTH;
 
 public class SimpleBoardValidator implements IBoardValidator {
     /// TODO: move this to its own class
@@ -36,8 +33,8 @@ public class SimpleBoardValidator implements IBoardValidator {
 
     @Override
     public boolean validate(BoardModel board) {
-        int width  = BOARD_WIDTH;
-        int height = BOARD_HEIGHT;
+        int width  = board.getWidth();
+        int height = board.getHeight();
         int sx = board.getStartingX();
         int sy = board.getStartingY();
 
