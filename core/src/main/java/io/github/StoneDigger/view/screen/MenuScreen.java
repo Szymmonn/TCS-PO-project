@@ -1,4 +1,4 @@
-package io.github.StoneDigger.screen;
+package io.github.StoneDigger.view.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,10 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.StoneDigger.Game.GameStart;
-
-import java.nio.channels.AcceptPendingException;
+import io.github.StoneDigger.view.Game.GameStart;
 
 public class MenuScreen extends ScreenAdapter {
     private final GameStart gameStart;

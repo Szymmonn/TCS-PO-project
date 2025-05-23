@@ -1,12 +1,13 @@
-package io.github.StoneDigger.views;
+package io.github.StoneDigger.view.views;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.models.PlayerModel;
+import io.github.StoneDigger.model.models.PlayerModel;
 
-import static io.github.StoneDigger.Assets.PLAYER_TEXTURE;
-import static io.github.StoneDigger.models.Constants.*;
+import static io.github.StoneDigger.view.Assets.PLAYER_TEXTURE;
+import static io.github.StoneDigger.model.models.Constants.BLOCK_SIZE;
+import static io.github.StoneDigger.model.models.Constants.GAP_SIZE;
 
 public class PlayerView extends Actor {
     private final PlayerModel player;

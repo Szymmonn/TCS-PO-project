@@ -1,7 +1,7 @@
-package io.github.StoneDigger.BoardGenerators;
+package io.github.StoneDigger.model.BoardGenerators;
 
-import io.github.StoneDigger.models.BoardModel;
-import io.github.StoneDigger.models.TileType;
+import io.github.StoneDigger.model.models.BoardModel;
+import io.github.StoneDigger.model.models.TileType;
 
 import java.util.Objects;
 import java.util.Random;

@@ -1,26 +1,23 @@
-package io.github.StoneDigger.screen;
+package io.github.StoneDigger.view.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.crypto.provider.BlowfishKeyGenerator;
-import io.github.StoneDigger.BoardGenerators.RandomBoardGenerator;
-import io.github.StoneDigger.Game.GameStart;
-import io.github.StoneDigger.controller.GameController;
-import io.github.StoneDigger.models.BoardModel;
-import io.github.StoneDigger.models.PlayerModel;
-import io.github.StoneDigger.viewmodels.GameViewModel;
-import io.github.StoneDigger.views.BoardView;
-import io.github.StoneDigger.views.PlayerView;
+import io.github.StoneDigger.model.BoardGenerators.RandomBoardGenerator;
+import io.github.StoneDigger.view.Game.GameStart;
+import io.github.StoneDigger.view.PlayerInputReceiver.GameController;
+import io.github.StoneDigger.model.models.BoardModel;
+import io.github.StoneDigger.model.models.PlayerModel;
+import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
+import io.github.StoneDigger.view.views.BoardView;
+import io.github.StoneDigger.view.views.PlayerView;
 
-import static io.github.StoneDigger.models.Constants.BLOCK_SIZE;
-import static io.github.StoneDigger.models.Constants.GAP_SIZE;
+import static io.github.StoneDigger.model.models.Constants.BLOCK_SIZE;
+import static io.github.StoneDigger.model.models.Constants.GAP_SIZE;
 
 public class GameScreen extends ScreenAdapter {
     public static float VISIBLE_WORLD_WIDTH = 9*(BLOCK_SIZE + GAP_SIZE);

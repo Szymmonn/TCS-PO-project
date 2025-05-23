@@ -1,7 +1,7 @@
-package io.github.StoneDigger.models;
+package io.github.StoneDigger.model.models;
 
 import com.badlogic.gdx.graphics.Texture;
-import static io.github.StoneDigger.Assets.*;
+import static io.github.StoneDigger.view.Assets.*;
 
 
 public enum TileType {

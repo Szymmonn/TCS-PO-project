@@ -1,16 +1,17 @@
-package io.github.StoneDigger.views;
+package io.github.StoneDigger.view.views;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.models.BoardModel;
-import io.github.StoneDigger.models.TileType;
+import io.github.StoneDigger.model.models.BoardModel;
+import io.github.StoneDigger.model.models.TileType;
 
-import static io.github.StoneDigger.models.Constants.*;
-import static io.github.StoneDigger.screen.GameScreen.BOARD_HEIGHT;
-import static io.github.StoneDigger.screen.GameScreen.BOARD_WIDTH;
+import static io.github.StoneDigger.model.models.Constants.BLOCK_SIZE;
+import static io.github.StoneDigger.model.models.Constants.GAP_SIZE;
+import static io.github.StoneDigger.view.screen.GameScreen.BOARD_HEIGHT;
+import static io.github.StoneDigger.view.screen.GameScreen.BOARD_WIDTH;
 
 public class BoardView extends Actor {
     private final BoardModel board;

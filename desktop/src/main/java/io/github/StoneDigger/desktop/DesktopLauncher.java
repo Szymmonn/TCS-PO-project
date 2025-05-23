@@ -2,7 +2,7 @@ package io.github.StoneDigger.desktop;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import io.github.StoneDigger.Game.GameStart;
+import io.github.StoneDigger.view.Game.GameStart;
 
 public class DesktopLauncher {
     public static void main(String[] args) {

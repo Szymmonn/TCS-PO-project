@@ -1,10 +1,8 @@
-package io.github.StoneDigger.Game;
+package io.github.StoneDigger.view.Game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
-import io.github.StoneDigger.Assets;
-import io.github.StoneDigger.screen.GameScreen;
-import io.github.StoneDigger.screen.MenuScreen;
+import io.github.StoneDigger.view.Assets;
+import io.github.StoneDigger.view.screen.MenuScreen;
 
 public class GameStart extends Game {
 

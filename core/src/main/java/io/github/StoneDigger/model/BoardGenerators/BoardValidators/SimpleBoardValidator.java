@@ -1,13 +1,13 @@
-package io.github.StoneDigger.BoardGenerators.BoardValidators;
+package io.github.StoneDigger.model.BoardGenerators.BoardValidators;
 
-import io.github.StoneDigger.models.BoardModel;
-import io.github.StoneDigger.models.TileType;
+import io.github.StoneDigger.model.models.BoardModel;
+import io.github.StoneDigger.model.models.TileType;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-import static io.github.StoneDigger.screen.GameScreen.BOARD_HEIGHT;
-import static io.github.StoneDigger.screen.GameScreen.BOARD_WIDTH;
+import static io.github.StoneDigger.view.screen.GameScreen.BOARD_HEIGHT;
+import static io.github.StoneDigger.view.screen.GameScreen.BOARD_WIDTH;
 
 public class SimpleBoardValidator implements IBoardValidator {
     /// TODO: move this to its own class

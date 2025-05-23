@@ -1,9 +1,7 @@
-package io.github.StoneDigger;
+package io.github.StoneDigger.view;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
     public static Texture ROCK_TEXTURE;

@@ -1,4 +1,4 @@
-package io.github.StoneDigger.models;
+package io.github.StoneDigger.model.models;
 
 public class Constants {
     public static final int BLOCK_SIZE = 100;
