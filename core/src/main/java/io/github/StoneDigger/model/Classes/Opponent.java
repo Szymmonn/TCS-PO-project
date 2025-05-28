@@ -1,19 +1,16 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
-import io.github.StoneDigger.model.Interfaces.EDirections;
-import io.github.StoneDigger.model.Interfaces.IEntity;
-import io.github.StoneDigger.model.Interfaces.IKiller;
-import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
+import io.github.StoneDigger.model.Interfaces.*;
 
-public class Opponents implements IEntity, IKiller, ISelfUpdate {
+public class Opponent implements IEntity, IKiller, ISelfUpdate {
     private GridPoint2 currentPosition;
 
-    public Opponents() {
+    public Opponent() {
         currentPosition = new GridPoint2();
     }
 
-    public Opponents(GridPoint2 startPosition) {
+    public Opponent(GridPoint2 startPosition) {
         this.currentPosition = startPosition;
     }
 
@@ -36,12 +33,12 @@ public class Opponents implements IEntity, IKiller, ISelfUpdate {
     }
 
     @Override
-    public void setLevelStats() {
-
+    public boolean update() {
+        return false;
     }
 
     @Override
-    public boolean update() {
+    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
         return false;
     }
 }
