@@ -3,6 +3,7 @@ package io.github.StoneDigger.model.Classes;
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Interfaces.EDirections;
 import io.github.StoneDigger.model.Interfaces.IEntity;
+import io.github.StoneDigger.model.Interfaces.IMovable;
 
 import java.util.HashMap;
 
@@ -23,7 +24,19 @@ public class Player implements IEntity {
 
     @Override
     public boolean tryToMove(EDirections directions) {
-//        if()
+        GridPoint2 vector = new GridPoint2();
+        switch(directions) {
+            case RIGHT: vector.x++;
+            case LEFT: vector.x++;
+            case UP: vector.x++;
+            case DOWN: vector.x++;
+        }
+        GridPoint2 newPosition = new GridPoint2(position.x+directions.x)
+        if()
     }
 
+    @Override
+    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
+        return false;
+    }
 }
