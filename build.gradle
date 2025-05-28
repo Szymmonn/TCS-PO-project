@@ -31,11 +31,17 @@ configure(subprojects) {
   apply plugin: 'java-library'
   sourceCompatibility = 8
 
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(21)
+    }
+  }
+
   // From https://lyze.dev/2021/04/29/libGDX-Internal-Assets-List/
   // The article can be helpful when using assets.txt in your project.
   tasks.register('generateAssetList') {
     inputs.dir("${project.rootDir}/assets/")
-    // projectFolder/assets
+    // projectFolder /assets
     File assetsFolder = new File("${project.rootDir}/assets/")
     // projectFolder/assets/assets.txt
     File assetsFile = new File(assetsFolder, "assets.txt")
@@ -68,6 +74,7 @@ subprojects {
     maven { url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     maven { url = 'https://jitpack.io' }
   }
+
 }
 
 eclipse.project.name = 'StoneDigger' + '-parent'
