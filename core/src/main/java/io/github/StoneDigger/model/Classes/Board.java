@@ -16,8 +16,8 @@ public class Board {
         boardSize = new GridPoint2(tiles.length,tiles[0].length);
     }
 
-    public void updateTile(int x, int y, ITile newType) {
-        tiles[x][y] = newType;
+    public void setTile(int x, int y, ITile newTile) {
+        tiles[x][y] = newTile;
     }
 
     public ITile getTile(int x, int y) {

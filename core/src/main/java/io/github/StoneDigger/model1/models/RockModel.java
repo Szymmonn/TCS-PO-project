@@ -1,6 +1,8 @@
 package io.github.StoneDigger.model1.models;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Board;
+
 import java.util.HashMap;
 import java.util.Map;
 

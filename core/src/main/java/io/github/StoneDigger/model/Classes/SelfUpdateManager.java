@@ -18,6 +18,16 @@ public class SelfUpdateManager implements ISelfUpdateManager {
         }
     }
 
+    @Override
+    public void addToList(ISelfUpdate update) {
+
+    }
+
+    @Override
+    public void removeFromList(ISelfUpdate update) {
+
+    }
+
     public void addToList() {
 
     }
