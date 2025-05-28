@@ -1,15 +1,16 @@
 package io.github.StoneDigger.model.Classes;
 
-import io.github.StoneDigger.model.Interfaces.ILogic;
+import io.github.StoneDigger.model.Interfaces.IGameLogic;
 
-public class GameLogic implements ILogic {
+public class GameLogic implements IGameLogic {
     private final SelfUpdateManager selfUpdateManager;
 
     public GameLogic() {
         selfUpdateManager = new SelfUpdateManager();
     }
 
-    public void startCycle() {
+    @Override
+    public void startGameCycle(float delta) {
         while(true) {
             selfUpdateManager.updateAll();
         }
