@@ -27,15 +27,5 @@ public class RockTile implements ITile, IPlayerKiller, ISelfUpdate {
     public boolean update() {
         return false;
     }
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
     //dwayne
 }

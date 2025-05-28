@@ -15,14 +15,4 @@ public class DiamondTile implements ITile, ISelfUpdate {
     public boolean update() {
         return false;
     }
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
 }

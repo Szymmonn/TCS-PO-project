@@ -1,6 +1,9 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Interfaces.EDirections;
+
+import java.util.HashMap;
 
 public class Player {
     private GridPoint2 position;
@@ -9,12 +12,11 @@ public class Player {
         position = startPosition;
     }
 
-    public void moveTo(GridPoint2 position) {
-        this.position.x = position.x;
-        this.position.y = position.y;
+    public void moveTo(EDirections direction) {
     }
 
     public GridPoint2 getPosition() {
         return position;
     }
+
 }

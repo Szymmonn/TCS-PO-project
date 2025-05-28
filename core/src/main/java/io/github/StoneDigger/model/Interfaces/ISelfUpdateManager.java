@@ -1,5 +1,7 @@
 package io.github.StoneDigger.model.Interfaces;
 
 public interface ISelfUpdateManager {
-    public void updateAll();
+    void updateAll();
+    void addToList(ISelfUpdate update);
+    void removeFromList(ISelfUpdate update);
 }

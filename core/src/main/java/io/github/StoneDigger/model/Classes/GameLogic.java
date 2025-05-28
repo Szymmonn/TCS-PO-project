@@ -11,7 +11,7 @@ public class GameLogic implements ILogic {
 
     public void startCycle() {
         while(true) {
-
+            selfUpdateManager.updateAll();
         }
     }
 }
