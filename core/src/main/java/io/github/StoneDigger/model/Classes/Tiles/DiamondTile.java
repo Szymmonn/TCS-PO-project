@@ -1,12 +1,9 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
 import com.badlogic.gdx.math.GridPoint2;
-import io.github.StoneDigger.model.Interfaces.EDirections;
-import io.github.StoneDigger.model.Interfaces.IEntity;
-import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
-import io.github.StoneDigger.model.Interfaces.ITile;
+import io.github.StoneDigger.model.Interfaces.*;
 
-public class DiamondTile implements ITile, ISelfUpdate {
+public class DiamondTile implements ITile, ISelfUpdate, ICollectable {
 
     @Override
     public boolean update() {
@@ -26,5 +23,15 @@ public class DiamondTile implements ITile, ISelfUpdate {
     @Override
     public boolean tryToMove(EDirections directions) {
         return false;
+    }
+
+    @Override
+    public void collect() {
+
+    }
+
+    @Override
+    public void setLevelStats() {
+
     }
 }

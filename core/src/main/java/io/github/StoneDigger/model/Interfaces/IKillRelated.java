@@ -1,4 +1,4 @@
 package io.github.StoneDigger.model.Interfaces;
 
-public interface IIsNotInterface {
+public interface IKillRelated {
 }

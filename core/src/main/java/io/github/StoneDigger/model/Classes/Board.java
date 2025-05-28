@@ -6,6 +6,7 @@ import io.github.StoneDigger.model1.models.TileType;
 
 public class Board {
     private final ITile[][] tiles;
+
     private final GridPoint2 startingPosition;
     private final GridPoint2 boardSize;
 

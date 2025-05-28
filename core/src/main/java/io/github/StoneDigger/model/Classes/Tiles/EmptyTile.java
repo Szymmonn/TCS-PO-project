@@ -6,8 +6,4 @@ import io.github.StoneDigger.model.Interfaces.ITile;
 
 public class EmptyTile implements ITile {
 
-    @Override
-    public boolean tryVisit(IEntity entity, EDirections direction) {
-        return true;
-    }
 }

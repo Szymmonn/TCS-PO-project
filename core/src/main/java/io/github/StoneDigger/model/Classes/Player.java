@@ -23,7 +23,7 @@ public class Player implements IEntity {
 
     @Override
     public boolean tryToMove(EDirections directions) {
-        if()
+//        if()
     }
 
 }

@@ -8,14 +8,15 @@ public interface IMovable {
     boolean tryToMove(EDirections directions);
 
     default void move(EDirections direction) {
-        int x = getPosition().x;
-        int y = getPosition().y;
+        GridPoint2 point2 = getPosition();
+        int x = point2.x;
+        int y = point2.y;
 
         switch(direction) {
-            case RIGHT: setPosition(new GridPoint2(++x,y)); break;
-            case LEFT: setPosition(new GridPoint2(--x,y)); break;
-            case UP: setPosition(new GridPoint2(x,++y)); break;
-            case DOWN: setPosition(new GridPoint2(x,--y)); break;
+            case RIGHT: setPosition(new GridPoint2(++x, y)); break;
+            case LEFT: setPosition(new GridPoint2(--x, y)); break;
+            case UP: setPosition(new GridPoint2(x, ++y)); break;
+            case DOWN: setPosition(new GridPoint2(x, --y)); break;
         }
     }
 }

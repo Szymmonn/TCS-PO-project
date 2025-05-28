@@ -1,15 +1,12 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
-import com.sun.imageio.plugins.gif.GIFImageReader;
 import io.github.StoneDigger.model.Interfaces.EDirections;
 import io.github.StoneDigger.model.Interfaces.IEntity;
-import io.github.StoneDigger.model.Interfaces.IPlayerKiller;
+import io.github.StoneDigger.model.Interfaces.IKiller;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 
-import java.util.List;
-
-public class Opponents implements IEntity, IPlayerKiller, ISelfUpdate {
+public class Opponents implements IEntity, IKiller, ISelfUpdate {
     private GridPoint2 currentPosition;
 
     public Opponents() {

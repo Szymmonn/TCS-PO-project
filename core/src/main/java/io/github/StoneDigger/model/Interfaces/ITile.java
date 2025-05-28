@@ -1,4 +1,4 @@
 package io.github.StoneDigger.model.Interfaces;
 
-public interface ITile {
+public interface ITile extends ICanBeMovedOn {
 }
