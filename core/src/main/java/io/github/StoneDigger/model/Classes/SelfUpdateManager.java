@@ -20,19 +20,11 @@ public class SelfUpdateManager implements ISelfUpdateManager {
 
     @Override
     public void addToList(ISelfUpdate update) {
-
+        selfUpdateList.add(update);
     }
 
     @Override
     public void removeFromList(ISelfUpdate update) {
-
-    }
-
-    public void addToList() {
-
-    }
-
-    public void removeFromList() {
-
+        selfUpdateList.remove(update);
     }
 }

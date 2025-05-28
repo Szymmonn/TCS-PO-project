@@ -19,12 +19,12 @@ public class Board {
         boardSize = new GridPoint2(tiles.length,tiles[0].length);
     }
 
-    public static void setTile(int x, int y, ITile newTile) {
-        tiles[x][y] = newTile;
+    public static void setTile(GridPoint2 pos, ITile newTile) {
+        tiles[pos.x][pos.y] = newTile;
     }
 
-    public static ITile getTile(int x, int y) {
-        return tiles[x][y];
+    public static ITile getTile(GridPoint2 position) {
+        return tiles[position.x][position.y];
     }
 
     public static GridPoint2 getStartingPosition() { return startingPosition; }

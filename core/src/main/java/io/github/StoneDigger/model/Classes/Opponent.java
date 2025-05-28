@@ -36,9 +36,4 @@ public class Opponent implements IEntity, IKiller, ISelfUpdate {
     public boolean update() {
         return false;
     }
-
-    @Override
-    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
-        return false;
-    }
 }

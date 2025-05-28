@@ -12,10 +12,6 @@ public class RockTile implements ITile, IKiller, ISelfUpdate {
         return false;
     }
 
-    @Override
-    public void setLevelStats() {
-
-    }
 
     @Override
     public boolean update() {
