@@ -11,7 +11,7 @@ public class GameLogic implements IGameLogic {
 
     @Override
     public void startGameCycle(float delta) {
-        while(true) {
+        for(int i = 0; i < 50000000; i++) {
             selfUpdateManager.updateAll();
         }
     }
