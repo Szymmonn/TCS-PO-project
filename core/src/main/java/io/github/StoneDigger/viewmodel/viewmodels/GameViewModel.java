@@ -1,19 +1,20 @@
 package io.github.StoneDigger.viewmodel.viewmodels;
 
 
-import io.github.StoneDigger.model.BoardGenerators.RandomBoardGenerator;
-import io.github.StoneDigger.model.models.BoardModel;
-import io.github.StoneDigger.model.models.Direction;
-import io.github.StoneDigger.model.models.GameModel;
-import io.github.StoneDigger.model.models.PlayerModel;
+import io.github.StoneDigger.model1.BoardGenerators.RandomBoardGenerator;
+import io.github.StoneDigger.model1.models.BoardModel;
+import io.github.StoneDigger.model1.models.Direction;
+import io.github.StoneDigger.model1.models.GameModel;
+import io.github.StoneDigger.model1.models.PlayerModel;
+import io.github.StoneDigger.model1.models.RockModel;
 
 public class GameViewModel {
     private GameModel gameModel;
 
     private Runnable levelLoadedCallback;
 
-    public GameViewModel(PlayerModel playerModel, BoardModel boardModel) {
-        gameModel = new GameModel(playerModel, boardModel);
+    public GameViewModel(PlayerModel playerModel, BoardModel boardModel, RockModel rockModel) {
+        gameModel = new GameModel(playerModel, boardModel, rockModel);
     }
 
     public void setLevelLoadedCallback(Runnable callback) {

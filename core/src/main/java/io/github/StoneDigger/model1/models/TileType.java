@@ -1,4 +1,4 @@
-package io.github.StoneDigger.model.models;
+package io.github.StoneDigger.model1.models;
 
 import com.badlogic.gdx.graphics.Texture;
 import static io.github.StoneDigger.view.Assets.*;

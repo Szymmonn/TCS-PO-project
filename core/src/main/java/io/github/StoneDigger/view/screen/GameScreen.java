@@ -7,17 +7,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.StoneDigger.model.BoardGenerators.RandomBoardGenerator;
-import io.github.StoneDigger.model.models.BoardModel;
-import io.github.StoneDigger.model.models.PlayerModel;
+import io.github.StoneDigger.model1.BoardGenerators.RandomBoardGenerator;
+import io.github.StoneDigger.model1.models.BoardModel;
+import io.github.StoneDigger.model1.models.PlayerModel;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.GameController;
 import io.github.StoneDigger.view.views.BoardView;
 import io.github.StoneDigger.view.views.PlayerView;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
-import static io.github.StoneDigger.model.models.Constants.BLOCK_SIZE;
-import static io.github.StoneDigger.model.models.Constants.GAP_SIZE;
+import static io.github.StoneDigger.model1.models.Constants.BLOCK_SIZE;
+import static io.github.StoneDigger.model1.models.Constants.GAP_SIZE;
 
 public class GameScreen extends ScreenAdapter {
     public static float VISIBLE_WORLD_WIDTH = 9*(BLOCK_SIZE + GAP_SIZE);

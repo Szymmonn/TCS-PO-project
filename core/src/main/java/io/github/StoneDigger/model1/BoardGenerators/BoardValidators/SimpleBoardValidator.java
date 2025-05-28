@@ -1,8 +1,8 @@
-package io.github.StoneDigger.model.BoardGenerators.BoardValidators;
+package io.github.StoneDigger.model1.BoardGenerators.BoardValidators;
 
 
-import io.github.StoneDigger.model.models.BoardModel;
-import io.github.StoneDigger.model.models.TileType;
+import io.github.StoneDigger.model1.models.BoardModel;
+import io.github.StoneDigger.model1.models.TileType;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

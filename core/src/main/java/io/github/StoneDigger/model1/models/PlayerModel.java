@@ -1,4 +1,4 @@
-package io.github.StoneDigger.model.models;
+package io.github.StoneDigger.model1.models;
 
 public class PlayerModel {
     private int positionX;

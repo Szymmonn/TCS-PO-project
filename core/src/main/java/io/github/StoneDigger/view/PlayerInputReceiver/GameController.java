@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
-import static io.github.StoneDigger.model.models.Direction.*;
+import static io.github.StoneDigger.model1.models.Direction.*;
 
 public class GameController {
     private final GameViewModel gameViewModel;
