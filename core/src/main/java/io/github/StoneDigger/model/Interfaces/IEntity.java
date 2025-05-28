@@ -1,4 +1,4 @@
 package io.github.StoneDigger.model.Interfaces;
 
-public interface IEntity {
+public interface IEntity extends IMovable {
 }

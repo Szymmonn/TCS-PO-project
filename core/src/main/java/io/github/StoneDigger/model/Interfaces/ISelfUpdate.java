@@ -1,7 +1,7 @@
 package io.github.StoneDigger.model.Interfaces;
 import io.github.StoneDigger.model.Classes.SelfUpdateManager;
 
-public interface ISelfUpdate {
+public interface ISelfUpdate extends IMovable {
     SelfUpdateManager sSelfUpdateManager = new SelfUpdateManager();
     boolean update();
     default void start() {

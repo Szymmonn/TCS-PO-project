@@ -1,16 +1,12 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
+import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Interfaces.*;
 
 import java.util.List;
 
 public class RockTile implements ITile, IPlayerKiller, ISelfUpdate {
-    private List<RockTile> rockList;
-
-    @Override
-    public boolean tryVisit(IEntity entity, EDirections direction) {
-        return false;
-    }
+    private GridPoint2 rockPosition;
 
     @Override
     public boolean tryToKill() {
@@ -25,6 +21,21 @@ public class RockTile implements ITile, IPlayerKiller, ISelfUpdate {
 
     @Override
     public boolean update() {
+        return false;
+    }
+
+    @Override
+    public GridPoint2 getPosition() {
+        return rockPosition;
+    }
+
+    @Override
+    public void setPosition(GridPoint2 newPosition) {
+        rockPosition = newPosition;
+    }
+
+    @Override
+    public boolean tryToMove(EDirections directions) {
         return false;
     }
     //dwayne
