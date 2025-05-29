@@ -5,8 +5,5 @@ import io.github.StoneDigger.model.Interfaces.IMovable;
 import io.github.StoneDigger.model.Interfaces.ITile;
 
 public class StartTile implements ITile {
-    @Override
-    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
-        return true;
-    }
+    @Override public boolean isWalkable() { return true; }
 }
