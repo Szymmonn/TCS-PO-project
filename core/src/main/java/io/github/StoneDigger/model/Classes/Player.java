@@ -1,6 +1,10 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Tiles.DiamondTile;
+import io.github.StoneDigger.model.Classes.Tiles.DirtTile;
+import io.github.StoneDigger.model.Classes.Tiles.EndTile;
+import io.github.StoneDigger.model.Classes.Tiles.RockTile;
 import io.github.StoneDigger.model.Interfaces.*;
 
 public class Player implements IPlayer {
@@ -29,16 +33,23 @@ public class Player implements IPlayer {
     }
 
     @Override public void move(EDirections dir) {
+        ITile t = board.getTile(new GridPoint2(pos.x+dir.dx,pos.y+dir.dy));
+        if(!(t.isWalkable(dir))) return;
+
         /// Actions
-        ITile t = board.getTile(pos);
-        if (t instanceof IWalkableTile) {
-            ((IWalkableTile) t).onWalkBy(this);
+
+        if(t instanceof DirtTile) {
+            ((DirtTile) t).onWalkBy(this);
+        } else if (t instanceof EndTile) {
+            ((EndTile) t).onWalkBy(this);
+        } else if (t instanceof RockTile) {
+            ((RockTile) t).onWalkBy(this);
+        } else if (t instanceof DiamondTile) {
+            ((DiamondTile) t).onWalkBy(this);
         }
 
-
         /// Moving at the end
-        if(canMove(dir))
-            pos.add(dir.dx, dir.dy);
+        pos.add(dir.dx, dir.dy);
 
 
     }

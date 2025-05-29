@@ -13,6 +13,7 @@ public class RockTile implements ITile, ISelfUpdate,IWalkableTile {
 
     @Override
     public boolean isWalkable() {
+
         return false;
     }
 

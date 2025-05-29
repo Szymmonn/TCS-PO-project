@@ -14,6 +14,6 @@ public class EmptyTile implements ITile, IWalkableTile {
 
     @Override
     public void onWalkBy(IEntity entity) {
-
+        return;
     }
 }
