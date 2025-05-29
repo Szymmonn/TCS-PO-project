@@ -4,12 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.StoneDigger.model1.BoardGenerators.RandomBoardGenerator;
-import io.github.StoneDigger.model1.models.BoardModel;
-import io.github.StoneDigger.model1.models.PlayerModel;
+import io.github.StoneDigger.model.Classes.Board;
+import io.github.StoneDigger.model.Classes.Player;
+import io.github.StoneDigger.model.Classes.BoardGenerators.RandomBoardGenerator;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.GameController;
 import io.github.StoneDigger.view.views.BoardView;
@@ -43,8 +44,8 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         // TODO: change with starting position
-        PlayerModel playerModel = new PlayerModel(1, 1);
-        BoardModel boardModel = new RandomBoardGenerator(0.1f, 0.1f, 0.1f).generate(BOARD_WIDTH, BOARD_HEIGHT, 1, 1);
+        Board boardModel = new RandomBoardGenerator(0.1f, 0.1f, 0.1f).generate(BOARD_WIDTH, BOARD_HEIGHT, 1, 1);
+        Player playerModel = new Player(boardModel);
 
         gameViewModel = new GameViewModel(playerModel, boardModel);
         gameController = new GameController(gameViewModel);
