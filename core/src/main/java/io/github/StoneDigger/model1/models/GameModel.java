@@ -1,6 +1,6 @@
 package io.github.StoneDigger.model1.models;
 
-import io.github.StoneDigger.model.Interfaces.EDirections;
+import io.github.StoneDigger.model.Directions.EDirections;
 
 public class GameModel {
     private PlayerModel playerModel;

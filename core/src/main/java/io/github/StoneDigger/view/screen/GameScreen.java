@@ -9,10 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.StoneDigger.model.Classes.BoardGenerators.RandomBoardGenerator;
-import io.github.StoneDigger.model.Classes.LevelManager;
-import io.github.StoneDigger.model.Classes.Player;
-import io.github.StoneDigger.model.Interfaces.IBoard;
+import io.github.StoneDigger.model.Boards.Board;
+import io.github.StoneDigger.model.Boards.BoardGenerators.RandomBoardGenerator;
+import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
+import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model1.models.LevelStatus1;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.GameController;
@@ -55,7 +55,7 @@ public class GameScreen extends ScreenAdapter {
         // init__
          */
         // TODO: change with starting position
-        IBoard board = new RandomBoardGenerator(0.1f, 0.1f, 0.1f, new LevelManager()).generate(new GridPoint2(BOARD_WIDTH, BOARD_HEIGHT), new GridPoint2(1,1));
+        Board board = new RandomBoardGenerator(0.1f, 0.1f, 0.1f, new LevelManager()).generate(new GridPoint2(BOARD_WIDTH, BOARD_HEIGHT), new GridPoint2(1,1));
         Player player = new Player(board);
         /*
         HAS TO CHANGE - no ensurance that this is the same player

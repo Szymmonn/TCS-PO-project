@@ -1,7 +1,7 @@
 package io.github.StoneDigger.view.views.utility;
 
 import com.badlogic.gdx.graphics.Texture;
-import io.github.StoneDigger.model.Classes.Tiles.*;
+import io.github.StoneDigger.model.GameObjects.Tiles.*;
 
 import static io.github.StoneDigger.view.Assets.*;
 

@@ -3,8 +3,7 @@ package io.github.StoneDigger.view.views;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.model.Classes.Player;
-import io.github.StoneDigger.model1.models.PlayerModel;
+import io.github.StoneDigger.model.GameObjects.Entities.Player;
 
 import static io.github.StoneDigger.view.Assets.PLAYER_TEXTURE;
 import static io.github.StoneDigger.model1.models.Constants.BLOCK_SIZE;
