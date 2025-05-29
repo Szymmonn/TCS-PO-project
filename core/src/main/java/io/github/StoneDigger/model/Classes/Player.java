@@ -17,6 +17,7 @@ public class Player implements IPlayer {
     @Override public void setPosition(GridPoint2 p){ pos=p; }
     @Override public boolean canMove(EDirections dir) {
         GridPoint2 np = new GridPoint2(pos.x+dir.dx, pos.y+dir.dy);
+
         if(np.x<0||np.y<0||np.x>=board.getWidth()||np.y>=board.getHeight()) return false;
         ITile tile = board.getTile(np);
         return tile.isWalkable();
