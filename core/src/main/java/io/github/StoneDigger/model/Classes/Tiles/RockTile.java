@@ -4,7 +4,10 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Interfaces.*;
 
 public class RockTile implements ITile {
-    @Override public boolean isWalkable() { return false; }
+    @Override public boolean isWalkable() {
+        return false;
+    }
+
     //    private GridPoint2 rockPosition;
 //    private float timer;
 //    private int tilesFlown;

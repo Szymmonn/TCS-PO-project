@@ -13,24 +13,41 @@ public class Player implements IPlayer {
         this.pos = board.getStartingPosition();
     }
 
-    @Override public GridPoint2 getPosition() { return pos; }
-    @Override public void setPosition(GridPoint2 p){ pos=p; }
-    @Override public boolean canMove(EDirections dir) {
-        GridPoint2 np = new GridPoint2(pos.x+dir.dx, pos.y+dir.dy);
+    @Override public GridPoint2 getPosition() {
+        return pos;
+    }
 
-        if(np.x<0||np.y<0||np.x>=board.getWidth()||np.y>=board.getHeight()) return false;
+    @Override public void setPosition(GridPoint2 p){
+        pos = p;
+    }
+
+    @Override public boolean canMove(EDirections dir) {
+        GridPoint2 np = new GridPoint2(pos.x + dir.dx, pos.y + dir.dy);
+        if(np.x < 0 || np.y < 0 || np.x >= board.getWidth() || np.y >= board.getHeight()) return false;
         ITile tile = board.getTile(np);
         return tile.isWalkable();
     }
-    @Override public void move(EDirections dir) { if(canMove(dir)) pos.add(dir.dx, dir.dy); }
-    @Override public void collect() { score += 10; }
+
+    @Override public void move(EDirections dir) {
+        if(canMove(dir))
+            pos.add(dir.dx, dir.dy);
+        board.getTile(pos).onWalkBy(Player);
+    }
+
+    @Override public void collect() {
+        score += 10;
+    }
+
     @Override public void kill(IEntity target) {
         // Trigger target's death
         if (target instanceof IHunting) {
             ((IHunting) target).onKilled(this);
         }
     }
-    public int getScore() { return score; }
+
+    public int getScore() {
+        return score;
+    }
 }
 
 
