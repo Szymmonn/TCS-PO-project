@@ -4,13 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class RockTile implements ITile, ISelfUpdate,IWalkableTile {
-    IBoard board;
-
-    public void setBoard(IBoard board) {
-        this.board = board;
-    }
-
+public class RockTile extends ATile implements ISelfUpdate {
     @Override
     public boolean isWalkable() {
         return false;
@@ -20,6 +14,7 @@ public class RockTile implements ITile, ISelfUpdate,IWalkableTile {
     public void update() {
 
     }
+
 }
     //    private GridPoint2 rockPosition;
 //    private float timer;

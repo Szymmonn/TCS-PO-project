@@ -5,12 +5,7 @@ import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ITile;
 import io.github.StoneDigger.model.Interfaces.IWalkableTile;
 
-public class DirtTile implements ITile, IWalkableTile {
-    IBoard board;
-    public void setBoard(IBoard board) {
-        this.board = board;
-    }
-
+public class DirtTile extends ATile implements IWalkableTile {
     @Override public boolean isWalkable() { return true; }
 
 
