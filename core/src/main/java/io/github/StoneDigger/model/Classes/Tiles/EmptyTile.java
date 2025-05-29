@@ -5,5 +5,5 @@ import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ITile;
 
 public class EmptyTile implements ITile {
-
+    @Override public boolean isWalkable() { return true; }
 }

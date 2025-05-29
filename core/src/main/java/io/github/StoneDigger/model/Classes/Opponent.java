@@ -3,7 +3,7 @@ package io.github.StoneDigger.model.Classes;
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class Opponent implements IEntity, IKiller, ISelfUpdate {
+public class Opponent implements IEntity, IPredator, ISelfUpdate {
     private GridPoint2 currentPosition;
 
     public Opponent() {
