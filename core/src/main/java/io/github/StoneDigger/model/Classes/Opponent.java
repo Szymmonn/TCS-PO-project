@@ -20,7 +20,10 @@ public class Opponent implements IOpponent {
         ATile tile = board.getTile(np);
         return tile.isWalkable(EDirections.UP);
     }
-    @Override public void move(EDirections dir) { if(canMove(dir)) pos.add(dir.getDx(), dir.getDy()); }
+    @Override public void move(EDirections dir) {
+        if(canMove(dir)) pos.add(dir.getDx(), dir.getDy());
+    }
+
     @Override public void kill(IEntity target) {
         // Trigger opponent's death
         if (target instanceof IHunting) {
