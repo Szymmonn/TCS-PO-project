@@ -29,9 +29,9 @@ public class GameLogic implements IGameLogic {
         Board empty = new Board(new ATile[1+20][1+15], new GridPoint2(1,1));
         lvl.startLevel(1, empty);
         Board full;
-        do {
+        //do {
             full = gen.generateBoard(1);
-        } while (!validator.validate(full));
+        //} while (!validator.validate(full));
         lvl.startLevel(1,board); gameOver = false;
         board = full;
         this.player = new Player(board);
