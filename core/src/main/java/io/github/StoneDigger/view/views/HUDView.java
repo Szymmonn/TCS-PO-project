@@ -1,4 +1,4 @@
-package io.github.StoneDigger.view.views.hud;
+package io.github.StoneDigger.view.views;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
 import java.time.Duration;

@@ -25,13 +25,13 @@ public class Player implements IPlayer {
 
     @Override public boolean canMove(EDirections dir) {
         GridPoint2 np = new GridPoint2(pos.x + dir.getDx(), pos.y + dir.getDy());
-        if(np.x < 0 || np.y < 0 || np.x >= LevelManager.getCurrentBoard().getWidth() || np.y >= LevelManager.getCurrentBoard().getHeight()) return false;
-        ATile tile = LevelManager.getCurrentBoard().getTile(np);
+        if(np.x < 0 || np.y < 0 || np.x >= LevelManager.getBoard().getWidth() || np.y >= LevelManager.getBoard().getHeight()) return false;
+        ATile tile = LevelManager.getBoard().getTile(np);
         return tile.isWalkable(dir);
     }
 
     @Override public void move(EDirections dir) {
-        ATile t = LevelManager.getCurrentBoard().getTile(new GridPoint2(pos.x+dir.getDx(),pos.y+dir.getDy()));
+        ATile t = LevelManager.getBoard().getTile(new GridPoint2(pos.x+dir.getDx(),pos.y+dir.getDy()));
         if(!(t.isWalkable(dir))) return;
 
         /// Actions

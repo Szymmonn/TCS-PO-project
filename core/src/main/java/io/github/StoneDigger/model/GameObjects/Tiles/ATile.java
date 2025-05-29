@@ -11,7 +11,7 @@ public abstract class ATile {
     protected ATile(GridPoint2 start) {this.position = start;}
 
     protected void destroy() {
-        LevelManager.getCurrentBoard().setTile(position, new EmptyTile(position));
+        LevelManager.getBoard().setTile(position, new EmptyTile(position));
     }
 
     public GridPoint2 getPosition() {
@@ -19,7 +19,7 @@ public abstract class ATile {
     }
 
     protected Board getBoard() {
-        return LevelManager.getCurrentBoard();
+        return LevelManager.getBoard();
     }
 
     public abstract boolean isWalkable(EDirections dir);

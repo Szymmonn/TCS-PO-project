@@ -6,17 +6,29 @@ import java.time.LocalTime;
 public class LevelStats implements ILevelStats {
     private int score;
     private int diamondCount;
-    private int HP;
+    private int hp;
     private int levelNumber;
     private LocalTime startTime;
 
+    public LevelStats() {
+        this(0,0,1);
+    }
+
+    public LevelStats(int diamondCount, int hp, int levelNumber) {
+        score = 0;
+        this.diamondCount = diamondCount;
+        this.hp = hp;
+        this.levelNumber = levelNumber;
+        this.startTime = LocalTime.now();
+    }
+
     @Override
     public int getHP() {
-        return HP;
+        return hp;
     }
     @Override
     public void setHP(int HP) {
-        this.HP = HP;
+        this.hp = HP;
     }
 
     @Override

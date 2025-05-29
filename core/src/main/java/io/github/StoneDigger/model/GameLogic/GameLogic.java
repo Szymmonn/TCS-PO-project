@@ -7,17 +7,22 @@ import io.github.StoneDigger.model.Boards.BoardGenerators.BoardValidators.Simple
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
+import io.github.StoneDigger.model.Level.LevelManagement.UpdateManager;
+import io.github.StoneDigger.model.Level.PlayerManager;
 
 import static io.github.StoneDigger.model.Level.LevelManagement.LevelManager.setBoard;
 
-public class GameLogic {
-    private static boolean gameOver;
 
-    /// TODO: its the same board as in levelmanager
-    private static Board board;
+
+/*
+responsible for game cycle
+ */
+public class GameLogic {
+    private static int levelNumber;
+    private static boolean gameOver;
     private static final SimpleBoardValidator validator = new SimpleBoardValidator();
 
-    public static void init() {
+    public static void startTheGame() {
         setGameOver(false);
         Board empty = new Board(new ATile[1+20][1+15], new GridPoint2(1,1));
         setBoard(empty);
@@ -26,13 +31,16 @@ public class GameLogic {
         //do {
             full = BoardGenerator.generateBoard(1);
         //} while (!validator.validate(full));
-        LevelManager.startLevel(1,full); gameOver = false;
-        board = full;
-        LevelManager.setPlayer(new Player(new GridPoint2(1,1)));
-        System.out.println("Init done.");
-        System.out.println("Board width: " + board.getWidth());
-        System.out.println("Player pos: " + LevelManager.getPlayer().getPosition());
+        LevelManager.startLevel(1,full);
+        LevelManager.setBoard(full);
+        PlayerManager.setPlayer(new Player(new GridPoint2(1,1)));
+        levelNumber = 0;
+        startNewLevel();
+    }
 
+    public static void startNewLevel() {
+        levelNumber++;
+        //LevelManager.startLevel(1, Level[levelNumber]);
     }
 
     public static void setGameOver(boolean b) {
@@ -40,14 +48,10 @@ public class GameLogic {
     }
 
     public static void tick(float delta) {
-        LevelManager.update(delta);
+        UpdateManager.updateAll(delta);
     }
 
     public static boolean isGameOver() {
         return gameOver;
-    }
-
-    public static Board getBoard() {
-        return board;
     }
 }
