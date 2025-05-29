@@ -5,7 +5,7 @@ import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
 
 public class BoardGenerator {
-     LevelManager levelManager;
+    LevelManager levelManager;
     public BoardGenerator(LevelManager levelManager) {
         this.levelManager = levelManager;
     }

@@ -35,7 +35,7 @@ public class Opponent implements IOpponent {
 
 
     @Override
-    public void update() {
+    public void update(float delta) {
 
     }
 }

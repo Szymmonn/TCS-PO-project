@@ -1,5 +1,5 @@
 package io.github.StoneDigger.model.GameObjects;
 
 public interface ISelfUpdate {
-    void update();
+    void update(float delta);
 }

@@ -10,7 +10,7 @@ public class DirtTile extends ATile implements IWalkableTile {
     public DirtTile(LevelManager levelManager) {
         super(levelManager);
     }
-    public DirtTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+    public DirtTile(LevelManager levelManager, GridPoint2 start) {super(levelManager,start); }
 
     @Override public boolean isWalkable(EDirections dir) { return true; }
 

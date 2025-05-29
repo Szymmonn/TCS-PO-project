@@ -10,7 +10,7 @@ public class GameViewModel {
     GameLogic gameLogic;
 
     public GameViewModel() {
-        GameLogic gameLogic = new GameLogic();
+        gameLogic = new GameLogic();
     }
     public Board getBoard() {
         return gameLogic.getBoard();
@@ -30,7 +30,7 @@ public class GameViewModel {
 //    }
 
     public void update(float delta) {
-
+        gameLogic.tick(delta);
     }
 
     public void handleInput(EDirections direction) {

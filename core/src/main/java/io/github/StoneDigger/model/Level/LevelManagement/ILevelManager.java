@@ -5,8 +5,8 @@ import io.github.StoneDigger.model.Level.ILevelStats;
 
 public interface ILevelManager {
     void resetLevel();
-    void startLevel(int index);
+    void startLevel(int index,Board board);
     Board getCurrentBoard();
     ILevelStats getStats();
-    void update();
+    void update(float delta);
 }

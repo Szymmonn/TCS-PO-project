@@ -18,20 +18,16 @@ public class LevelManager implements ILevelManager {
     private Board board;
     private final List<IEntity> entities = new ArrayList<>();
     private final List<ATile> tiles = new ArrayList<>();
-
     private final LevelStats stats = new LevelStats();
-
-    public LevelManager() {
-
-    }
 
     @Override
     public void resetLevel() {
-        startLevel(1);
+        startLevel(1,board);
     }
 
     @Override
-    public void startLevel(int index) {
+    public void startLevel(int index,Board board) {
+        this.board = board;
         entities.clear();
         entities.add(new Player(board));
         tiles.clear();
@@ -52,8 +48,9 @@ public class LevelManager implements ILevelManager {
     }
 
     @Override
-    public void update() {
-        for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update();
-        for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update();
+    public void update(float delta) {
+        for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update(delta);
+        for(ATile e : tiles) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update(delta);
     }
+
 }
