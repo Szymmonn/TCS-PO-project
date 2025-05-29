@@ -8,6 +8,6 @@ public class EmptyTile extends ATile implements IWalkableTile {
 
     @Override
     public void onWalkBy(IEntity entity) {
-
+        return;
     }
 }

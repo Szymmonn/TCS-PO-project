@@ -1,5 +1,6 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
+import io.github.StoneDigger.model.Classes.Player;
 import io.github.StoneDigger.model.Interfaces.*;
 
 public class DiamondTile extends ATile implements IWalkableTile {
@@ -9,6 +10,8 @@ public class DiamondTile extends ATile implements IWalkableTile {
 
     @Override
     public void onWalkBy(IEntity entity) {
-
+        if(entity instanceof Player) {
+            levelManager.getStats().addScore(1);
+        }
     }
 }

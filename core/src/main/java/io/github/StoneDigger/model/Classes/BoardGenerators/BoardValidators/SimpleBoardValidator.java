@@ -3,8 +3,6 @@ package io.github.StoneDigger.model.Classes.BoardGenerators.BoardValidators;
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Interfaces.IBoardValidator;
-import io.github.StoneDigger.model.Interfaces.ITile;
-import io.github.StoneDigger.model.Classes.Board;
 
 import java.util.ArrayDeque;
 import java.util.Queue;

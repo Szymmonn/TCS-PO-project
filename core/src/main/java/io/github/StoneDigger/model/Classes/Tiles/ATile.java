@@ -2,15 +2,26 @@ package io.github.StoneDigger.model.Classes.Tiles;
 
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Interfaces.IBoard;
-import io.github.StoneDigger.model.Interfaces.ITile;
+import io.github.StoneDigger.model.Interfaces.ILevelManager;
 
 public abstract class ATile {
-    protected IBoard board;
+    protected ILevelManager levelManager;
     protected GridPoint2 position;
-    protected void setBoard(IBoard newBoard) {
-        board = newBoard;
+    protected void setBoard(ILevelManager levelManager) {
+        this.levelManager = levelManager;
     }
-    protected GridPoint2 getPosition() { return position; }
-    protected IBoard getBoard() { return board; }
+
+    protected void destroy() {
+        levelManager.getCurrentBoard().setTile(position, new EmptyTile());
+    }
+
+    public GridPoint2 getPosition() {
+        return position;
+    }
+
+    protected IBoard getBoard() {
+        return levelManager.getCurrentBoard();
+    }
+
     protected abstract boolean isWalkable();
 }
