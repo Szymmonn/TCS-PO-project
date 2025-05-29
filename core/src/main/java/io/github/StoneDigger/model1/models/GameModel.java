@@ -1,14 +1,14 @@
 package io.github.StoneDigger.model1.models;
 
+import io.github.StoneDigger.model.Interfaces.EDirections;
+
 public class GameModel {
     private PlayerModel playerModel;
     private BoardModel boardModel;
-    private RockModel rockModel;
 
-    public GameModel(PlayerModel playerModel, BoardModel boardModel,RockModel rockModel) {
+    public GameModel(PlayerModel playerModel, BoardModel boardModel) {
         this.playerModel = playerModel;
         this.boardModel = boardModel;
-        this.rockModel = rockModel;
     }
 
     public BoardModel getBoard() {
@@ -19,10 +19,6 @@ public class GameModel {
         return playerModel;
     }
 
-    public RockModel getRock() {
-        return rockModel;
-    }
-
     public void setBoardModel(BoardModel boardModel) {
         this.boardModel = boardModel;
     }
@@ -31,11 +27,7 @@ public class GameModel {
         this.playerModel = playerModel;
     }
 
-    public void setRockModel(RockModel rockModel) {
-        this.rockModel = rockModel;
-    }
-
-    public void movePlayer(Direction direction) {
+    public void movePlayer(EDirections direction) {
         int newX = playerModel.getPositionX();
         int newY = playerModel.getPositionY();
         switch (direction) {

@@ -30,7 +30,7 @@ public class SimpleBoardValidator implements IBoardValidator {
                 if(nx<0||ny<0||nx>=w||ny>=h) continue;
                 if(visited[nx][ny]) continue;
                 ATile t = board.getTile(new GridPoint2(nx,ny));
-                if(!t.isWalkable(EDirections(d.x,d.y))) continue;
+                if(!t.isWalkable(EDirections.of(d.x,d.y))) continue;
                 visited[nx][ny]=true; queue.add(new GridPoint2(nx,ny));
             }
         }

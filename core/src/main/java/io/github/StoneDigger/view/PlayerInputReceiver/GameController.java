@@ -2,14 +2,15 @@ package io.github.StoneDigger.view.PlayerInputReceiver;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
+import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel1;
+
 import static io.github.StoneDigger.model.Interfaces.EDirections.*;
 
 public class GameController {
-    private final GameViewModel gameViewModel;
+    private final GameViewModel1 gameViewModel;
     private float timeSinceLast;
 
-    public GameController(GameViewModel gameViewModel) {
+    public GameController(GameViewModel1 gameViewModel) {
         this.gameViewModel = gameViewModel;
         timeSinceLast = 1f;
     }
