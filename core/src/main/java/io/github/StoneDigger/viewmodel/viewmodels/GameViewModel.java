@@ -43,6 +43,10 @@ public class GameViewModel {
 //        return player.getPosition().y;
 //    }
 
+    public void update(float delta) {
+
+    }
+
     public void handleInput(EDirections direction) {
         player.move(direction);
     }
