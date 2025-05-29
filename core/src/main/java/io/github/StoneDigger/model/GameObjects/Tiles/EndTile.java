@@ -1,5 +1,6 @@
 package io.github.StoneDigger.model.GameObjects.Tiles;
 
+import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.GameObjects.Entities.IEntity;
 import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
@@ -9,6 +10,8 @@ public class EndTile extends ATile implements IWalkableTile {
     public EndTile(LevelManager levelManager) {
         super(levelManager);
     }
+    public EndTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+
 
     @Override
     public boolean isWalkable(EDirections dir) {

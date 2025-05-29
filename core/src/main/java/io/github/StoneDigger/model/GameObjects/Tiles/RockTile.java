@@ -14,6 +14,8 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
     public RockTile(LevelManager levelManager) {
         super(levelManager);
     }
+    public RockTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+
 
     @Override
     public boolean isWalkable(EDirections dir) {

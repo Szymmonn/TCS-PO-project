@@ -12,6 +12,7 @@ public abstract class ATile {
     protected ATile(LevelManager levelManager) {
         this.levelManager = levelManager;
     }
+    protected ATile(LevelManager levelManager, GridPoint2 start) {this(levelManager); this.position = start;}
 
     protected void destroy() {
         levelManager.getCurrentBoard().setTile(position, new EmptyTile(levelManager));

@@ -65,8 +65,8 @@ public class GameScreen extends ScreenAdapter {
         // init__
          */
         // TODO: change with starting position
-        Board board = new RandomBoardGenerator(0.1f, 0.1f, 0.1f, new LevelManager()).generate(new GridPoint2(BOARD_WIDTH, BOARD_HEIGHT), new GridPoint2(1,1));
-        Player player = new Player(board);
+        //Board board = new RandomBoardGenerator(0.1f, 0.1f, 0.1f, new LevelManager()).generate(new GridPoint2(BOARD_WIDTH, BOARD_HEIGHT), new GridPoint2(1,1));
+        //Player player = new Player(board);
         /*
         HAS TO CHANGE - no ensurance that this is the same player
          */
@@ -77,8 +77,10 @@ public class GameScreen extends ScreenAdapter {
         /*
         TO CHANGE - when viewmodel is working
          */
-        boardView = new BoardView(board);
-        playerView = new PlayerView(player);
+        //boardView = new BoardView(board);
+        //playerView = new PlayerView(player);
+        boardView = new BoardView(gameViewModel.getBoard());
+        playerView = new PlayerView(gameViewModel.getPlayer());
 
         /*
         viewport - game
