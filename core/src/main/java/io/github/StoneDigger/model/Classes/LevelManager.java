@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.GridPoint2;
 import java.util.List;
 import java.util.ArrayList;
 
+import io.github.StoneDigger.model.Classes.BoardGenerators.BoardGenerator;
+import io.github.StoneDigger.model.Classes.BoardGenerators.BoardValidators.SimpleBoardValidator;
 import io.github.StoneDigger.model.Classes.Tiles.ATile;
 import io.github.StoneDigger.model.Interfaces.*;
 
@@ -11,13 +13,13 @@ public class LevelManager implements ILevelManager {
     private IBoard board;
     private final List<IEntity> entities = new ArrayList<>();
     private final List<ATile> tiles = new ArrayList<>();
-    private final IBoardGenerator gen;
-    private final IBoardValidator validator;
-    private final ILevelStats stats = new LevelStats();
+    private final BoardGenerator gen;
+    private final SimpleBoardValidator validator;
+    private final LevelStats stats = new LevelStats();
 
-    public LevelManager(IBoardGenerator gen, IBoardValidator val) {
-        this.gen = gen;
-        this.validator = val;
+    public LevelManager() {
+        this.validator = new SimpleBoardValidator();
+        this.gen = new BoardGenerator(this);
     }
 
     @Override public void resetLevel() {
@@ -26,7 +28,7 @@ public class LevelManager implements ILevelManager {
 
     @Override public void startLevel(int index) {
         do {
-            board = gen.generate(new GridPoint2(20, 15), new GridPoint2(1, 1));
+            board = gen.generateBoard(1);
         } while (!validator.validate(board));
 
         entities.clear();
