@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.model.Classes.Board;
-import io.github.StoneDigger.model1.models.BoardModel;
-import io.github.StoneDigger.model1.models.TileType;
+import io.github.StoneDigger.model.Classes.Tiles.ATile;
+import io.github.StoneDigger.model.Interfaces.IBoard;
+import io.github.StoneDigger.view.views.utility.TileToTexture;
 
 import static io.github.StoneDigger.model1.models.Constants.BLOCK_SIZE;
 import static io.github.StoneDigger.model1.models.Constants.GAP_SIZE;
@@ -15,10 +16,10 @@ import static io.github.StoneDigger.view.screen.GameScreen.BOARD_HEIGHT;
 import static io.github.StoneDigger.view.screen.GameScreen.BOARD_WIDTH;
 
 public class BoardView extends Actor {
-    private final BoardModel board;
+    private final IBoard board;
     private final Texture background;
 
-    public BoardView(BoardModel board) {
+    public BoardView(IBoard board) {
         this.board = board;
 
         /// background initialization
@@ -42,10 +43,10 @@ public class BoardView extends Actor {
         batch.setColor(1,1,1,1);
         for(int i=0;i<BOARD_WIDTH;i++) {
             for(int j=0;j<BOARD_HEIGHT;j++) {
-                TileType tileType = board.getTile(i,j);
+                ATile tileType = board.getTile(new GridPoint2(i, j));
                 int tileXPosition = GAP_SIZE/2 + i*(BLOCK_SIZE + GAP_SIZE);
                 int tileYPosition = GAP_SIZE/2 + j*(BLOCK_SIZE + GAP_SIZE);
-                Texture tileTexture = TileType.getTexture(tileType);
+                Texture tileTexture = TileToTexture.getTexture(tileType);
                 if (tileTexture != null)
                     batch.draw(tileTexture, tileXPosition, tileYPosition, BLOCK_SIZE, BLOCK_SIZE);
             }
