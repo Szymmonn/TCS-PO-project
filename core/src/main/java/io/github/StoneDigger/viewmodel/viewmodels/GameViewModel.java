@@ -30,7 +30,7 @@ public class GameViewModel {
 //    }
 
     public void update(float delta) {
-
+        // gameLogic.tick(delta);
     }
 
     public void handleInput(EDirections direction) {

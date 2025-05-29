@@ -89,9 +89,6 @@ public class GameScreen extends ScreenAdapter {
         gameCamera = (OrthographicCamera) gameViewport.getCamera();
 
         updateCamera();
-        //gameCamera.position.set(gameViewport.getWorldWidth(), gameViewport.getWorldHeight(),0);
-        //gameCamera.update();
-
         /*
         viewport - hud
          */
