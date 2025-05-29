@@ -6,7 +6,7 @@ import io.github.StoneDigger.model.Interfaces.ITile;
 
 public class BrickTile implements ITile {
     @Override
-    public boolean tryVisit(IEntity entity, EDirections direction) {
+    public boolean isWalkable() {
         return false;
     }
 }

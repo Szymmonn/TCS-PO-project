@@ -1,27 +1,30 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
-import io.github.StoneDigger.model.Classes.BoardGenerators.BoardValidators.SimpleBoardValidator;
-import io.github.StoneDigger.model.Interfaces.ILevelManager;
+import java.util.List;
+import java.util.ArrayList;
 
-import java.util.Random;
+import io.github.StoneDigger.model.Interfaces.*;
 
 public class LevelManager implements ILevelManager {
-    Board board;
+    private IBoard board;
+    private final List<IEntity> entities = new ArrayList<>();
+    private final IBoardGenerator gen;
+    private final IBoardValidator validator;
+    private final ILevelStats stats = new LevelStats();
 
-    @Override
-    public void resetLevel() {
-        setNewLevel(0);
+    public LevelManager(IBoardGenerator gen, IBoardValidator val) {
+        this.gen = gen; this.validator = val;
     }
-
-    @Override
-    public void setNewLevel(int levelNumber) {
-        RandomBoardGenerator randomBoardGenerator = new RandomBoardGenerator(0.1, 0.1, 0.1, new Random());
-        SimpleBoardValidator simpleBoardValidator = new SimpleBoardValidator();
-        board = randomBoardGenerator.generate(new GridPoint2(2, 2), new GridPoint2(30, 40));
-
-        while(!simpleBoardValidator.validate(board)) {
-            board = randomBoardGenerator.generate(new GridPoint2(2, 2), new GridPoint2(30, 40));
-        }
+    @Override public void startLevel(int index) {
+        board = gen.generate(new GridPoint2(20,15), new GridPoint2(1,1));
+        entities.clear();
+        entities.add(new Player(board));
+        entities.add(new Opponent(board, new GridPoint2(5,5)));
+    }
+    @Override public IBoard getCurrentBoard() { return board; }
+    @Override public ILevelStats getStats() { return stats; }
+    @Override public void update() {
+        for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate)e).update();
     }
 }
