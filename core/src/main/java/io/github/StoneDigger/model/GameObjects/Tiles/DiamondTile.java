@@ -7,10 +7,7 @@ import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.*;
 
 public class DiamondTile extends ATile implements IWalkableTile {
-    public DiamondTile(LevelManager levelManager) {
-        super(levelManager);
-    }
-    public DiamondTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+    public DiamondTile(GridPoint2 start) {super(start);}
 
 
     @Override public boolean isWalkable(EDirections dir) {
@@ -20,7 +17,7 @@ public class DiamondTile extends ATile implements IWalkableTile {
     @Override
     public void onWalkBy(IEntity entity, EDirections dir) {
         if(entity instanceof Player) {
-            levelManager.getStats().setScore(1);
+            LevelManager.getStats().setScore(1);
             this.destroy();
         }
     }

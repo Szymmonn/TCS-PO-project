@@ -7,10 +7,7 @@ import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.*;
 
 public class EndTile extends ATile implements IWalkableTile {
-    public EndTile(LevelManager levelManager) {
-        super(levelManager);
-    }
-    public EndTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+    public EndTile(GridPoint2 start) {super(start);}
 
 
     @Override
@@ -21,7 +18,7 @@ public class EndTile extends ATile implements IWalkableTile {
     @Override
     public void onWalkBy(IEntity entity, EDirections dir) {
         if(entity instanceof Player) {
-            levelManager.resetLevel();
+            LevelManager.resetLevel();
         }
     }
 }

@@ -5,10 +5,7 @@ import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
 import io.github.StoneDigger.model.Directions.*;
 
 public class StartTile extends ATile {
-    public StartTile(LevelManager levelManager) {
-        super(levelManager);
-    }
-    public StartTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+    public StartTile(GridPoint2 start) {super(start);}
 
 
     @Override public boolean isWalkable(EDirections dir) { return true; }

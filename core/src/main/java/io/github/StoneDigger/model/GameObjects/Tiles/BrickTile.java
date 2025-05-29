@@ -5,10 +5,7 @@ import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
 import io.github.StoneDigger.model.Directions.EDirections;
 
 public class BrickTile extends ATile {
-    public BrickTile(LevelManager levelManager) {
-        super(levelManager);
-    }
-    public BrickTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+    public BrickTile(GridPoint2 start) {super(start);}
 
 
     @Override
