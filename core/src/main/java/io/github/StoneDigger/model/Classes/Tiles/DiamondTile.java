@@ -1,38 +1,22 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
-import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Player;
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class DiamondTile implements ITile, ISelfUpdate, ICollectable {
+public class DiamondTile extends ATile implements IWalkableTile {
+    public DiamondTile(ILevelManager levelManager) {
+        super(levelManager);
+    }
 
-    @Override
-    public boolean update() {
-        return false;
+    @Override public boolean isWalkable(EDirections dir) {
+        return true;
     }
 
     @Override
-    public GridPoint2 getPosition() {
-        return null;
-    }
-
-    @Override
-    public void setPosition(GridPoint2 newPosition) {
-
-    }
-
-    @Override
-    public boolean tryToMove(EDirections directions) {
-        return false;
-    }
-
-    @Override
-    public void collect() {
-
-    }
-
-    @Override
-    public void setLevelStats() {
-
+    public void onWalkBy(IEntity entity, EDirections dir) {
+        if(entity instanceof Player) {
+            levelManager.getStats().addScore(1);
+        }
     }
 
     @Override

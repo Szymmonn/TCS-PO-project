@@ -5,6 +5,5 @@ import io.github.StoneDigger.model.Classes.LevelStatus;
 //ma klasy jak end, diamond, playerKiller
 
 public interface IStatsChanger {
-    LevelStatus sLevelStatus = new LevelStatus();
-    void setLevelStats();
+    void changeStat(String statName, int delta);
 }

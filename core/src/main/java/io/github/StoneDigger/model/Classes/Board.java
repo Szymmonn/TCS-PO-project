@@ -1,32 +1,36 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Tiles.ATile;
+import io.github.StoneDigger.model.Classes.Tiles.EmptyTile;
+import io.github.StoneDigger.model.Interfaces.EDirections;
+import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ITile;
 import io.github.StoneDigger.model1.models.TileType;
 
-public class Board {
-    private static ITile[][] tiles;
-    private static IEntity[][] entities;
+public class Board implements IBoard {
+    private final ATile[][] tiles;
+    private final GridPoint2 start;
 
-    private static GridPoint2 startingPosition;
-    private static GridPoint2 boardSize;
-
-    public Board(ITile[][] tiles, IEntity[][] entites, GridPoint2 startingPosition) {
-        Board.tiles = tiles;
-        Board.entities = entites;
-        Board.startingPosition = startingPosition;
-        boardSize = new GridPoint2(tiles.length,tiles[0].length);
+    public Board(ATile[][] tiles, GridPoint2 start) {
+        this.tiles = tiles;
+        this.start = start;
     }
 
-    public static void setTile(int x, int y, ITile newTile) {
-        tiles[x][y] = newTile;
-    }
+//    public void move(ATile tile, EDirections directions) {
+//        GridPoint2 oldPosition = new GridPoint2(tile.getPosition().x,tile.getPosition().y);
+//        GridPoint2 newPosition = new GridPoint2(tile.getPosition().x+directions.dx,tile.getPosition().y+directions.dy);
+//
+//        ATile newTile = new EmptyTile();
+//        newTile.setBoard();
+//        setTile(oldPosition,newTile);
+//        setTile(newPosition,tile);
+//    }
 
-    public static ITile getTile(int x, int y) {
-        return tiles[x][y];
-    }
-
-    public static GridPoint2 getStartingPosition() { return startingPosition; }
-    public static GridPoint2 getBoardSize() { return boardSize; }
+    @Override public int getWidth() { return tiles.length; }
+    @Override public int getHeight() { return tiles[0].length; }
+    @Override public ATile getTile(GridPoint2 pos) { return tiles[pos.x][pos.y]; }
+    @Override public void setTile(GridPoint2 pos, ATile tile) { tiles[pos.x][pos.y] = tile; }
+    @Override public GridPoint2 getStartingPosition() { return start; }
 }

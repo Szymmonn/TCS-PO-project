@@ -6,6 +6,5 @@ import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model1.models.BoardModel;
 
 public interface IBoardGenerator {
-    Board generate(GridPoint2 boardSize, GridPoint2 startingPosition);
+    IBoard generate(GridPoint2 size, GridPoint2 start);
 }
-

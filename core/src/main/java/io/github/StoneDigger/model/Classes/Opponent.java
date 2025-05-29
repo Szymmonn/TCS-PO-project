@@ -1,44 +1,41 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
+import java.util.Random;
+
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class Opponent implements IEntity, IKiller, ISelfUpdate {
-    private GridPoint2 currentPosition;
+public class Opponent implements IOpponent {
+    private GridPoint2 pos;
+    private final IBoard board;
+    private final Random rnd = new Random();
 
-    public Opponent() {
-        currentPosition = new GridPoint2();
+    public Opponent(IBoard board, GridPoint2 start){ this.board=board; this.pos=start; }
+    @Override public GridPoint2 getPosition() { return pos; }
+    @Override public void setPosition(GridPoint2 p){ pos=p; }
+    @Override public boolean canMove(EDirections dir) {
+        GridPoint2 np = new GridPoint2(pos.x+dir.dx, pos.y+dir.dy);
+        if(np.x<0||np.y<0||np.x>=board.getWidth()||np.y>=board.getHeight()) return false;
+        ITile tile = board.getTile(np);
+        return tile.isWalkable();
     }
-
-    public Opponent(GridPoint2 startPosition) {
-        this.currentPosition = startPosition;
+    @Override public void move(EDirections dir) { if(canMove(dir)) pos.add(dir.dx, dir.dy); }
+    @Override public void kill(IEntity target) {
+        // Trigger opponent's death
+        if (target instanceof IHunting) {
+            ((IHunting) target).onKilled(this);
+        }
     }
-
-    public GridPoint2 getPosition() {
-        return currentPosition;
-    }
-
-    public void setPosition(GridPoint2 newPosition) {
-        this.currentPosition = newPosition;
-    }
-
-    @Override
-    public boolean tryToMove(EDirections directions) {
-        return false;
-    }
-
-    @Override
-    public boolean tryToKill() {
-        return false;
-    }
-
-    @Override
-    public boolean update() {
-        return false;
+    @Override public void onKilled(IEntity killer) {
+        // When killed, grant score to the killer if it's a player
+        if (killer instanceof IPlayer) {
+            ((IPlayer) killer).collect();
+        }
+        // Additional removal logic can be added here
     }
 
     @Override
-    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
-        return false;
+    public void update() {
+
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model1.models.BoardModel;
 import io.github.StoneDigger.model1.models.TileType;
 
@@ -15,10 +16,10 @@ import static io.github.StoneDigger.view.screen.GameScreen.BOARD_HEIGHT;
 import static io.github.StoneDigger.view.screen.GameScreen.BOARD_WIDTH;
 
 public class BoardView extends Actor {
-    private final BoardModel board;
+    private final Board board;
     private final Texture background;
 
-    public BoardView(BoardModel board) {
+    public BoardView(Board board) {
         this.board = board;
 
         /// background initialization

@@ -1,9 +1,12 @@
 package io.github.StoneDigger.model.Interfaces;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Tiles.ATile;
 
 public interface IBoard {
-    GridPoint2 getStartingPoint();
-    GridPoint2 getSize();
-    ITile getTile(GridPoint2 point2);
+    int getWidth();
+    int getHeight();
+    ATile getTile(GridPoint2 pos);
+    void setTile(GridPoint2 pos, ATile tile);
+    GridPoint2 getStartingPosition();
 }
