@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class RockTile implements ITile, ISelfUpdate {
+public class RockTile implements ITile, ISelfUpdate,IWalkableTile {
     IBoard board;
 
     public void setBoard(IBoard board) {

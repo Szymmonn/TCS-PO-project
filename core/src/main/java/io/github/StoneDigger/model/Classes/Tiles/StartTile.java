@@ -2,7 +2,7 @@ package io.github.StoneDigger.model.Classes.Tiles;
 
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class StartTile implements ITile {
+public class StartTile implements ITile, IWalkableTile {
     IBoard board;
 
     public void setBoard(IBoard board) {
