@@ -10,14 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import io.github.StoneDigger.model1.models.LevelStatus1;
+import io.github.StoneDigger.model.Interfaces.ILevelStats;
 import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
 import static io.github.StoneDigger.view.Assets.*;
 import static io.github.StoneDigger.view.screen.GameScreen.*;
 
 public class HUDView extends Group {
-    private final LevelStatus1 levelStatus;
+    private final ILevelStats levelStats;
     private Label diamondCountLabel;
     private Label diamondCollectedLabel;
     private Label hpLabel;
@@ -35,8 +35,8 @@ public class HUDView extends Group {
     private int prevDiamonds;
     private int prevLevelNumber;
 
-    public HUDView(LevelStatus1 levelStatus) {
-        this.levelStatus = levelStatus;
+    public HUDView(ILevelStats levelStatus) {
+        this.levelStats = levelStatus;
         prevHp = levelStatus.getHP();
         prevDiamonds = levelStatus.getDiamondCount();
         prevLevelNumber = levelStatus.getLevelNumber();
@@ -58,7 +58,7 @@ public class HUDView extends Group {
         labelStyle.font = font;
 
         diamondCollectedLabel = new Label(prevDiamonds < 10 ? "0" + prevDiamonds : String.valueOf(prevDiamonds), labelStyle);
-        int temp = levelStatus.getDiamondCount();
+        int temp = levelStats.getDiamondCount();
         diamondCountLabel = new Label(temp < 10 ? "0" + temp : String.valueOf(temp) , labelStyle);
         hpLabel = new Label(String.valueOf(prevHp), labelStyle);
         timeElapsedLabel = new Label("00 : 00", labelStyle);

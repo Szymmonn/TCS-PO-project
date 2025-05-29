@@ -3,9 +3,8 @@ package io.github.StoneDigger.view.PlayerInputReceiver;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
-import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel1;
 
-import static io.github.StoneDigger.model.Interfaces.EDirections.*;
+import static io.github.StoneDigger.model.Directions.EDirections.*;
 
 public class GameController {
     private final GameViewModel gameViewModel;
