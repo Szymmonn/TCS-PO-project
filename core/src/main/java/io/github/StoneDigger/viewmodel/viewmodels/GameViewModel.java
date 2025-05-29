@@ -18,16 +18,11 @@ public class GameViewModel {
     public Player getPlayer() {
         return gameLogic.getPlayer();
     }
-//    public List<Opponent> getOpponentList() {
+
+    //    public List<Opponent> getOpponentList() {
 //        return opponentList;
 //    }
-//
-//    public int getPlayerPositionX() {
-//        return player.getPosition().x;
-//    }
-//    public int getPlayerPositionY() {
-//        return player.getPosition().y;
-//    }
+
 
     public void update(float delta) {
         gameLogic.tick(delta);
