@@ -13,7 +13,6 @@ import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.RandomBoardGenerator;
 import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
-import io.github.StoneDigger.model1.models.LevelStatus1;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.GameController;
 import io.github.StoneDigger.view.views.BoardView;
@@ -21,8 +20,6 @@ import io.github.StoneDigger.view.views.hud.HUDView;
 import io.github.StoneDigger.view.views.PlayerView;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
-import static io.github.StoneDigger.model1.models.Constants.BLOCK_SIZE;
-import static io.github.StoneDigger.model1.models.Constants.GAP_SIZE;
 
 public class GameScreen extends ScreenAdapter {
     public static float VISIBLE_WORLD_WIDTH = 9*(BLOCK_SIZE + GAP_SIZE);

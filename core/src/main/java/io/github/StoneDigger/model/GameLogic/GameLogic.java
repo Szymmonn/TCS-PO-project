@@ -1,5 +1,9 @@
 package io.github.StoneDigger.model.GameLogic;
 
+import io.github.StoneDigger.model.Boards.Board;
+import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
+import io.github.StoneDigger.model.Boards.BoardGenerators.BoardValidators.SimpleBoardValidator;
+import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Level.LevelManagement.ILevelManager;
 import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
 

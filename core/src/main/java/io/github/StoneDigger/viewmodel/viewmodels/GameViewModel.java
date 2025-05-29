@@ -1,6 +1,7 @@
 package io.github.StoneDigger.viewmodel.viewmodels;
 
 
+import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.GameLogic.GameLogic;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.EDirections;
