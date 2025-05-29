@@ -17,11 +17,6 @@ public class RockTile implements ITile, ISelfUpdate {
     }
 
     @Override
-    public void onWalkBy(IEntity entity) {
-
-    }
-
-    @Override
     public void update() {
 
     }
