@@ -35,11 +35,11 @@ public class GameViewModel {
         this.player = playerModel;
     }
     public int getPlayerPositionX() {
-        return 1;
+        return player.getPosition().x;
     }
 
     public int getPlayerPositionY() {
-        return 1;
+        return player.getPosition().y;
     }
 
     public void handleInput(EDirections dir) {

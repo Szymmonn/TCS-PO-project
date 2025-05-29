@@ -14,7 +14,7 @@ public abstract class ATile {
     }
 
     protected void destroy() {
-        levelManager.getCurrentBoard().setTile(position, new EmptyTile());
+        levelManager.getCurrentBoard().setTile(position, new EmptyTile(levelManager));
     }
 
     public GridPoint2 getPosition() {
