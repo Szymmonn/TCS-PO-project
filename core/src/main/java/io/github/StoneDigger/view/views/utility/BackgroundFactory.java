@@ -3,14 +3,15 @@ package io.github.StoneDigger.view.views.utility;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class BackgroundFactory {
 
-    public static Texture createSolidBackground() {
-        return createSolidBackground(Color.BLACK);
+    public static Image createSolidBackground(float x, float y, float w, float h) {
+        return createSolidBackground(x,y,w,h,Color.BLACK);
     }
 
-    public static Texture createSolidBackground(Color color) {
+    public static Image createSolidBackground(float x, float y, float w, float h, Color color) {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
         pixmap.fill();
@@ -18,6 +19,10 @@ public class BackgroundFactory {
         Texture texture = new Texture(pixmap);
         pixmap.dispose();
 
-        return texture;
+        Image image = new Image(texture);
+        image.setPosition(x,y);
+        image.setSize(w,h);
+
+        return image;
     }
 }
