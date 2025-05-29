@@ -38,8 +38,8 @@ public class GameScreen extends ScreenAdapter {
 
     private final GameStart gameStart;
 
-    public static int BOARD_HEIGHT = 20;
-    public static int BOARD_WIDTH = 30;
+    public static int BOARD_HEIGHT = 16;
+    public static int BOARD_WIDTH = 21;
 
     private GameViewModel gameViewModel;
     private GameController gameController;
@@ -51,7 +51,7 @@ public class GameScreen extends ScreenAdapter {
     private BoardView boardView;
 
     private Viewport hudViewport;
-    private HUDView hudView;
+    //private HUDView hudView;
 
     private SpriteBatch spriteBatch;
 
@@ -98,7 +98,7 @@ public class GameScreen extends ScreenAdapter {
         hudCamera.position.set(gameViewport.getWorldWidth(), HUD_SIZE, 0);
         hudCamera.update();
 
-        hudView = new HUDView(new LevelStats());
+        //hudView = new HUDView(new LevelStats());
 
         spriteBatch = new SpriteBatch();
     }
@@ -140,10 +140,10 @@ public class GameScreen extends ScreenAdapter {
         hud drawing
          */
         hudViewport.apply();
-        hudView.act(delta);
+        //hudView.act(delta);
 
         spriteBatch.begin();
-        hudView.draw(spriteBatch, 1);
+        //hudView.draw(spriteBatch, 1);
         spriteBatch.end();
 
 

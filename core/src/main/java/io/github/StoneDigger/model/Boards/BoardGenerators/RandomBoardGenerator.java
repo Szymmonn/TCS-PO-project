@@ -12,7 +12,6 @@ public class RandomBoardGenerator {
     private static double rockDensity;
     private static double diamondDensity;
     private static Random random;
-    LevelManager levelManager;
 
     public RandomBoardGenerator(double w, double r, double d) {
         wallDensity = w;

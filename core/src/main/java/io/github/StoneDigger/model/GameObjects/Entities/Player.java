@@ -1,19 +1,18 @@
 package io.github.StoneDigger.model.GameObjects.Entities;
 
 import com.badlogic.gdx.math.GridPoint2;
-import io.github.StoneDigger.model.Boards.Board;
+
 import io.github.StoneDigger.model.GameObjects.Entities.Hunting.IHunting;
 import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
+import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
 
 public class Player implements IPlayer {
     private GridPoint2 pos;
-    private final Board board;
     private int score;
 
-    public Player(Board board) {
-        this.board = board;
-        this.pos = board.getStartingPosition();
+    public Player(GridPoint2 start) {
+        pos = start;
     }
 
     @Override public GridPoint2 getPosition() {
@@ -26,13 +25,13 @@ public class Player implements IPlayer {
 
     @Override public boolean canMove(EDirections dir) {
         GridPoint2 np = new GridPoint2(pos.x + dir.getDx(), pos.y + dir.getDy());
-        if(np.x < 0 || np.y < 0 || np.x >= board.getWidth() || np.y >= board.getHeight()) return false;
-        ATile tile = board.getTile(np);
+        if(np.x < 0 || np.y < 0 || np.x >= LevelManager.getCurrentBoard().getWidth() || np.y >= LevelManager.getCurrentBoard().getHeight()) return false;
+        ATile tile = LevelManager.getCurrentBoard().getTile(np);
         return tile.isWalkable(dir);
     }
 
     @Override public void move(EDirections dir) {
-        ATile t = board.getTile(new GridPoint2(pos.x+dir.getDx(),pos.y+dir.getDy()));
+        ATile t = LevelManager.getCurrentBoard().getTile(new GridPoint2(pos.x+dir.getDx(),pos.y+dir.getDy()));
         if(!(t.isWalkable(dir))) return;
 
         /// Actions
@@ -49,9 +48,9 @@ public class Player implements IPlayer {
 
         /// Moving at the end
         pos.add(dir.getDx(), dir.getDy());
-
-
     }
+
+
 
     @Override public void collect() {
         score += 10;
@@ -62,6 +61,11 @@ public class Player implements IPlayer {
         if (target instanceof IHunting) {
             ((IHunting) target).onKilled(this);
         }
+    }
+
+    @Override
+    public void update(float delta) {
+
     }
 
     public int getScore() {
