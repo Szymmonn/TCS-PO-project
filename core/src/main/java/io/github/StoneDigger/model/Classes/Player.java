@@ -23,14 +23,14 @@ public class Player implements IPlayer {
     }
 
     @Override public boolean canMove(EDirections dir) {
-        GridPoint2 np = new GridPoint2(pos.x + dir.dx, pos.y + dir.dy);
+        GridPoint2 np = new GridPoint2(pos.x + dir.getDx(), pos.y + dir.getDy());
         if(np.x < 0 || np.y < 0 || np.x >= board.getWidth() || np.y >= board.getHeight()) return false;
         ATile tile = board.getTile(np);
         return tile.isWalkable(dir);
     }
 
     @Override public void move(EDirections dir) {
-        ATile t = board.getTile(new GridPoint2(pos.x+dir.dx,pos.y+dir.dy));
+        ATile t = board.getTile(new GridPoint2(pos.x+dir.getDx(),pos.y+dir.getDy()));
         if(!(t.isWalkable(dir))) return;
 
         /// Actions
@@ -46,7 +46,7 @@ public class Player implements IPlayer {
         }
 
         /// Moving at the end
-        pos.add(dir.dx, dir.dy);
+        pos.add(dir.getDx(), dir.getDy());
 
 
     }

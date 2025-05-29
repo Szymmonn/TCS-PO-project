@@ -13,7 +13,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
 
     @Override
     public boolean isWalkable(EDirections dir) {
-        GridPoint2 newPosition = new GridPoint2(this.getPosition().x+dir.dx,this.getPosition().y+dir.dy);
+        GridPoint2 newPosition = new GridPoint2(this.getPosition().x+dir.getDx(),this.getPosition().y+dir.getDy());
         return levelManager.getCurrentBoard().getTile(newPosition) instanceof EmptyTile;
     }
 
@@ -32,7 +32,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
     public void move(EDirections dir) {
         IBoard board = levelManager.getCurrentBoard();
         GridPoint2 oldPosition = new GridPoint2(getPosition().x,getPosition().y);
-        GridPoint2 newPosition = new GridPoint2(getPosition().x+dir.dx,getPosition().y+dir.dy);
+        GridPoint2 newPosition = new GridPoint2(getPosition().x+dir.getDx(),getPosition().y+dir.getDy());
 
         EmptyTile newTile = new EmptyTile(levelManager);
         ATile newRockTile = new RockTile(levelManager);
