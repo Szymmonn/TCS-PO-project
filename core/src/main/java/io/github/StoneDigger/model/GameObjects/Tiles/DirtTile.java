@@ -7,10 +7,7 @@ import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Entities.IEntity;
 
 public class DirtTile extends ATile implements IWalkableTile {
-    public DirtTile(LevelManager levelManager) {
-        super(levelManager);
-    }
-    public DirtTile(LevelManager levelManager, GridPoint2 start) {super(levelManager,start); }
+    public DirtTile(GridPoint2 start) {super(start);}
 
     @Override public boolean isWalkable(EDirections dir) { return true; }
 

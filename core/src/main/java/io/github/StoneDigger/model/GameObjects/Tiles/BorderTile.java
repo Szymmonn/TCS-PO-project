@@ -5,10 +5,7 @@ import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
 import io.github.StoneDigger.model.Directions.EDirections;
 
 public class BorderTile extends ATile {
-    public BorderTile(LevelManager levelManager) {
-        super(levelManager);
-    }
-    public BorderTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+    public BorderTile(GridPoint2 start) {super(start);}
 
 
     @Override public boolean isWalkable(EDirections dir) { return false; }

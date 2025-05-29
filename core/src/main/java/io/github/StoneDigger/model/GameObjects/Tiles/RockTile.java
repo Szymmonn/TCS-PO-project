@@ -10,17 +10,13 @@ import io.github.StoneDigger.model.Directions.*;
 
 
 public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
-
-    public RockTile(LevelManager levelManager) {
-        super(levelManager);
-    }
-    public RockTile(LevelManager levelManager, GridPoint2 start) {super(levelManager, start);}
+    public RockTile(GridPoint2 start) {super(start);}
 
 
     @Override
     public boolean isWalkable(EDirections dir) {
         GridPoint2 newPosition = new GridPoint2(this.getPosition().x+dir.getDx(),this.getPosition().y+dir.getDy());
-        return levelManager.getCurrentBoard().getTile(newPosition) instanceof EmptyTile;
+        return LevelManager.getCurrentBoard().getTile(newPosition) instanceof EmptyTile;
     }
 
     @Override
@@ -36,12 +32,12 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
     }
 
     public void move(EDirections dir) {
-        Board board = levelManager.getCurrentBoard();
+        Board board = LevelManager.getCurrentBoard();
         GridPoint2 oldPosition = new GridPoint2(getPosition().x,getPosition().y);
         GridPoint2 newPosition = new GridPoint2(getPosition().x+dir.getDx(),getPosition().y+dir.getDy());
 
-        EmptyTile newTile = new EmptyTile(levelManager);
-        ATile newRockTile = new RockTile(levelManager);
+        EmptyTile newTile = new EmptyTile(oldPosition);
+        ATile newRockTile = new RockTile(newPosition);
 
         board.setTile(oldPosition,newTile);
         board.setTile(newPosition,newRockTile);

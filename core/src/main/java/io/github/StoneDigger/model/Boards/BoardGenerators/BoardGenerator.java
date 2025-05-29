@@ -10,7 +10,7 @@ public class BoardGenerator {
         this.levelManager = levelManager;
     }
 
-    public Board generateBoard(int levelNumber) {
+    public static Board generateBoard(int levelNumber) {
         int width = 20 + levelNumber; // Example difficulty scaling
         int height = 15 + levelNumber;
         GridPoint2 startingPos = new GridPoint2(1, 1);
@@ -19,8 +19,7 @@ public class BoardGenerator {
         RandomBoardGenerator generator = new RandomBoardGenerator(
             0.1 + levelNumber * 0.01, // wall density
             0.1 + levelNumber * 0.01, // rock density
-            0.05 + levelNumber * 0.005, // diamond density
-            levelManager
+            0.05 + levelNumber * 0.005 // diamond density
         );
 
         return generator.generate(new GridPoint2(width, height), startingPos);

@@ -7,16 +7,12 @@ import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.EDirections;
 
 public class GameViewModel {
-    GameLogic gameLogic;
 
-    public GameViewModel() {
-        gameLogic = new GameLogic();
-    }
     public Board getBoard() {
-        return gameLogic.getBoard();
+        return GameLogic.getBoard();
     }
     public Player getPlayer() {
-        return gameLogic.getPlayer();
+        return GameLogic.getPlayer();
     }
 //    public List<Opponent> getOpponentList() {
 //        return opponentList;
@@ -30,10 +26,10 @@ public class GameViewModel {
 //    }
 
     public void update(float delta) {
-        gameLogic.tick(delta);
+        GameLogic.tick(delta);
     }
 
     public void handleInput(EDirections direction) {
-        gameLogic.getPlayer().move(direction);
+        GameLogic.getPlayer().move(direction);
     }
 }

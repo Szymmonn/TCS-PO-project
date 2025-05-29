@@ -14,20 +14,18 @@ import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 
-public class LevelManager implements ILevelManager {
-    private Board board;
-    private final List<IEntity> entities = new ArrayList<>();
-    private final List<ATile> tiles = new ArrayList<>();
-    private final LevelStats stats = new LevelStats();
+public class LevelManager {
+    private static Board board;
+    private static final List<IEntity> entities = new ArrayList<>();
+    private static final List<ATile> tiles = new ArrayList<>();
+    private static final LevelStats stats = new LevelStats();
 
-    @Override
-    public void resetLevel() {
+    public static void resetLevel() {
         startLevel(1,board);
     }
 
-    @Override
-    public void startLevel(int index,Board board) {
-        this.board = board;
+    public static void startLevel(int index,Board bboard) {
+        board = bboard;
         entities.clear();
         entities.add(new Player(board));
         tiles.clear();
@@ -37,18 +35,15 @@ public class LevelManager implements ILevelManager {
         //entities.add(new Opponent(board, new GridPoint2(5,5)));
     }
 
-    @Override
-    public Board getCurrentBoard() {
+    public static Board getCurrentBoard() {
         return board;
     }
 
-    @Override
-    public ILevelStats getStats() {
+    public static ILevelStats getStats() {
         return stats;
     }
 
-    @Override
-    public void update(float delta) {
+    public static void update(float delta) {
         for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update(delta);
         for(ATile e : tiles) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update(delta);
     }
