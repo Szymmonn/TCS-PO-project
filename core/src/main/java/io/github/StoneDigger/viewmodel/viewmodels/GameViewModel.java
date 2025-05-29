@@ -1,13 +1,9 @@
 package io.github.StoneDigger.viewmodel.viewmodels;
 
 
-import io.github.StoneDigger.model.Classes.Board;
-import io.github.StoneDigger.model.Classes.GameLogic;
-import io.github.StoneDigger.model.Classes.Opponent;
-import io.github.StoneDigger.model.Classes.Player;
-import io.github.StoneDigger.model.Interfaces.EDirections;
-
-import java.util.List;
+import io.github.StoneDigger.model.GameLogic.GameLogic;
+import io.github.StoneDigger.model.GameObjects.Entities.Player;
+import io.github.StoneDigger.model.Directions.EDirections;
 
 public class GameViewModel {
     GameLogic gameLogic;

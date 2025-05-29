@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import io.github.StoneDigger.model.Interfaces.ILevelStats;
+import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
 import static io.github.StoneDigger.view.Assets.*;
