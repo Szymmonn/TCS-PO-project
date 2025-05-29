@@ -6,4 +6,9 @@ import io.github.StoneDigger.model.Interfaces.ITile;
 
 public class DirtTile implements ITile {
     @Override public boolean isWalkable() { return true; }
+
+    @Override
+    public void onWalkBy(IEntity entity) {
+
+    }
 }

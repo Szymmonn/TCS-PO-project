@@ -33,4 +33,9 @@ public class Opponent implements IOpponent {
         }
         // Additional removal logic can be added here
     }
+
+    @Override
+    public void update() {
+
+    }
 }

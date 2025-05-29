@@ -23,8 +23,6 @@ public class GameLogic implements IGameLogic {
 
     @Override public void tick() {
         lvl.update();
-        if(!val.validate(lvl.getCurrentBoard()))
-            gameOver = true;
     }
 
     @Override public boolean isGameOver() {

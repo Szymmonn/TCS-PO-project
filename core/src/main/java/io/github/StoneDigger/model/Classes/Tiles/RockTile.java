@@ -1,13 +1,31 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class RockTile implements ITile {
-    @Override public boolean isWalkable() {
+public class RockTile implements ITile, ISelfUpdate {
+    IBoard board;
+
+    public void setBoard(IBoard board) {
+        this.board = board;
+    }
+
+    @Override
+    public boolean isWalkable() {
         return false;
     }
 
+    @Override
+    public void onWalkBy(IEntity entity) {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+}
     //    private GridPoint2 rockPosition;
 //    private float timer;
 //    private int tilesFlown;
@@ -43,7 +61,7 @@ public class RockTile implements ITile {
 //        return false;
 //    }
 //    //dwayne
-}
+
 
 //    private final Board board;
 //    private final Map<GridPoint2,Boolean> moved = new HashMap<>();

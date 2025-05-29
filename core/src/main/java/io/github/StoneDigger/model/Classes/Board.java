@@ -1,6 +1,8 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Tiles.EmptyTile;
+import io.github.StoneDigger.model.Interfaces.EDirections;
 import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ITile;
@@ -13,6 +15,13 @@ public class Board implements IBoard {
     public Board(ITile[][] tiles, GridPoint2 start) {
         this.tiles = tiles;
         this.start = start;
+    }
+
+    public void move(ITile tile, EDirections directions) {
+        GridPoint2 oldPosition = new GridPoint2(tile.getX(),tile.getY());
+        GridPoint2 newPosition = new GridPoint2(tile.getX()+directions.dx,tile.getY()+directions.dy);
+        setTile(oldPosition,new EmptyTile());
+        setTile(newPosition,tile);
     }
 
     @Override public int getWidth() { return tiles.length; }

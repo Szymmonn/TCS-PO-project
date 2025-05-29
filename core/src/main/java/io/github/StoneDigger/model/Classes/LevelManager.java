@@ -9,6 +9,7 @@ import io.github.StoneDigger.model.Interfaces.*;
 public class LevelManager implements ILevelManager {
     private IBoard board;
     private final List<IEntity> entities = new ArrayList<>();
+    private final List<ITile> tiles = new ArrayList<>();
     private final IBoardGenerator gen;
     private final IBoardValidator validator;
     private final ILevelStats stats = new LevelStats();
@@ -25,6 +26,10 @@ public class LevelManager implements ILevelManager {
 
         entities.clear();
         entities.add(new Player(board));
+        tiles.clear();
+        for (int i=0;i< board.getWidth();i++)
+            for(int j=0;j<board.getHeight();j++)
+                tiles.add(board.getTile(new GridPoint2(i,j)));
         //entities.add(new Opponent(board, new GridPoint2(5,5)));
     }
 
@@ -37,6 +42,7 @@ public class LevelManager implements ILevelManager {
     }
 
     @Override public void update() {
+        for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update();
         for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update();
     }
 }

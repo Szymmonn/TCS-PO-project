@@ -6,4 +6,9 @@ import io.github.StoneDigger.model.Interfaces.ITile;
 
 public class BorderTile implements ITile {
     @Override public boolean isWalkable() { return false; }
+
+    @Override
+    public void onWalkBy(IEntity entity) {
+
+    }
 }

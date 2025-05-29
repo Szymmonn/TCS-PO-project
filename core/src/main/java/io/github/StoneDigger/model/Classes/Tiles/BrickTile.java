@@ -9,4 +9,9 @@ public class BrickTile implements ITile {
     public boolean isWalkable() {
         return false;
     }
+
+    @Override
+    public void onWalkBy(IEntity entity) {
+
+    }
 }
