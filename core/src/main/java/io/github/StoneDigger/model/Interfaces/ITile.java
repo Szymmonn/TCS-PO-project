@@ -1,4 +1,5 @@
 package io.github.StoneDigger.model.Interfaces;
 
-public interface ITile extends ICanBeMovedOn {
+public interface ITile {
+    boolean isWalkable();
 }

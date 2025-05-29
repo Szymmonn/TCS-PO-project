@@ -5,8 +5,5 @@ import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ITile;
 
 public class DirtTile implements ITile {
-    @Override
-    public boolean tryVisit(IEntity entity, EDirections direction) {
-        return true;
-    }
+    @Override public boolean isWalkable() { return true; }
 }

@@ -5,8 +5,5 @@ import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ITile;
 
 public class BorderTile implements ITile {
-    @Override
-    public boolean tryVisit(IEntity entity, EDirections direction) {
-        return false;
-    }
+    @Override public boolean isWalkable() { return false; }
 }

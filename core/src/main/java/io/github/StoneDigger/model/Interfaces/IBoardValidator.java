@@ -4,5 +4,5 @@ import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model1.models.BoardModel;
 
 public interface IBoardValidator {
-    boolean validate(Board board);
+    boolean validate(IBoard board);
 }
