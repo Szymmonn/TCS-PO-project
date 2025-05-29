@@ -1,3 +1,3 @@
 package io.github.StoneDigger.model.Interfaces;
 
-public interface IOpponent extends IMovable, IPredator, IHunting, ISelfUpdate {}
+public interface IOpponent extends IMovable, IPredator, ISelfUpdate {}

@@ -18,7 +18,7 @@ public enum TileType {
         if (type == WALL) return WALL_TEXTURE;
         if (type == ROCK) return ROCK_TEXTURE;
         if (type == DIAMOND) return DIAMOND_TEXTURE;
-        if(type == EMPTY) return EMPTY_TEXTURE;
+        if(type == EMPTY) return null;
         if (type == START) return START_TEXTURE;
         if(type == EXIT) return EXIT_TEXTURE;
         return null;

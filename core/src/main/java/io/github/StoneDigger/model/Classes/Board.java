@@ -6,7 +6,6 @@ import io.github.StoneDigger.model.Classes.Tiles.EmptyTile;
 import io.github.StoneDigger.model.Interfaces.EDirections;
 import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Interfaces.IEntity;
-import io.github.StoneDigger.model.Interfaces.ITile;
 import io.github.StoneDigger.model1.models.TileType;
 
 public class Board implements IBoard {

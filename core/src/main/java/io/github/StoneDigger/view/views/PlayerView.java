@@ -11,9 +11,9 @@ import static io.github.StoneDigger.model1.models.Constants.BLOCK_SIZE;
 import static io.github.StoneDigger.model1.models.Constants.GAP_SIZE;
 
 public class PlayerView extends Actor {
-    private final Player player;
+    private final PlayerModel player;
 
-    public PlayerView(Player playerModel) {
+    public PlayerView(PlayerModel playerModel) {
         player = playerModel;
     }
 
@@ -27,8 +27,8 @@ public class PlayerView extends Actor {
         Color prev = batch.getColor();
         batch.setColor(1,1,1,1);
 
-        int playerXPosition = GAP_SIZE/2 + player.getPosition().x*(BLOCK_SIZE+GAP_SIZE);
-        int playerYPosition = GAP_SIZE/2 + player.getPosition().y*(BLOCK_SIZE+GAP_SIZE);
+        int playerXPosition = GAP_SIZE/2 + player.getPositionX()*(BLOCK_SIZE+GAP_SIZE);
+        int playerYPosition = GAP_SIZE/2 + player.getPositionY()*(BLOCK_SIZE+GAP_SIZE);
         batch.draw(PLAYER_TEXTURE, playerXPosition, playerYPosition, BLOCK_SIZE, BLOCK_SIZE);
 
         batch.setColor(prev);
