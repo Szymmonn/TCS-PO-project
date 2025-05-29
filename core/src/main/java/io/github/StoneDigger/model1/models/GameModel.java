@@ -3,12 +3,10 @@ package io.github.StoneDigger.model1.models;
 public class GameModel {
     private PlayerModel playerModel;
     private BoardModel boardModel;
-    private RockModel rockModel;
 
-    public GameModel(PlayerModel playerModel, BoardModel boardModel,RockModel rockModel) {
+    public GameModel(PlayerModel playerModel, BoardModel boardModel) {
         this.playerModel = playerModel;
         this.boardModel = boardModel;
-        this.rockModel = rockModel;
     }
 
     public BoardModel getBoard() {
@@ -19,20 +17,12 @@ public class GameModel {
         return playerModel;
     }
 
-    public RockModel getRock() {
-        return rockModel;
-    }
-
     public void setBoardModel(BoardModel boardModel) {
         this.boardModel = boardModel;
     }
 
     public void setPlayerModel(PlayerModel playerModel) {
         this.playerModel = playerModel;
-    }
-
-    public void setRockModel(RockModel rockModel) {
-        this.rockModel = rockModel;
     }
 
     public void movePlayer(Direction direction) {

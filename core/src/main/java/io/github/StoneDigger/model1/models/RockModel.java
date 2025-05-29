@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RockModel {
+    /*
     private final BoardModel boardModel;
     private final Map<GridPoint2,Boolean> moved = new HashMap<>();
     private float rockDropTimer = 0;
@@ -87,4 +88,6 @@ public class RockModel {
         }
         return 0;
     }
+
+     */
 }

@@ -12,10 +12,7 @@ public class RockTile implements ITile, IKiller, ISelfUpdate {
         return false;
     }
 
-    @Override
-    public void setLevelStats() {
 
-    }
 
     @Override
     public boolean update() {
@@ -34,6 +31,11 @@ public class RockTile implements ITile, IKiller, ISelfUpdate {
 
     @Override
     public boolean tryToMove(EDirections directions) {
+        return false;
+    }
+
+    @Override
+    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
         return false;
     }
     //dwayne

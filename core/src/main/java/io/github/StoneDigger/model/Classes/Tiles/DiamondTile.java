@@ -34,4 +34,9 @@ public class DiamondTile implements ITile, ISelfUpdate, ICollectable {
     public void setLevelStats() {
 
     }
+
+    @Override
+    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
+        return false;
+    }
 }

@@ -9,12 +9,12 @@ import io.github.StoneDigger.model1.models.PlayerModel;
 import io.github.StoneDigger.model1.models.RockModel;
 
 public class GameViewModel {
-    private GameModel gameModel;
+    private final GameModel gameModel;
 
     private Runnable levelLoadedCallback;
 
-    public GameViewModel(PlayerModel playerModel, BoardModel boardModel, RockModel rockModel) {
-        gameModel = new GameModel(playerModel, boardModel, rockModel);
+    public GameViewModel(PlayerModel playerModel, BoardModel boardModel) {
+        gameModel = new GameModel(playerModel, boardModel);
     }
 
     public void setLevelLoadedCallback(Runnable callback) {

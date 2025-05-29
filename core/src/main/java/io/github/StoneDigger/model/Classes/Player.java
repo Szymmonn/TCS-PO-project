@@ -31,8 +31,9 @@ public class Player implements IEntity {
             case UP: vector.x++;
             case DOWN: vector.x++;
         }
-        GridPoint2 newPosition = new GridPoint2(position.x+directions.x)
-        if()
+        //GridPoint2 newPosition = new GridPoint2(position.x+directions.x)
+        //if()
+        return true;
     }
 
     @Override
