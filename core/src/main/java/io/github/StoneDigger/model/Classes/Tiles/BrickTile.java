@@ -1,17 +1,15 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
 import io.github.StoneDigger.model.Interfaces.EDirections;
-import io.github.StoneDigger.model.Interfaces.IBoard;
-import io.github.StoneDigger.model.Interfaces.IEntity;
-import io.github.StoneDigger.model.Interfaces.ITile;
+import io.github.StoneDigger.model.Interfaces.ILevelManager;
 
-public class BrickTile implements ITile {
-    IBoard board;
-    public void setBoard(IBoard board) {
-        this.board = board;
+public class BrickTile extends ATile {
+    public BrickTile(ILevelManager levelManager) {
+        super(levelManager);
     }
+
     @Override
-    public boolean isWalkable() {
+    public boolean isWalkable(EDirections dir) {
         return false;
     }
 }

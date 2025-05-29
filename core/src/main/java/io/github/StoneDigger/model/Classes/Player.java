@@ -1,10 +1,7 @@
 package io.github.StoneDigger.model.Classes;
 
 import com.badlogic.gdx.math.GridPoint2;
-import io.github.StoneDigger.model.Classes.Tiles.DiamondTile;
-import io.github.StoneDigger.model.Classes.Tiles.DirtTile;
-import io.github.StoneDigger.model.Classes.Tiles.EndTile;
-import io.github.StoneDigger.model.Classes.Tiles.RockTile;
+import io.github.StoneDigger.model.Classes.Tiles.*;
 import io.github.StoneDigger.model.Interfaces.*;
 
 public class Player implements IPlayer {
@@ -28,24 +25,24 @@ public class Player implements IPlayer {
     @Override public boolean canMove(EDirections dir) {
         GridPoint2 np = new GridPoint2(pos.x + dir.dx, pos.y + dir.dy);
         if(np.x < 0 || np.y < 0 || np.x >= board.getWidth() || np.y >= board.getHeight()) return false;
-        ITile tile = board.getTile(np);
-        return tile.isWalkable();
+        ATile tile = board.getTile(np);
+        return tile.isWalkable(dir);
     }
 
     @Override public void move(EDirections dir) {
-        ITile t = board.getTile(new GridPoint2(pos.x+dir.dx,pos.y+dir.dy));
+        ATile t = board.getTile(new GridPoint2(pos.x+dir.dx,pos.y+dir.dy));
         if(!(t.isWalkable(dir))) return;
 
         /// Actions
 
         if(t instanceof DirtTile) {
-            ((DirtTile) t).onWalkBy(this);
+            ((DirtTile) t).onWalkBy(this,dir);
         } else if (t instanceof EndTile) {
-            ((EndTile) t).onWalkBy(this);
+            ((EndTile) t).onWalkBy(this,dir);
         } else if (t instanceof RockTile) {
-            ((RockTile) t).onWalkBy(this);
+            ((RockTile) t).onWalkBy(this,dir);
         } else if (t instanceof DiamondTile) {
-            ((DiamondTile) t).onWalkBy(this);
+            ((DiamondTile) t).onWalkBy(this,dir);
         }
 
         /// Moving at the end
