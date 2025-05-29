@@ -12,12 +12,22 @@ public class GameLogic implements IGameLogic {
     private boolean gameOver;
 
     public GameLogic(IBoardGenerator gen, IBoardValidator val, ILevelManager lvl) {
-        this.gen = gen; this.val = val; this.lvl = lvl;
+        this.gen = gen;
+        this.val = val;
+        this.lvl = lvl;
     }
-    @Override public void init() { lvl.startLevel(1); gameOver=false; }
+
+    @Override public void init() {
+        lvl.startLevel(1); gameOver = false;
+    }
+
     @Override public void tick() {
         lvl.update();
-        if(!val.validate(lvl.getCurrentBoard())) gameOver=true;
+        if(!val.validate(lvl.getCurrentBoard()))
+            gameOver = true;
     }
-    @Override public boolean isGameOver() { return gameOver; }
+
+    @Override public boolean isGameOver() {
+        return gameOver;
+    }
 }
