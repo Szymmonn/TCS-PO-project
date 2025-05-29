@@ -27,13 +27,7 @@ public class Opponent implements IOpponent {
             ((IHunting) target).onKilled(this);
         }
     }
-    @Override public void onKilled(IEntity killer) {
-        // When killed, grant score to the killer if it's a player
-        if (killer instanceof IPlayer) {
-            ((IPlayer) killer).collect();
-        }
-        // Additional removal logic can be added here
-    }
+
 
     @Override
     public void update() {

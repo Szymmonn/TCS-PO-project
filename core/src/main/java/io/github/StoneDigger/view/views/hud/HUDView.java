@@ -1,6 +1,7 @@
 package io.github.StoneDigger.view.views.hud;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import io.github.StoneDigger.model1.models.LevelStatus1;
+import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
 import static io.github.StoneDigger.view.Assets.*;
 import static io.github.StoneDigger.view.screen.GameScreen.*;
@@ -23,6 +25,7 @@ public class HUDView extends Group {
     private Label levelNumberLabel;
     private Image diamondImage;
     private Image[] heartImage;
+    private Texture background;
 
     private final Table diamondTable;
     private final Table hpTable;
@@ -40,6 +43,7 @@ public class HUDView extends Group {
 
         createLabels();
         createImages();
+        background = BackgroundFactory.createSolidBackground(Color.SKY);
 
         diamondTable = createDiamondTable();
         hpTable = createHpTable();
@@ -82,6 +86,15 @@ public class HUDView extends Group {
         Color prev = batch.getColor();
         batch.setColor(1,1,1,1);
 
+        /*
+        where to draw background parameters
+         */
+        float background_position_x = 0;
+        float background_position_y = VISIBLE_WORLD_HEIGHT;
+        float background_width = VISIBLE_WORLD_WIDTH;
+        float background_height = HUD_SIZE;
+
+        batch.draw(background, background_position_x, background_position_y, background_width, background_height);
         diamondTable.draw(batch, parentAlpha);
         hpTable.draw(batch, parentAlpha);
         //drawTimer(batch);
