@@ -6,14 +6,13 @@ import io.github.StoneDigger.model1.models.BoardModel;
 import io.github.StoneDigger.model1.models.Direction;
 import io.github.StoneDigger.model1.models.GameModel;
 import io.github.StoneDigger.model1.models.PlayerModel;
-import io.github.StoneDigger.model1.models.RockModel;
 
-public class GameViewModel {
+public class GameViewModel1 {
     private final GameModel gameModel;
 
     private Runnable levelLoadedCallback;
 
-    public GameViewModel(PlayerModel playerModel, BoardModel boardModel) {
+    public GameViewModel1(PlayerModel playerModel, BoardModel boardModel) {
         gameModel = new GameModel(playerModel, boardModel);
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import io.github.StoneDigger.model1.models.BoardModel;
 import io.github.StoneDigger.model1.models.TileType;
@@ -44,7 +45,9 @@ public class BoardView extends Actor {
                 TileType tileType = board.getTile(i,j);
                 int tileXPosition = GAP_SIZE/2 + i*(BLOCK_SIZE + GAP_SIZE);
                 int tileYPosition = GAP_SIZE/2 + j*(BLOCK_SIZE + GAP_SIZE);
-                batch.draw(TileType.getTexture(tileType), tileXPosition, tileYPosition, BLOCK_SIZE, BLOCK_SIZE);
+                Texture tileTexture = TileType.getTexture(tileType);
+                if (tileTexture != null)
+                    batch.draw(tileTexture, tileXPosition, tileYPosition, BLOCK_SIZE, BLOCK_SIZE);
             }
         }
 

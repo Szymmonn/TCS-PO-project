@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.StoneDigger.view.Game.GameStart;
 
+import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
+
 public class MenuScreen extends ScreenAdapter {
     private final GameStart gameStart;
     private Label label;
@@ -29,7 +31,7 @@ public class MenuScreen extends ScreenAdapter {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PressStart2P-Regular.ttf"));
+        FreeTypeFontGenerator generator = REGULAR_FONT_GENERATOR;
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         parameter.size = 24; // Font size in pixels
@@ -45,7 +47,6 @@ public class MenuScreen extends ScreenAdapter {
         parameter.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:!?.,'\"()-=+/\\ "; // Optimization (optional)
 
         BitmapFont font = generator.generateFont(parameter);
-        generator.dispose();
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
