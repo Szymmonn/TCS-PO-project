@@ -30,11 +30,17 @@ public class Player implements IPlayer {
 
     @Override public void move(EDirections dir) {
         /// Actions
-        board.getTile(pos).onWalkBy(this);
+        ITile t = board.getTile(pos);
+        if (t instanceof IWalkableTile) {
+            ((IWalkableTile) t).onWalkBy(this);
+        }
+
 
         /// Moving at the end
         if(canMove(dir))
             pos.add(dir.dx, dir.dy);
+
+
     }
 
     @Override public void collect() {

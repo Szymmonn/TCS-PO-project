@@ -1,18 +1,18 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
-import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class DiamondTile implements ITile, ISelfUpdate {
-    @Override public boolean isWalkable() { return true; }
-
-    @Override
-    public void onWalkBy(IEntity entity) {
-
+public class DiamondTile implements ITile, IWalkableTile {
+    IBoard board;
+    public void setBoard(IBoard board) {
+        this.board = board;
+    }
+    @Override public boolean isWalkable() {
+        return true;
     }
 
     @Override
-    public void update() {
+    public void onWalkBy(IEntity entity) {
 
     }
 }
