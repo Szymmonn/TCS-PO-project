@@ -2,7 +2,6 @@ package io.github.StoneDigger.model.Classes.Tiles;
 
 import io.github.StoneDigger.model.Classes.Player;
 import io.github.StoneDigger.model.Interfaces.*;
-import io.github.StoneDigger.model1.models.Direction;
 
 public class DiamondTile extends ATile implements IWalkableTile {
     public DiamondTile(ILevelManager levelManager) {

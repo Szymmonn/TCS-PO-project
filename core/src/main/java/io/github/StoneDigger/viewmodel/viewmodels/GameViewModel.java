@@ -1,21 +1,48 @@
 package io.github.StoneDigger.viewmodel.viewmodels;
 
 
+import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model.Classes.GameLogic;
-import io.github.StoneDigger.model.Interfaces.IBoardGenerator;
-import io.github.StoneDigger.model.Interfaces.ILevelManager;
-import io.github.StoneDigger.model1.BoardGenerators.RandomBoardGenerator;
+import io.github.StoneDigger.model.Classes.Player;
+import io.github.StoneDigger.model.Interfaces.EDirections;
 import io.github.StoneDigger.model1.models.BoardModel;
-import io.github.StoneDigger.model1.models.Direction;
-import io.github.StoneDigger.model1.models.GameModel;
 import io.github.StoneDigger.model1.models.PlayerModel;
 
 public class GameViewModel {
     private GameLogic gameLogic;
-    public GameViewModel() {
+    private Board board;
+    private Player player;
+
+    public GameViewModel(Player playerModel, Board boardModel) {
         gameLogic = new GameLogic();
-        IBoardGenerator
-        IBoardValidator
-        ILevelManager
+        this.player = playerModel;
+        this.board = boardModel;
+    }
+
+    public Board getBoardModel() {
+        return board;
+    }
+
+    public Player getPlayerModel() {
+        return player;
+    }
+
+    public void setBoardModel(Board boardModel) {
+        this.board = boardModel;
+    }
+
+    public void setPlayerModel(Player playerModel) {
+        this.player = playerModel;
+    }
+    public int getPlayerPositionX() {
+        return 1;
+    }
+
+    public int getPlayerPositionY() {
+        return 1;
+    }
+
+    public void handleInput(EDirections dir) {
+
     }
 }
