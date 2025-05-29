@@ -10,10 +10,7 @@ import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 import io.github.StoneDigger.view.views.utility.TileToTexture;
 
-import static io.github.StoneDigger.model1.models.Constants.BLOCK_SIZE;
-import static io.github.StoneDigger.model1.models.Constants.GAP_SIZE;
-import static io.github.StoneDigger.view.screen.GameScreen.BOARD_HEIGHT;
-import static io.github.StoneDigger.view.screen.GameScreen.BOARD_WIDTH;
+import static io.github.StoneDigger.view.screen.GameScreen.*;
 
 public class BoardView extends Actor {
     private final Board board;
