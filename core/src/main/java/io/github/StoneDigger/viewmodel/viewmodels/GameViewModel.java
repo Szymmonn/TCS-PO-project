@@ -11,29 +11,18 @@ import java.util.List;
 
 public class GameViewModel {
     GameLogic gameLogic;
-    Player player;
 
-    public GameViewModel(Player player) {
-        this.player = player;
+    public GameViewModel() {
         GameLogic gameLogic = new GameLogic();
     }
-//    public Board getBoard() {
-//        return board;
-//    }
-//    public Player getPlayer() {
-//        return player;
-//    }
+    public Board getBoard() {
+        return gameLogic.getBoard();
+    }
+    public Player getPlayer() {
+        return gameLogic.getPlayer();
+    }
 //    public List<Opponent> getOpponentList() {
 //        return opponentList;
-//    }
-//    public void setBoard(Board board) {
-//        this.board = board;
-//    }
-//    public void setPlayer(Player player) {
-//        this.player = player;
-//    }
-//    public void setOpponentList(List<Opponent> opponentList) {
-//        this.opponentList = opponentList;
 //    }
 //
 //    public int getPlayerPositionX() {
@@ -44,6 +33,6 @@ public class GameViewModel {
 //    }
 
     public void handleInput(EDirections direction) {
-        player.move(direction);
+        gameLogic.getPlayer().move(direction);
     }
 }

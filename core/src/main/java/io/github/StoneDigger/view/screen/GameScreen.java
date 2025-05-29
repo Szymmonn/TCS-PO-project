@@ -60,7 +60,7 @@ public class GameScreen extends ScreenAdapter {
         /*
         HAS TO CHANGE - no ensurance that this is the same player
          */
-        gameViewModel = new GameViewModel(player);
+        gameViewModel = new GameViewModel();
         gameController = new GameController(gameViewModel);
 
         /*

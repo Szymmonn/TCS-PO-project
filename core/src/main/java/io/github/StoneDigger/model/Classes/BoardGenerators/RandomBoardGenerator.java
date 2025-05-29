@@ -3,7 +3,6 @@ package io.github.StoneDigger.model.Classes.BoardGenerators;
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model.Classes.LevelManager;
-import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Interfaces.IBoardGenerator;
 import io.github.StoneDigger.model.Classes.Tiles.*;
 
@@ -23,7 +22,7 @@ public class RandomBoardGenerator implements IBoardGenerator {
     }
 
     @Override
-    public IBoard generate(GridPoint2 size, GridPoint2 start) {
+    public Board generate(GridPoint2 size, GridPoint2 start) {
         int w = size.x, h = size.y;
         ATile[][] tiles = new ATile[w][h];
         for(int x = 0; x < w; x++) for(int y = 0; y < h; y++) tiles[x][y] = new DirtTile(levelManager);
@@ -37,6 +36,6 @@ public class RandomBoardGenerator implements IBoardGenerator {
         }
         tiles[start.x][start.y] = new StartTile(levelManager);
         tiles[w-2][h-2] = new EndTile(levelManager);
-        return new Board(tiles, start);
+        return new Board(tiles,start);
     }
 }

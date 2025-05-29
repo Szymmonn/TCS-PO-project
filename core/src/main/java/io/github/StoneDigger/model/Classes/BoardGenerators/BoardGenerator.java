@@ -1,11 +1,9 @@
 package io.github.StoneDigger.model.Classes.BoardGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Board;
 import io.github.StoneDigger.model.Classes.LevelManager;
-import io.github.StoneDigger.model.Interfaces.IBoard;
-import io.github.StoneDigger.model.Interfaces.ILevelManager;
 
-import java.util.Random;
 
 public class BoardGenerator {
      LevelManager levelManager;
@@ -13,7 +11,7 @@ public class BoardGenerator {
         this.levelManager = levelManager;
     }
 
-    public IBoard generateBoard(int levelNumber) {
+    public Board generateBoard(int levelNumber) {
         int width = 20 + levelNumber; // Example difficulty scaling
         int height = 15 + levelNumber;
         GridPoint2 startingPos = new GridPoint2(1, 1);

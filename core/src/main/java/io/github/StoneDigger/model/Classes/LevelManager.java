@@ -13,24 +13,20 @@ public class LevelManager implements ILevelManager {
     private IBoard board;
     private final List<IEntity> entities = new ArrayList<>();
     private final List<ATile> tiles = new ArrayList<>();
-    private final BoardGenerator gen;
-    private final SimpleBoardValidator validator;
+
     private final LevelStats stats = new LevelStats();
 
     public LevelManager() {
-        this.validator = new SimpleBoardValidator();
-        this.gen = new BoardGenerator(this);
+
     }
 
-    @Override public void resetLevel() {
+    @Override
+    public void resetLevel() {
         startLevel(1);
-    };
+    }
 
-    @Override public void startLevel(int index) {
-        do {
-            board = gen.generateBoard(1);
-        } while (!validator.validate(board));
-
+    @Override
+    public void startLevel(int index) {
         entities.clear();
         entities.add(new Player(board));
         tiles.clear();
@@ -40,15 +36,18 @@ public class LevelManager implements ILevelManager {
         //entities.add(new Opponent(board, new GridPoint2(5,5)));
     }
 
-    @Override public IBoard getCurrentBoard() {
+    @Override
+    public IBoard getCurrentBoard() {
         return board;
     }
 
-    @Override public ILevelStats getStats() {
+    @Override
+    public ILevelStats getStats() {
         return stats;
     }
 
-    @Override public void update() {
+    @Override
+    public void update() {
         for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update();
         for(IEntity e : entities) if(e instanceof ISelfUpdate) ((ISelfUpdate) e).update();
     }
