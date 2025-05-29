@@ -11,8 +11,8 @@ public class GameLogic implements IGameLogic {
     private final ILevelManager lvl;
     private boolean gameOver;
 
-    public GameLogic(IBoardGenerator gen, IBoardValidator val, ILevelManager lvl) {
-        this.gen = gen;
+    public GameLogic() {
+        this.gen = new BoardGene
         this.val = val;
         this.lvl = lvl;
     }
