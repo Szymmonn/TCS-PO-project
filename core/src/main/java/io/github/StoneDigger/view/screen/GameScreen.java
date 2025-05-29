@@ -11,9 +11,9 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.StoneDigger.model.Classes.BoardGenerators.RandomBoardGenerator;
 import io.github.StoneDigger.model.Classes.LevelManager;
+import io.github.StoneDigger.model.Classes.LevelStats;
 import io.github.StoneDigger.model.Classes.Player;
 import io.github.StoneDigger.model.Interfaces.IBoard;
-import io.github.StoneDigger.model1.models.LevelStatus1;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.GameController;
 import io.github.StoneDigger.view.views.BoardView;
@@ -21,10 +21,14 @@ import io.github.StoneDigger.view.views.hud.HUDView;
 import io.github.StoneDigger.view.views.PlayerView;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
-import static io.github.StoneDigger.model1.models.Constants.BLOCK_SIZE;
-import static io.github.StoneDigger.model1.models.Constants.GAP_SIZE;
 
 public class GameScreen extends ScreenAdapter {
+    /*
+    view parameters
+     */
+    public static int BLOCK_SIZE = 100;
+    public static int GAP_SIZE = 20;
+
     public static float VISIBLE_WORLD_WIDTH = 9*(BLOCK_SIZE + GAP_SIZE);
     public static float VISIBLE_WORLD_HEIGHT = 7*(BLOCK_SIZE + GAP_SIZE);
     public static float HUD_SIZE = 100;
@@ -86,7 +90,7 @@ public class GameScreen extends ScreenAdapter {
         hudCamera.update();
 
         hudStage = new Stage(hudViewport);
-        hudStage.addActor(new HUDView(new LevelStatus1()));
+        hudStage.addActor(new HUDView(new LevelStats()));
     }
 
     @Override

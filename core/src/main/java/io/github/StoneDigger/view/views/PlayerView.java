@@ -4,11 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import io.github.StoneDigger.model.Classes.Player;
-import io.github.StoneDigger.model1.models.PlayerModel;
 
 import static io.github.StoneDigger.view.Assets.PLAYER_TEXTURE;
-import static io.github.StoneDigger.model1.models.Constants.BLOCK_SIZE;
-import static io.github.StoneDigger.model1.models.Constants.GAP_SIZE;
+import static io.github.StoneDigger.view.screen.GameScreen.BLOCK_SIZE;
+import static io.github.StoneDigger.view.screen.GameScreen.GAP_SIZE;
 
 public class PlayerView extends Actor {
     private final Player player;
