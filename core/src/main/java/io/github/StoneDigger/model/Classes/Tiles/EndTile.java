@@ -1,9 +1,12 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
-import io.github.StoneDigger.model.Interfaces.EDirections;
-import io.github.StoneDigger.model.Interfaces.IMovable;
-import io.github.StoneDigger.model.Interfaces.ITile;
+import io.github.StoneDigger.model.Interfaces.*;
 
-public class EndTile implements ITile {
+public class EndTile implements ITile, IWalkableTile {
     @Override public boolean isWalkable() { return true; }
+
+    @Override
+    public void onWalkBy(IEntity entity) {
+
+    }
 }
