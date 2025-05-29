@@ -1,42 +1,43 @@
 package io.github.StoneDigger.model.Classes.Tiles;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Player;
 import io.github.StoneDigger.model.Interfaces.*;
 
-public class RockTile implements ITile, IKiller, ISelfUpdate {
-    private GridPoint2 rockPosition;
 
-    @Override
-    public boolean tryToKill() {
-//        if();
-        return false;
-    }
+public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
 
-
-
-    @Override
-    public boolean update() {
-        return false;
+    public RockTile(ILevelManager levelManager) {
+        super(levelManager);
     }
 
     @Override
-    public GridPoint2 getPosition() {
-        return rockPosition;
+    public boolean isWalkable(EDirections dir) {
+        GridPoint2 newPosition = new GridPoint2(this.getPosition().x+dir.dx,this.getPosition().y+dir.dy);
+        return levelManager.getCurrentBoard().getTile(newPosition) instanceof EmptyTile;
     }
 
     @Override
-    public void setPosition(GridPoint2 newPosition) {
-        rockPosition = newPosition;
+    public void onWalkBy(IEntity entity,EDirections dir) {
+        if(entity instanceof Player) {
+            move(dir);
+        }
     }
 
     @Override
-    public boolean tryToMove(EDirections directions) {
-        return false;
+    public void update() {
+
     }
 
-    @Override
-    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
-        return false;
+    public void move(EDirections dir) {
+        IBoard board = levelManager.getCurrentBoard();
+        GridPoint2 oldPosition = new GridPoint2(getPosition().x,getPosition().y);
+        GridPoint2 newPosition = new GridPoint2(getPosition().x+dir.dx,getPosition().y+dir.dy);
+
+        EmptyTile newTile = new EmptyTile(levelManager);
+        ATile newRockTile = new RockTile(levelManager);
+
+        board.setTile(oldPosition,newTile);
+        board.setTile(newPosition,newRockTile);
     }
-    //dwayne
 }

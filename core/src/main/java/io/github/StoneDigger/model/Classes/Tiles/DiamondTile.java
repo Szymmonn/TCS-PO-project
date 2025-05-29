@@ -18,9 +18,4 @@ public class DiamondTile extends ATile implements IWalkableTile {
             levelManager.getStats().addScore(1);
         }
     }
-
-    @Override
-    public boolean canItMoveOnMySpot(IMovable object, EDirections directions) {
-        return false;
-    }
 }

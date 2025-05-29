@@ -1,6 +1,8 @@
 package io.github.StoneDigger.model.Classes.BoardGenerators.BoardValidators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Classes.Tiles.ATile;
+import io.github.StoneDigger.model.Interfaces.EDirections;
 import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Interfaces.IBoardValidator;
 
@@ -27,8 +29,8 @@ public class SimpleBoardValidator implements IBoardValidator {
                 int nx=p.x+d.x, ny=p.y+d.y;
                 if(nx<0||ny<0||nx>=w||ny>=h) continue;
                 if(visited[nx][ny]) continue;
-                ITile t = board.getTile(new GridPoint2(nx,ny));
-                if(!t.isWalkable()) continue;
+                ATile t = board.getTile(new GridPoint2(nx,ny));
+                if(!t.isWalkable(EDirections.UP)) continue;
                 visited[nx][ny]=true; queue.add(new GridPoint2(nx,ny));
             }
         }

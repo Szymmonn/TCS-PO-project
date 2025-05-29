@@ -3,6 +3,7 @@ package io.github.StoneDigger.model.Classes;
 import com.badlogic.gdx.math.GridPoint2;
 import java.util.Random;
 
+import io.github.StoneDigger.model.Classes.Tiles.ATile;
 import io.github.StoneDigger.model.Interfaces.*;
 
 public class Opponent implements IOpponent {
@@ -16,8 +17,8 @@ public class Opponent implements IOpponent {
     @Override public boolean canMove(EDirections dir) {
         GridPoint2 np = new GridPoint2(pos.x+dir.dx, pos.y+dir.dy);
         if(np.x<0||np.y<0||np.x>=board.getWidth()||np.y>=board.getHeight()) return false;
-        ITile tile = board.getTile(np);
-        return tile.isWalkable();
+        ATile tile = board.getTile(np);
+        return tile.isWalkable(EDirections.UP);
     }
     @Override public void move(EDirections dir) { if(canMove(dir)) pos.add(dir.dx, dir.dy); }
     @Override public void kill(IEntity target) {

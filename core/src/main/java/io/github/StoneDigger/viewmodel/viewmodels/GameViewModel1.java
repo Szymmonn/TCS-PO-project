@@ -1,9 +1,9 @@
 package io.github.StoneDigger.viewmodel.viewmodels;
 
 
+import io.github.StoneDigger.model.Interfaces.EDirections;
 import io.github.StoneDigger.model1.BoardGenerators.RandomBoardGenerator;
 import io.github.StoneDigger.model1.models.BoardModel;
-import io.github.StoneDigger.model1.models.Direction;
 import io.github.StoneDigger.model1.models.GameModel;
 import io.github.StoneDigger.model1.models.PlayerModel;
 
@@ -30,7 +30,7 @@ public class GameViewModel1 {
         }
     }
 
-    public void handleInput(Direction direction) {
+    public void handleInput(EDirections direction) {
         gameModel.movePlayer(direction);
     }
 

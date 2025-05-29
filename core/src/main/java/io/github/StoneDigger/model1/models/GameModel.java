@@ -1,5 +1,7 @@
 package io.github.StoneDigger.model1.models;
 
+import io.github.StoneDigger.model.Interfaces.EDirections;
+
 public class GameModel {
     private PlayerModel playerModel;
     private BoardModel boardModel;
@@ -25,7 +27,7 @@ public class GameModel {
         this.playerModel = playerModel;
     }
 
-    public void movePlayer(Direction direction) {
+    public void movePlayer(EDirections direction) {
         int newX = playerModel.getPositionX();
         int newY = playerModel.getPositionY();
         switch (direction) {
