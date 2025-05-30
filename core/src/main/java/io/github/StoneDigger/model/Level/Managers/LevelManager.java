@@ -2,6 +2,8 @@ package io.github.StoneDigger.model.Level.Managers;
 
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
+import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
+import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 import io.github.StoneDigger.model.GameObjects.Tiles.DiamondTile;
 import io.github.StoneDigger.model.Level.LevelStats;
@@ -9,14 +11,20 @@ import io.github.StoneDigger.model.Level.LevelStats;
 public abstract class LevelManager {
     private static Board board = null;
     private static LevelStats stats = null;
+    private static int levelNumber;
+    private static boolean gameOver;
 
     public static void resetLevel() {
-        startLevel(2, board);
+        startMechanics(2, board);
     }
 
-    public static void startLevel(int index, Board board) {
+    public static void startNewLevel() {
+        levelNumber++;
+        setBoard(BoardGenerator.generateBoard(ELevelType.STANDARD, levelNumber));
+        LevelManager.startMechanics(levelNumber, LevelManager.getBoard());
+    }
 
-        LevelManager.board = board;
+    public static void startMechanics(int index, Board board) {
         /*
         all diamonds on board counter
          */
@@ -46,5 +54,17 @@ public abstract class LevelManager {
 
     public static Board getBoard() {
         return board;
+    }
+
+    public static boolean isGameOver() {
+        return LevelManager.gameOver;
+    }
+
+    public static void setGameOver(boolean b) {
+        LevelManager.gameOver = b;
+    }
+
+    public static void setLevelNumber(int levelNumber) {
+        LevelManager.levelNumber = levelNumber;
     }
 }
