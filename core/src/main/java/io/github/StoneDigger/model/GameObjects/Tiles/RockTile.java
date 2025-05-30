@@ -36,7 +36,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
     @Override
     public void update(float delta) {
         rockDropTimer += delta;
-        if ((moved && rockDropTimer >= 0.3f) || (!moved && rockDropTimer>=1.2f)) {
+        if ((moved && rockDropTimer >= 0.3f) || (!moved && rockDropTimer>=0.6f)) {
             processFallingRocks();
             rockDropTimer = 0;
         }
