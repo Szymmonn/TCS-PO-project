@@ -33,7 +33,7 @@ public abstract class LevelManager {
             }
         }
         PlayerManager.getPlayer().setPosition(playerStartPosition);
-        stats = new LevelStats(count,0, index);
+        stats = new LevelStats(count,3, index);
     }
 
     public static LevelStats getStats() {

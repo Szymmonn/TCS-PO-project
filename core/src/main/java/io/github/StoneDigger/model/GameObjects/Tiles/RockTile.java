@@ -16,15 +16,14 @@ import java.util.Map;
 
 public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
     private float rockDropTimer=0;
-    private boolean moved=false;
+    private int moved=0;
 
     public RockTile(GridPoint2 start) {super(start);}
-
 
     @Override
     public boolean isWalkable(EDirections dir) {
         if(dir == EDirections.UP) return false;
-        if(moved) return false;
+        if(moved>0) return false;
         GridPoint2 newPosition = new GridPoint2(this.getPosition().x+dir.getDx(),this.getPosition().y+dir.getDy());
         return LevelManager.getBoard().getTile(newPosition) instanceof EmptyTile;
     }
@@ -33,13 +32,14 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
     public void onWalkBy(IEntity entity, EDirections dir) {
         if(entity instanceof Player) {
             move(dir);
+
         }
     }
 
     @Override
     public void update(float delta) {
         rockDropTimer += delta;
-        if ((moved && rockDropTimer >= 0.3f) || (!moved && rockDropTimer>=0.6f)) {
+        if ((moved>0 && rockDropTimer >= 0.3f) || (moved==0 && rockDropTimer>=0.6f)) {
             processFallingRocks();
             rockDropTimer = 0;
         }
@@ -56,16 +56,16 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         }
 
         if (tryFallDown(x, y)) {
-            moved = false;
-            ((RockTile) board.getTile(new GridPoint2(x, y - 1))).setMoved(true);
+            ((RockTile) board.getTile(new GridPoint2(x, y - 1))).setMoved(moved+1);
+            moved = 0;
 
-        } else if (moved){
+        } else if (moved>0){
             int side = tryRollSideways(x, y);
             if(side!=0) {
-                moved = false;
-                ((RockTile) board.getTile(new GridPoint2(x + side, y))).setMoved(true);
+                ((RockTile) board.getTile(new GridPoint2(x + side, y))).setMoved(moved+1);
+                moved = 0;
             } else {
-                moved = false;
+                moved = 0;
             }
         }
     }
@@ -74,11 +74,23 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         GridPoint2 pos = PlayerManager.getPlayer().getPosition();
         Board board = LevelManager.getBoard();
 
-        if(pos.x == x && pos.y + 1 == y) return true;
+        if(pos.x == x && pos.y + 1 == y && moved < 2) return true;
         if(!(board.getTile(new GridPoint2(x,y-1)) instanceof EmptyTile)) {
 
-            if (tryFallRight(x, y) && pos.x == x + 1 && pos.y == y) return !tryFallLeft(x,y);
-            if (tryFallLeft(x, y) && pos.x == x - 1 && pos.y == y) return !tryFallRight(x,y);
+            if (tryFallRight(x, y) && pos.x == x + 1 && pos.y == y) {
+                if(tryFallLeft(x,y)) return false;
+                else {
+                    moved=0;
+                    return true;
+                }
+            }
+            if (tryFallLeft(x, y) && pos.x == x - 1 && pos.y == y) {
+                if(tryFallRight(x, y)) return false;
+                else {
+                    moved=0;
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -159,7 +171,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         moveWithUpdate(oldPosition,newPosition);
     }
 
-    public void setMoved(boolean flag) {
+    public void setMoved(int flag) {
         moved = flag;
     }
 }
