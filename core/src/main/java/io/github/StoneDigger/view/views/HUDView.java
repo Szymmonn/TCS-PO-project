@@ -56,6 +56,8 @@ public class HUDView extends Group {
         createSettingsButton();
         diamondTable = createDiamondTable();
         hpTable = createHpTable();
+
+        addActors();
     }
 
     @Override
@@ -66,19 +68,13 @@ public class HUDView extends Group {
         updateLevel();
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        Color previousColor = batch.getColor();
-        batch.setColor(1, 1, 1, 1);
-
-        background.draw(batch, parentAlpha);
-        diamondTable.draw(batch, parentAlpha);
-        hpTable.draw(batch, parentAlpha);
-        timeElapsedLabel.draw(batch, parentAlpha);
-        levelNumberLabel.draw(batch, parentAlpha);
-        settingsButton.draw(batch, parentAlpha);
-
-        batch.setColor(previousColor);
+    private void addActors() {
+        addActor(background);
+        addActor(diamondTable);
+        addActor(hpTable);
+        addActor(timeElapsedLabel);
+        addActor(levelNumberLabel);
+        addActor(settingsButton);
     }
 
     private Image createBackground() {
@@ -104,6 +100,7 @@ public class HUDView extends Group {
 
     private void createSettingsButton() {
         settingsButton = new ImageButton(new TextureRegionDrawable(SETTINGS_TEXTURE));
+
 
         /*
         settings button parameters

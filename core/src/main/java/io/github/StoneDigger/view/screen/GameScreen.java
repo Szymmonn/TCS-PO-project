@@ -22,8 +22,6 @@ public class GameScreen extends ScreenAdapter {
     // --- Constants ---
     public static final int BLOCK_SIZE = 100;
     public static final int GAP_SIZE = 0;
-    //public static final int BOARD_WIDTH = 21;
-    //public static final int BOARD_HEIGHT = 16;
 
     public static final float VISIBLE_WORLD_WIDTH = 21 * (BLOCK_SIZE + GAP_SIZE);
     public static final float VISIBLE_WORLD_HEIGHT = 12 * (BLOCK_SIZE + GAP_SIZE);
@@ -93,8 +91,8 @@ public class GameScreen extends ScreenAdapter {
 
     private void setupInputProcessor() {
         InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(gameController);
         multiplexer.addProcessor(hudStage);
+        multiplexer.addProcessor(gameController);
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -106,8 +104,6 @@ public class GameScreen extends ScreenAdapter {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-//        if (needToUpdateCamera) updateCamera();
 
         drawGameLayer(delta);
         drawHudLayer(delta);
