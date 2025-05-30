@@ -26,7 +26,6 @@ public class GameLogic {
         LevelManager.setGameOver(false);
 
         ///  Board setup
-        //TODO: wywalic to
         Board empty = new Board(new ATile[1][1], new GridPoint2(1, 1));
         setBoard(empty);
 
