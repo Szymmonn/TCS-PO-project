@@ -64,8 +64,8 @@ public class MenuScreen extends ScreenAdapter {
             public boolean keyDown(InputEvent event, int keycode) {
                 if(keycode != Input.Keys.ENTER)
                     return false;
-                gameStart.setScreen(new GameScreen(gameStart));
                 Gdx.input.setInputProcessor(null);
+                gameStart.setScreen(new GameScreen(gameStart));
                 return true;
             }
         });

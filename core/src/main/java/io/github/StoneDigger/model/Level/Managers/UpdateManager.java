@@ -9,8 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public abstract class UpdateManager {
-    public static final List<ISelfUpdate> selfUpdates = new ArrayList<>();
-    private static final List<RockTile> selfUpdatesRocks = new ArrayList<>();
+    private static final List<ISelfUpdate> selfUpdates = new ArrayList<>();
 
     public static void addToUpdates(ISelfUpdate selfUpdate) {
         selfUpdates.add(selfUpdate);

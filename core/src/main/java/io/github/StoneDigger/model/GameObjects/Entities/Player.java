@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.GameObjects.Entities.Hunting.IHunting;
 import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
+import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
+import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 
 public class Player implements IPlayer {
     private GridPoint2 pos;
@@ -68,7 +70,11 @@ public class Player implements IPlayer {
     @Override
     public void update(float delta) {
         ATile tilecurrent = LevelManager.getBoard().getTile(pos);
-
+        if(tilecurrent instanceof RockTile) {
+            setPosition(new GridPoint2(1, 1));
+            int hp = LevelManager.getStats().getHP();
+            LevelManager.getStats().setHP(hp-1);
+        }
 
     }
 

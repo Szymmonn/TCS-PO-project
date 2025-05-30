@@ -1,5 +1,7 @@
 package io.github.StoneDigger.model.Level;
 
+import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
+
 import java.time.Duration;
 import java.time.LocalTime;
 
