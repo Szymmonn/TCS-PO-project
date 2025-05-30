@@ -2,7 +2,6 @@ package io.github.StoneDigger.model.GameObjects.Entities;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-import io.github.StoneDigger.model.GameObjects.Entities.Hunting.IHunting;
 import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Level.LevelStats;
@@ -49,21 +48,6 @@ public class Player implements IPlayer {
             ((RockTile) t).onWalkBy(this,dir);
         } else if (t instanceof DiamondTile) {
             ((DiamondTile) t).onWalkBy(this,dir);
-        }
-    }
-
-
-
-    @Override
-    public void collect() {
-        score += 10;
-    }
-
-    @Override
-    public void kill(IEntity target) {
-        // Trigger target's death
-        if (target instanceof IHunting) {
-            ((IHunting) target).onKilled(this);
         }
     }
 

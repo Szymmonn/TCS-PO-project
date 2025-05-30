@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
 
-public class StandardBoardGenerator {
+public class StandardBoardGenerator implements IBoardGenerator {
 
     public static Board generate(int levelNumber) {
         GridPoint2 start = Levels.startingPoints[levelNumber];

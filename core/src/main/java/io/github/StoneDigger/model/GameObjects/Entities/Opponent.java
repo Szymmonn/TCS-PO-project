@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import java.util.Random;
 
 import io.github.StoneDigger.model.Boards.Board;
-import io.github.StoneDigger.model.GameObjects.Entities.Hunting.IHunting;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 import io.github.StoneDigger.model.Directions.*;
 
@@ -25,14 +24,6 @@ public class Opponent implements IOpponent {
     @Override public void move(EDirections dir) {
         if(canMove(dir)) pos.add(dir.getDx(), dir.getDy());
     }
-
-    @Override public void kill(IEntity target) {
-        // Trigger opponent's death
-        if (target instanceof IHunting) {
-            ((IHunting) target).onKilled(this);
-        }
-    }
-
 
     @Override
     public void update(float delta) {

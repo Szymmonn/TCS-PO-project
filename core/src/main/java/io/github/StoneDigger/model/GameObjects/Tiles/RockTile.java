@@ -74,7 +74,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         GridPoint2 pos = PlayerManager.getPlayer().getPosition();
         Board board = LevelManager.getBoard();
 
-        if(pos.x == x && pos.y + 1 == y && moved < 2) return true;
+        if(pos.x == x && pos.y + 1 == y && moved < 1) return true;
         if(!(board.getTile(new GridPoint2(x,y-1)) instanceof EmptyTile)) {
 
             if (tryFallRight(x, y) && pos.x == x + 1 && pos.y == y) {

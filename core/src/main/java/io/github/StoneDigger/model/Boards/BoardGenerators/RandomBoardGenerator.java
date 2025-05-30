@@ -7,7 +7,7 @@ import io.github.StoneDigger.model.Level.Managers.LevelManager;
 
 import java.util.Random;
 
-public class RandomBoardGenerator {
+public class RandomBoardGenerator implements IBoardGenerator{
     private static double wallDensity;
     private static double rockDensity;
     private static double diamondDensity;

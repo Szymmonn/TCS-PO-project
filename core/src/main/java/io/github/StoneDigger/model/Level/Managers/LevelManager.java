@@ -20,7 +20,7 @@ public abstract class LevelManager {
         Board newBoard = BoardGenerator.generateBoard(ELevelType.STANDARD, levelNumber);
         setBoard(newBoard);
 
-        UpdateManager.clearAll();              // <-- MUSI BYĆ: usuwa wszystkie stare wpisy
+        UpdateManager.clearAll();
         UpdateManager.addToUpdates(PlayerManager.getPlayer());
 
         for (int x = 0; x < newBoard.getWidth(); x++) {
@@ -31,23 +31,7 @@ public abstract class LevelManager {
                 }
             }
         }
-
-//        // (Twoje debugujące printlny można zostawić albo usunąć)
         startMechanics(levelNumber, newBoard);
-//
-//
-//
-//
-//        levelNumber++;
-//        setBoard(BoardGenerator.generateBoard(ELevelType.STANDARD, levelNumber));
-//        System.out.println("cos" + LevelManager.getBoard().getTile(new GridPoint2(6, 1)));
-//        for(int i = 0; i < LevelManager.getBoard().getWidth(); i++) {
-//            for(int j = 0; j < LevelManager.getBoard().getHeight(); j++) {
-//                System.out.println("cos" + LevelManager.getBoard().getTile(new GridPoint2(i, j)));
-//            }
-//            System.out.println('\n');
-//        }
-//        LevelManager.startMechanics(levelNumber, LevelManager.getBoard());
 
     }
 

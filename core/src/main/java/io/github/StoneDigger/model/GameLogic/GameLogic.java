@@ -24,32 +24,17 @@ public class GameLogic {
     public static void startTheGame(ELevelType levelType) {
         /// Level Manager
         LevelManager.setGameOver(false);
+
         ///  Board setup
         //TODO: wywalic to
-        Board empty = new Board(new ATile[1 + 20][1 + 15], new GridPoint2(1, 1));
+        Board empty = new Board(new ATile[1][1], new GridPoint2(1, 1));
         setBoard(empty);
 
         /// Player manager
         PlayerManager.setPlayer(new Player(new GridPoint2(1, 1)));
-//        LevelManager.startMechanics(1, empty);
-//        Board full;
-//        full = BoardGenerator.generateBoard(ELevelType.STANDARD, 1);
-//        do {
-//            full = BoardGenerator.generateBoard(ELevelType.RANDOM, 1);
-//        } while (!validator.validate(full));
-//        LevelManager.startLevel(1, full);
-//        LevelManager.setBoard(full);
+
+        /// Level starting
         LevelManager.startNewLevel();
-//        /// Update manager
-//        UpdateManager.addToUpdates(PlayerManager.getPlayer());
-//        for (int i = 0; i < LevelManager.getBoard().getWidth(); i++) {
-//            for (int j = 0; j < LevelManager.getBoard().getHeight(); j++) {
-//                ATile tile = LevelManager.getBoard().getTile(new GridPoint2(i, j));
-//                if (tile instanceof ISelfUpdate)
-//                    UpdateManager.addToUpdates((ISelfUpdate) tile);
-//            }
-//        }
-//        LevelManager.setLevelNumber(0);
     }
 
     public static void tick(float delta) {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.GameObjects.Entities.IEntity;
 import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
-import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.*;
@@ -12,7 +11,7 @@ import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
 public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
-    float rockDiamondTimer=0;
+    float dropDiamondTimer =0;
     int moved=0;
 
     public DiamondTile(GridPoint2 start) {super(start);}
@@ -32,10 +31,10 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
 
     @Override
     public void update(float delta) {
-        rockDiamondTimer += delta;
-        if ((moved>0 && rockDiamondTimer >= 0.3f) || (moved==0 && rockDiamondTimer>=0.6f)) {
-            //processFallingDiamonds();
-            rockDiamondTimer = 0;
+        dropDiamondTimer += delta;
+        if ((moved>0 && dropDiamondTimer >= 0.3f) || (moved==0 && dropDiamondTimer >=0.6f)) {
+            processFallingDiamonds();
+            dropDiamondTimer = 0;
         }
     }
 
@@ -45,13 +44,13 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
         int y = position.y;
 
         if (tryFallDown(x, y)) {
-            ((RockTile) board.getTile(new GridPoint2(x, y - 1))).setMoved(moved+1);
+            ((DiamondTile) board.getTile(new GridPoint2(x, y - 1))).setMoved(moved+1);
             moved = 0;
 
         } else if (moved>0){
             int side = tryRollSideways(x, y);
             if(side!=0) {
-                ((RockTile) board.getTile(new GridPoint2(x + side, y))).setMoved(moved+1);
+                ((DiamondTile) board.getTile(new GridPoint2(x + side, y))).setMoved(moved+1);
                 moved = 0;
             } else {
                 moved = 0;
@@ -116,13 +115,17 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
 
     public void moveWithUpdate(GridPoint2 from, GridPoint2 to) {
         Board board = LevelManager.getBoard();
-        RockTile oldRock = (RockTile) board.getTile(from);
-        RockTile newRock = new RockTile(to);
+        DiamondTile oldDiamond = (DiamondTile) board.getTile(from);
+        DiamondTile newDiamond = new DiamondTile(to);
 
-        board.setTile(to, newRock);
+        board.setTile(to, newDiamond);
         board.setTile(from, new EmptyTile(from));
 
-        UpdateManager.removedFromUpdates(oldRock);
-        UpdateManager.addToUpdates(newRock);
+        UpdateManager.removedFromUpdates(oldDiamond);
+        UpdateManager.addToUpdates(newDiamond);
+    }
+
+    public void setMoved(int flag) {
+        moved = flag;
     }
 }
