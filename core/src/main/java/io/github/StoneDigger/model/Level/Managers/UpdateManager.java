@@ -21,4 +21,7 @@ public abstract class UpdateManager {
         List<ISelfUpdate> snapshot = new ArrayList<>(selfUpdates);
         for(ISelfUpdate selfUpdate : snapshot) selfUpdate.update(delta);
     }
+    public static void clearAll() {
+        selfUpdates.clear();
+    }
 }

@@ -21,8 +21,6 @@ responsible for game cycle
  */
 public class GameLogic {
 
-    private static final SimpleBoardValidator validator = new SimpleBoardValidator();
-
     public static void startTheGame() {
         /// Level Manager
         LevelManager.setGameOver(false);
@@ -42,16 +40,16 @@ public class GameLogic {
 //        LevelManager.startLevel(1, full);
 //        LevelManager.setBoard(full);
         LevelManager.startNewLevel();
-        /// Update manager
-        UpdateManager.addToUpdates(PlayerManager.getPlayer());
-        for (int i = 0; i < LevelManager.getBoard().getWidth(); i++) {
-            for (int j = 0; j < LevelManager.getBoard().getHeight(); j++) {
-                ATile tile = LevelManager.getBoard().getTile(new GridPoint2(i, j));
-                if (tile instanceof ISelfUpdate)
-                    UpdateManager.addToUpdates((ISelfUpdate) tile);
-            }
-        }
-        LevelManager.setLevelNumber(0);
+//        /// Update manager
+//        UpdateManager.addToUpdates(PlayerManager.getPlayer());
+//        for (int i = 0; i < LevelManager.getBoard().getWidth(); i++) {
+//            for (int j = 0; j < LevelManager.getBoard().getHeight(); j++) {
+//                ATile tile = LevelManager.getBoard().getTile(new GridPoint2(i, j));
+//                if (tile instanceof ISelfUpdate)
+//                    UpdateManager.addToUpdates((ISelfUpdate) tile);
+//            }
+//        }
+//        LevelManager.setLevelNumber(0);
     }
 
     public static void tick(float delta) {
