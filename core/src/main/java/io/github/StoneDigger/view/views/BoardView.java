@@ -28,8 +28,8 @@ public class BoardView extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         Color prev = batch.getColor();
         batch.setColor(1,1,1,1);
-        for(int i=0;i<BOARD_WIDTH;i++) {
-            for(int j=0;j<BOARD_HEIGHT;j++) {
+        for(int i=0;i<board.getWidth();i++) {
+            for(int j=0;j<board.getHeight();j++) {
                 ATile tileType = board.getTile(new GridPoint2(i, j));
                 int tileXPosition = GAP_SIZE/2 + i*(BLOCK_SIZE + GAP_SIZE);
                 int tileYPosition = GAP_SIZE/2 + j*(BLOCK_SIZE + GAP_SIZE);

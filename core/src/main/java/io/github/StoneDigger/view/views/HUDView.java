@@ -1,15 +1,18 @@
 package io.github.StoneDigger.view.views;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.view.Game.GameStart;
+import io.github.StoneDigger.view.screen.SettingsScreen;
 import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
 import java.time.Duration;
@@ -18,274 +21,207 @@ import static io.github.StoneDigger.view.Assets.*;
 import static io.github.StoneDigger.view.screen.GameScreen.*;
 
 public class HUDView extends Group {
+    private final GameStart gameStart;
     private final ILevelStats levelStats;
-    private Label diamondCountLabel;
-    private Label diamondCollectedLabel;
-   // private Label hpLabel;        // currently not in use
-    private Label timeElapsedLabel;
-    private Label levelNumberLabel;
-    private Image diamondImage;
-    private Image[] heartImage;
+
     private final Image background;
 
-    private final Table diamondTable;
-    private final Table hpTable;
+    private Label diamondCountLabel;
+    private Label diamondCollectedLabel;
+    private Label timeElapsedLabel;
+    private Label levelNumberLabel;
 
-    // used in act to check for labels changes
+    private ImageButton settingsButton;
+
+    private Image diamondImage;
+    private Image[] heartImages;
+
+    private Table diamondTable;
+    private Table hpTable;
+
     private int prevHp;
     private int prevDiamonds;
     private int prevLevelNumber;
 
-    public HUDView(ILevelStats levelStatus) {
-        this.levelStats = levelStatus;
-        prevHp = levelStatus.getHP();
-        prevDiamonds = levelStatus.getDiamondCount();
-        prevLevelNumber = levelStatus.getLevelNumber();
+    public HUDView(ILevelStats levelStats, final GameStart gameStart) {
+        this.gameStart = gameStart;
+        this.levelStats = levelStats;
+        this.prevHp = levelStats.getHP();
+        this.prevDiamonds = levelStats.getDiamondCount();
+        this.prevLevelNumber = levelStats.getLevelNumber();
 
+        background = createBackground();
         createLabels();
         createImages();
-        background = createBackground();
-
+        createSettingsButton();
         diamondTable = createDiamondTable();
         hpTable = createHpTable();
     }
 
     @Override
     public void act(float delta) {
-        int currDiamonds = levelStats.getScore();
-        if(prevDiamonds != currDiamonds) {
-            prevDiamonds = currDiamonds;
-            diamondCountLabel.setText(currDiamonds < 10 ? "0" + currDiamonds : String.valueOf(currDiamonds));
-        }
-
-        int currHP = levelStats.getHP();
-        if(prevHp != currHP) {
-            prevHp = currHP;
-            for(int i=3-1;i>=currHP;i--) {
-                hpTable.removeActor(heartImage[i]);
-            }
-        }
-
-        Duration currDuration = levelStats.getTimeElapsed();
-        long minutes = currDuration.getSeconds() /60;
-        long seconds = currDuration.getSeconds() %60;
-        String minS = minutes < 10 ? "0"+minutes : String.valueOf(minutes);
-        String secS = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
-
-        timeElapsedLabel.setText(minS + ":" + secS);
-
-        int currLevel = levelStats.getLevelNumber();
-        if(prevLevelNumber != currLevel) {
-            prevLevelNumber = currLevel;
-            levelNumberLabel.setText("L" + (prevLevelNumber < 10 ? "0"+prevLevelNumber : String.valueOf(prevLevelNumber)));
-        }
-
+        updateDiamonds();
+        updateHp();
+        updateTime();
+        updateLevel();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        Color prev = batch.getColor();
-        batch.setColor(1,1,1,1);
-
-        /*
-        where to draw background parameters
-         */
+        Color previousColor = batch.getColor();
+        batch.setColor(1, 1, 1, 1);
 
         background.draw(batch, parentAlpha);
         diamondTable.draw(batch, parentAlpha);
         hpTable.draw(batch, parentAlpha);
         timeElapsedLabel.draw(batch, parentAlpha);
         levelNumberLabel.draw(batch, parentAlpha);
+        settingsButton.draw(batch, parentAlpha);
 
-        batch.setColor(prev);
+        batch.setColor(previousColor);
     }
 
     private Image createBackground() {
-        /*
-        background properties
-         */
-        float background_position_x = 0;
-        float background_position_y = VISIBLE_WORLD_HEIGHT;
-        float background_width = VISIBLE_WORLD_WIDTH;
-        float background_height = HUD_SIZE;
-
-        return BackgroundFactory.createSolidBackground(background_position_x, background_position_y, background_width, background_height, Color.FIREBRICK);
+        return BackgroundFactory.createSolidBackground(
+            0, VISIBLE_WORLD_HEIGHT, VISIBLE_WORLD_WIDTH, HUD_SIZE, Color.FIREBRICK
+        );
     }
 
     private void createLabels() {
-        FreeTypeFontGenerator generator = REGULAR_FONT_GENERATOR;
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        BitmapFont font = createFont(30, Color.BLACK);
+
+        Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
+
+        diamondCollectedLabel = new Label(formatNumber(prevDiamonds), style);
+        diamondCountLabel = new Label(formatNumber(levelStats.getDiamondCount()), style);
+
+        timeElapsedLabel = new Label("00:00", style);
+        levelNumberLabel = new Label(formatLevelNumber(prevLevelNumber), style);
+
+        configureTimeElapsedLabel();
+        configureLevelLabel();
+    }
+
+    private void createSettingsButton() {
+        settingsButton = new ImageButton(new TextureRegionDrawable(SETTINGS_TEXTURE));
+
         /*
-        true for almost all
+        settings button parameters
          */
-        parameter.borderColor = Color.BLACK;
-        parameter.size = 30;
+        float button_position_x = VISIBLE_WORLD_WIDTH - 100;
+        float button_position_y = VISIBLE_WORLD_HEIGHT;
+        float button_width = 100;
+        float button_height = 100;
 
-        BitmapFont font = generator.generateFont(parameter);
+        settingsButton.setPosition(button_position_x, button_position_y);
+        settingsButton.setSize(button_width, button_height);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font;
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                System.exit(1);
+                gameStart.setScreen(new SettingsScreen(gameStart));
+            }
+        });
+    }
 
-        diamondCollectedLabel = new Label(prevDiamonds < 10 ? "0" + prevDiamonds : String.valueOf(prevDiamonds), labelStyle);
-        int temp = levelStats.getDiamondCount();
-        diamondCountLabel = new Label(temp < 10 ? "0" + temp : String.valueOf(temp) , labelStyle);
-        //hpLabel = new Label(String.valueOf(prevHp), labelStyle);
-        timeElapsedLabel = new Label("00:00", labelStyle);
-        setupTimeElapsedLabel();
-        levelNumberLabel = new Label("L" + (prevLevelNumber < 10 ? "0" + prevLevelNumber : String.valueOf(prevDiamonds)) , labelStyle);
-        setupLevelLabel();
+    private BitmapFont createFont(int size, Color borderColor) {
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        parameter.borderColor = borderColor;
+        return REGULAR_FONT_GENERATOR.generateFont(parameter);
     }
 
     private void createImages() {
-        TextureRegion region = new TextureRegion(DIAMOND_TEXTURE);
-        diamondImage = new Image(region);
-
-        region = new TextureRegion(HEART_TEXTURE);
-        heartImage = new Image[3];
-        for(int i=3-1;i>=0; i--) {
-            heartImage[i] = new Image(region);
+        diamondImage = new Image(new TextureRegionDrawable(DIAMOND_TEXTURE));
+        heartImages = new Image[3];
+        for (int i = 0; i < 3; i++) {
+            heartImages[i] = new Image(new TextureRegionDrawable(HEART_TEXTURE));
         }
     }
 
     private Table createDiamondTable() {
-    /*
-    table parameters
-     */
-        float table_position_x = 0;
-        float table_position_y = VISIBLE_WORLD_HEIGHT;
-        float table_width = VISIBLE_WORLD_WIDTH;
-        float table_height = HUD_SIZE;
-
         Table table = new Table();
-        table.setPosition(table_position_x, table_position_y);
-        table.setSize(table_width, table_height);
+        table.setPosition(0, VISIBLE_WORLD_HEIGHT);
+        table.setSize(VISIBLE_WORLD_WIDTH, HUD_SIZE);
+        table.left().pad(10);
 
-    /*
-    paddings for all
-     */
-        float pad_left = 10;
-        float pad_right = 10;
-        float pad_top = 10;
-        float pad_bottom = 10;
+        diamondCountLabel.getStyle().font.getData().setScale(3, 2);
 
-    /*
-    diamondCountLabel parameters
-     */
-        float diamondCountLabel_size_x = 100;
-        float diamondCountLabel_size_y = 80;
-
-    /*
-    diamondCountLabel font parameters
-    */
-        diamondCountLabel.getStyle().font.getData().setScale(3 , 2);
-
-        table.add(diamondCountLabel)
-            .pad(pad_top, pad_left, pad_bottom, pad_right);
-            //.width(diamondCountLabel_size_x)
-            //.height(diamondCountLabel_size_y);
-
-    /*
-    diamondImage parameters
-     */
-        float diamondImage_size_x = 100;
-        float diamondImage_size_y = 100;
-       // diamondImage.setSize(diamondImage_size_x, diamondImage_size_y);
-
-        table.add(diamondImage)
-            .pad(pad_top, pad_left, pad_bottom, pad_right)
-            .width(diamondImage_size_x)
-            .height(diamondImage_size_y);
-
-    /*
-    diamondCollectedLabel parameters
-     */
-        float diamondCollectedLabel_size_x = 80;
-        float diamondCollectedLabel_size_y = 80;
-
-        table.add(diamondCollectedLabel)
-            .pad(pad_top, pad_left, pad_bottom, pad_right)
-            .width(diamondCollectedLabel_size_x)
-            .height(diamondCollectedLabel_size_y);
-
-        table.left();
+        table.add(diamondCountLabel).pad(10);
+        table.add(diamondImage).size(100).pad(10);
+        table.add(diamondCollectedLabel).size(80).pad(10);
 
         return table;
     }
 
     private Table createHpTable() {
-        /*
-        table parameters
-         */
-        float table_position_x = 0;
-        float table_position_y = VISIBLE_WORLD_HEIGHT;
-        float table_width = VISIBLE_WORLD_WIDTH;
-        float table_height = HUD_SIZE;
-
         Table table = new Table();
-        table.setPosition(table_position_x, table_position_y);
-        table.setSize(table_width, table_height);
-
-        /*
-        paddings for all
-         */
-        float pad_left = 5;
-        float pad_right = 5;
-        float pad_top = 0;
-        float pad_bottom = 0;
-
-        /*
-        heart parameters
-         */
-        float heart_width = 100;
-        float heart_height = 100;
-
-        for(int i = 0;i < prevHp; i++) {
-            table.add(heartImage[i])
-                .pad(pad_top, pad_left, pad_bottom, pad_right)
-                .size(heart_width, heart_height);
-        }
-
+        table.setPosition(0, VISIBLE_WORLD_HEIGHT);
+        table.setSize(VISIBLE_WORLD_WIDTH - 150, HUD_SIZE);
         table.right();
+
+        for (int i = 0; i < prevHp; i++) {
+            table.add(heartImages[i]).size(100).pad(5);
+        }
 
         return table;
     }
 
-    private void setupTimeElapsedLabel() {
-        /*
-        label parameters
-         */
-        float timer_position_x = VISIBLE_WORLD_WIDTH * 0.60f;
-        float timer_position_y = VISIBLE_WORLD_HEIGHT + 10;
-        float timer_width = 4*80 + 50;  // no specified
-        float timer_height = 80;
-
-        /*
-        timer font parameters
-         */
+    private void configureTimeElapsedLabel() {
         timeElapsedLabel.getStyle().font.setColor(Color.OLIVE);
         timeElapsedLabel.getStyle().font.getData().setScale(100, 80);
-
-        timeElapsedLabel.setPosition(timer_position_x, timer_position_y);
-        timeElapsedLabel.setSize(timer_width, timer_height);
+        timeElapsedLabel.setPosition(VISIBLE_WORLD_WIDTH * 0.50f, VISIBLE_WORLD_HEIGHT + 10);
+        timeElapsedLabel.setSize(4 * 80 + 50, 80);
     }
 
-    private void setupLevelLabel() {
-        /*
-        label parameters
-         */
-        float level_position_x = VISIBLE_WORLD_WIDTH * 0.40f;
-        float level_position_y = VISIBLE_WORLD_HEIGHT + 10;
-        float level_width = 2*80 + 20;
-        float level_height = 80;
-
-        /*
-        level font parameters
-         */
+    private void configureLevelLabel() {
         levelNumberLabel.getStyle().font.setColor(Color.WHITE);
         levelNumberLabel.getStyle().font.getData().setScale(100, 80);
-
-        levelNumberLabel.setPosition(level_position_x, level_position_y);
-        levelNumberLabel.setSize(level_width, level_height);
+        levelNumberLabel.setPosition(VISIBLE_WORLD_WIDTH * 0.30f, VISIBLE_WORLD_HEIGHT + 10);
+        levelNumberLabel.setSize(2 * 80 + 20, 80);
     }
 
+    private void updateDiamonds() {
+        int current = levelStats.getScore();
+        if (prevDiamonds != current) {
+            prevDiamonds = current;
+            diamondCountLabel.setText(formatNumber(current));
+        }
+    }
+
+    private void updateHp() {
+        int current = levelStats.getHP();
+        if (prevHp != current) {
+            for (int i = 2; i >= current; i--) {
+                hpTable.removeActor(heartImages[i]);
+            }
+            prevHp = current;
+        }
+    }
+
+    private void updateTime() {
+        Duration duration = levelStats.getTimeElapsed();
+        long minutes = duration.getSeconds() / 60;
+        long seconds = duration.getSeconds() % 60;
+
+        timeElapsedLabel.setText(formatNumber(minutes) + ":" + formatNumber(seconds));
+    }
+
+    private void updateLevel() {
+        int current = levelStats.getLevelNumber();
+        if (prevLevelNumber != current) {
+            prevLevelNumber = current;
+            levelNumberLabel.setText(formatLevelNumber(current));
+        }
+    }
+
+    private String formatNumber(long number) {
+        return number < 10 ? "0" + number : String.valueOf(number);
+    }
+
+    private String formatLevelNumber(int level) {
+        return "L" + formatNumber(level);
+    }
 }
