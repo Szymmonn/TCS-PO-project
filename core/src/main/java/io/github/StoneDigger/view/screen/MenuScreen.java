@@ -34,7 +34,7 @@ public class MenuScreen extends ScreenAdapter {
         FreeTypeFontGenerator generator = REGULAR_FONT_GENERATOR;
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        parameter.size = 24; // Font size in pixels
+        parameter.size = 50; // Font size in pixels
 
         parameter.color = Color.WHITE; // Text color
         parameter.borderColor = Color.BLACK; // Outline color
@@ -50,7 +50,7 @@ public class MenuScreen extends ScreenAdapter {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
-        label = new Label("PRESS <ENTER> TO START", labelStyle);
+        label = new Label("PRESS <ENTER>\n TO START", labelStyle);
 
         Table table = new Table();
         table.setFillParent(true);
