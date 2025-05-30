@@ -41,7 +41,8 @@ public abstract class LevelManager {
     }
 
     public static void setBoard(Board board) {
-        LevelManager.board = board;
+        board.setTiles(board.getTiles());
+        //        LevelManager.board = board;
     }
 
     public static Board getBoard() {
