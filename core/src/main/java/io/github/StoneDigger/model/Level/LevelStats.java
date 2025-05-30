@@ -3,6 +3,8 @@ package io.github.StoneDigger.model.Level;
 import java.time.Duration;
 import java.time.LocalTime;
 
+import static java.lang.System.exit;
+
 public class LevelStats implements ILevelStats {
     private int score;
     private int diamondCount;
