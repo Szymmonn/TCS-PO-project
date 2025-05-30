@@ -11,7 +11,7 @@ import io.github.StoneDigger.model.Level.LevelStats;
 
 public abstract class LevelManager {
     private static Board board = null;
-    private static LevelStats stats = null;
+    private static LevelStats stats = new LevelStats(0,3, 0);;
     private static int levelNumber=-1;
     private static boolean gameOver;
 
@@ -68,7 +68,10 @@ public abstract class LevelManager {
             }
         }
         PlayerManager.getPlayer().setPosition(playerStartPosition);
-        stats = new LevelStats(count,3, index);
+        stats.setHP(3);
+        stats.setDiamondCount(count);
+        stats.setLevelNumber(index);
+
     }
 
     public static LevelStats getStats() {
