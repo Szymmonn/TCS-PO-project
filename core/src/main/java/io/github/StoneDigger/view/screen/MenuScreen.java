@@ -192,6 +192,8 @@ public class MenuScreen extends ScreenAdapter {
         hover over random button listener
          */
         randomButton.addListener(new InputListener() {
+
+
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (levelType == ELevelType.RANDOM) return;
