@@ -23,6 +23,8 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
 
     @Override
     public boolean isWalkable(EDirections dir) {
+        if(dir == EDirections.UP) return false;
+        if(moved) return false;
         GridPoint2 newPosition = new GridPoint2(this.getPosition().x+dir.getDx(),this.getPosition().y+dir.getDy());
         return LevelManager.getBoard().getTile(newPosition) instanceof EmptyTile;
     }
@@ -48,7 +50,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         int x = position.x;
         int y = position.y;
 
-        if(playerUnder(x,y)) {
+        if(playerStops(x,y)) {
             rockDropTimer = 0;
             return;
         }
@@ -62,16 +64,23 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
             if(side!=0) {
                 moved = false;
                 ((RockTile) board.getTile(new GridPoint2(x + side, y))).setMoved(true);
-
             } else {
                 moved = false;
             }
         }
     }
 
-    private boolean playerUnder(int x,int y) {
+    private boolean playerStops(int x,int y) {
         GridPoint2 pos = PlayerManager.getPlayer().getPosition();
-        return pos.x == x && pos.y + 1 == y;
+        Board board = LevelManager.getBoard();
+
+        if(pos.x == x && pos.y + 1 == y) return true;
+        if(!(board.getTile(new GridPoint2(x,y-1)) instanceof EmptyTile)) {
+
+            if (tryFallRight(x, y) && pos.x == x + 1 && pos.y == y) return !tryFallLeft(x,y);
+            if (tryFallLeft(x, y) && pos.x == x - 1 && pos.y == y) return !tryFallRight(x,y);
+        }
+        return false;
     }
 
     private boolean tryFallDown(int x, int y) {
@@ -86,14 +95,29 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         return false;
     }
 
+    public boolean tryFallRight(int x,int y) {
+        Board board = LevelManager.getBoard();
+
+        return x < board.getWidth() - 1 &&
+            board.getTile(new GridPoint2(x+1,y)) instanceof EmptyTile &&
+            board.getTile(new GridPoint2(x+1,y-1)) instanceof EmptyTile;
+    }
+
+    public boolean tryFallLeft(int x,int y) {
+        Board board = LevelManager.getBoard();
+
+        return x > 0 &&
+            board.getTile(new GridPoint2(x-1,y)) instanceof EmptyTile &&
+            board.getTile(new GridPoint2(x-1,y-1)) instanceof EmptyTile;
+    }
+
     private int tryRollSideways(int x, int y) {
         Board board = LevelManager.getBoard();
+        GridPoint2 pos = PlayerManager.getPlayer().getPosition();
 
         if (!(board.getTile(new GridPoint2(x,y-1)) instanceof EmptyTile)) {
             // Toczenie w prawo
-            if (x < board.getWidth() - 1 &&
-                board.getTile(new GridPoint2(x+1,y)) instanceof EmptyTile &&
-                board.getTile(new GridPoint2(x+1,y-1)) instanceof EmptyTile) {
+            if (tryFallRight(x,y) && !(pos.x == x+1 && pos.y == y)) {
 
                 GridPoint2 from = new GridPoint2(x, y);
                 GridPoint2 to = new GridPoint2(x+1, y);
@@ -102,13 +126,12 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
                 return 1;
             }
             // Toczenie w lewo
-            else if (x > 0 &&
-                board.getTile(new GridPoint2(x-1,y)) instanceof EmptyTile &&
-                board.getTile(new GridPoint2(x-1,y-1)) instanceof EmptyTile) {
+            else if (tryFallLeft(x,y) && !(pos.x == x-1 && pos.y == y)) {
 
                 GridPoint2 from = new GridPoint2(x, y);
                 GridPoint2 to = new GridPoint2(x-1, y);
                 moveWithUpdate(from,to);
+
                 return -1;
             }
         }
