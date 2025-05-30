@@ -92,18 +92,22 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void setupInputProcessor() {
-        Gdx.input.setInputProcessor(hudStage);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(gameController);
+        multiplexer.addProcessor(hudStage);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
     public void render(float delta) {
         gameViewModel.update(delta);
-        boolean needToUpdateCamera = gameController.isKeyPressed(delta);
+        gameController.update(delta);
+//        boolean needToUpdateCamera = gameController.isKeyPressed(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (needToUpdateCamera) updateCamera();
+//        if (needToUpdateCamera) updateCamera();
 
         drawGameLayer(delta);
         drawHudLayer(delta);
@@ -128,7 +132,7 @@ public class GameScreen extends ScreenAdapter {
         hudStage.draw();
     }
 
-    private void updateCamera() {
+    public void updateCamera() {
         GridPoint2 pos = playerView.getPlayerPosition();
 
         float cameraX = clampCenter(pos.x * (BLOCK_SIZE + GAP_SIZE) + BLOCK_SIZE / 2f, VISIBLE_WORLD_WIDTH / 2f, BOARD_WIDTH * (BLOCK_SIZE + GAP_SIZE));
