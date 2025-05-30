@@ -17,7 +17,7 @@ public class DiamondTile extends ATile implements IWalkableTile {
     @Override
     public void onWalkBy(IEntity entity, EDirections dir) {
         if(entity instanceof Player) {
-            LevelManager.getStats().setScore(1);
+            LevelManager.getStats().collectDiamond();
             this.destroy();
         }
     }

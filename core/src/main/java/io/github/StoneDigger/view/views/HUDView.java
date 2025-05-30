@@ -36,6 +36,20 @@ public class HUDView extends Group {
     private int prevDiamonds;
     private int prevLevelNumber;
 
+    public HUDView(ILevelStats levelStatus) {
+        this.levelStats = levelStatus;
+        prevHp = levelStatus.getHP();
+        prevDiamonds = levelStatus.getDiamondCount();
+        prevLevelNumber = levelStatus.getLevelNumber();
+
+        createLabels();
+        createImages();
+        background = createBackground();
+
+        diamondTable = createDiamondTable();
+        hpTable = createHpTable();
+    }
+
     @Override
     public void act(float delta) {
         int currDiamonds = levelStats.getScore();
@@ -84,20 +98,6 @@ public class HUDView extends Group {
         levelNumberLabel.draw(batch, parentAlpha);
 
         batch.setColor(prev);
-    }
-
-    public HUDView(ILevelStats levelStatus) {
-        this.levelStats = levelStatus;
-        prevHp = levelStatus.getHP();
-        prevDiamonds = levelStatus.getDiamondCount();
-        prevLevelNumber = levelStatus.getLevelNumber();
-
-        createLabels();
-        createImages();
-        background = createBackground();
-
-        diamondTable = createDiamondTable();
-        hpTable = createHpTable();
     }
 
     private Image createBackground() {

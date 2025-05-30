@@ -5,7 +5,8 @@ import java.time.LocalTime;
 
 public interface ILevelStats {
     int getScore();
-    void setScore(int delta);
+    void setScore(int score);
+    void collectDiamond();
 
     int getDiamondCount();
     void setDiamondCount(int n);

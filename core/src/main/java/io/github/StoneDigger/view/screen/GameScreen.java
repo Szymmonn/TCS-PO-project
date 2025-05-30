@@ -92,7 +92,7 @@ public class GameScreen extends ScreenAdapter {
         hudCamera.position.set(gameViewport.getWorldWidth(), HUD_SIZE, 0);
         hudCamera.update();
 
-        hudView = new HUDView(new LevelStats());
+        hudView = new HUDView(gameViewModel.getLevelStats());
 
         spriteBatch = new SpriteBatch();
     }
@@ -114,8 +114,8 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        if(needToUpdateCamera)
-            updateCamera();
+       // if(needToUpdateCamera)
+        updateCamera();
 
         /*
         board and player drawing

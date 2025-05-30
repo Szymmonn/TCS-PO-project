@@ -49,7 +49,9 @@ public class LevelStats implements ILevelStats {
     @Override
     public int getScore() { return score; }
     @Override
-    public void setScore(int delta) { score += delta; }
+    public void setScore(int delta) { score = delta; }
+    @Override
+    public void collectDiamond() {score ++;}
 
     @Override
     public int getDiamondCount() { return diamondCount;}
