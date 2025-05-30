@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -171,6 +172,32 @@ public class MenuScreen extends ScreenAdapter {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        /*
+        hover over standard button listener
+         */
+        standardButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (levelType == ELevelType.STANDARD) return;
+                levelType = ELevelType.STANDARD;
+                standardButton.getStyle().fontColor = Color.FIREBRICK;
+                randomButton.getStyle().fontColor = Color.GRAY;
+            }
+        });
+
+        /*
+        hover over random button listener
+         */
+        randomButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (levelType == ELevelType.RANDOM) return;
+                levelType = ELevelType.RANDOM;
+                standardButton.getStyle().fontColor = Color.GRAY;
+                randomButton.getStyle().fontColor = Color.FIREBRICK;
             }
         });
     }
