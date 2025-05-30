@@ -18,7 +18,8 @@ public class EndTile extends ATile implements IWalkableTile {
     @Override
     public void onWalkBy(IEntity entity, EDirections dir) {
         if(entity instanceof Player) {
-            LevelManager.resetLevel();
+            System.out.println("chuchuchu");
+            LevelManager.startNewLevel();
         }
     }
 }

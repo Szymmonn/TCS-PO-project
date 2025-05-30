@@ -5,23 +5,21 @@ import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
 
 public class BoardGenerator {
-    LevelManager levelManager;
-    public BoardGenerator(LevelManager levelManager) {
-        this.levelManager = levelManager;
-    }
 
-    public static Board generateBoard(int levelNumber) {
-        int width = 20 + levelNumber; // Example difficulty scaling
-        int height = 15 + levelNumber;
-        GridPoint2 startingPos = new GridPoint2(1, 1);
+    public static Board generateBoard(ELevelType levelType , int levelNumber) {
+        if(levelType == ELevelType.STANDARD) {
+            StandardBoardGenerator standardBoardGenerator = new StandardBoardGenerator();
+            return StandardBoardGenerator.generate(levelNumber);
 
+        } else if(levelType == ELevelType.RANDOM) {
+            int width = 20 + levelNumber; // Example difficulty scaling
+            int height = 15 + levelNumber;
+            GridPoint2 startingPos = new GridPoint2(1, 1);
+            RandomBoardGenerator randomBoardGenerator = new RandomBoardGenerator(0.1, 0.1, 0.1);
+            return RandomBoardGenerator.generate(new GridPoint2(width, height), startingPos);
 
-        RandomBoardGenerator generator = new RandomBoardGenerator(
-            0.1 + levelNumber * 0.01, // wall density
-            0.1 + levelNumber * 0.01, // rock density
-            0.05 + levelNumber * 0.005 // diamond density
-        );
-
-        return generator.generate(new GridPoint2(width, height), startingPos);
+        } else {
+            return null;
+        }
     }
 }

@@ -41,4 +41,11 @@ public class BoardView extends Actor {
 
         batch.setColor(prev);
     }
+
+    public int getBoardWidth() {
+        return board.getWidth();
+    }
+    public int getBoardHeight() {
+        return board.getHeight();
+    }
 }

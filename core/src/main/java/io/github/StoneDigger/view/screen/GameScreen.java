@@ -22,8 +22,6 @@ public class GameScreen extends ScreenAdapter {
     // --- Constants ---
     public static final int BLOCK_SIZE = 100;
     public static final int GAP_SIZE = 0;
-    public static final int BOARD_WIDTH = 21;
-    public static final int BOARD_HEIGHT = 16;
 
     public static final float VISIBLE_WORLD_WIDTH = 21 * (BLOCK_SIZE + GAP_SIZE);
     public static final float VISIBLE_WORLD_HEIGHT = 12 * (BLOCK_SIZE + GAP_SIZE);
@@ -92,21 +90,24 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void setupInputProcessor() {
-        Gdx.input.setInputProcessor(hudStage);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(hudStage);
+        multiplexer.addProcessor(gameController);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
     public void render(float delta) {
         gameViewModel.update(delta);
-        boolean needToUpdateCamera = gameController.isKeyPressed(delta);
+        gameController.update(delta);
+//        boolean needToUpdateCamera = gameController.isKeyPressed(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (needToUpdateCamera) updateCamera();
-
         drawGameLayer(delta);
         drawHudLayer(delta);
+        updateCamera();
     }
 
     private void drawGameLayer(float delta) {
@@ -128,11 +129,11 @@ public class GameScreen extends ScreenAdapter {
         hudStage.draw();
     }
 
-    private void updateCamera() {
+    public void updateCamera() {
         GridPoint2 pos = playerView.getPlayerPosition();
 
-        float cameraX = clampCenter(pos.x * (BLOCK_SIZE + GAP_SIZE) + BLOCK_SIZE / 2f, VISIBLE_WORLD_WIDTH / 2f, BOARD_WIDTH * (BLOCK_SIZE + GAP_SIZE));
-        float cameraY = clampCenter(pos.y * (BLOCK_SIZE + GAP_SIZE) + BLOCK_SIZE / 2f, VISIBLE_WORLD_HEIGHT / 2f, BOARD_HEIGHT * (BLOCK_SIZE + GAP_SIZE));
+        float cameraX = clampCenter(pos.x * (BLOCK_SIZE + GAP_SIZE) + BLOCK_SIZE / 2f, VISIBLE_WORLD_WIDTH / 2f, boardView.getBoardWidth() * (BLOCK_SIZE + GAP_SIZE));
+        float cameraY = clampCenter(pos.y * (BLOCK_SIZE + GAP_SIZE) + BLOCK_SIZE / 2f, VISIBLE_WORLD_HEIGHT / 2f, boardView.getBoardHeight() * (BLOCK_SIZE + GAP_SIZE));
 
         gameCamera.position.set(cameraX, cameraY + 50, 0);  // TODO: smoothen movement
         gameCamera.update();
