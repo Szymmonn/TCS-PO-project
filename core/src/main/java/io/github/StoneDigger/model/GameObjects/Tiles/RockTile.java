@@ -7,6 +7,7 @@ import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.*;
+import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
 import java.util.HashMap;
@@ -47,6 +48,11 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         int x = position.x;
         int y = position.y;
 
+        if(playerUnder(x,y)) {
+            rockDropTimer = 0;
+            return;
+        }
+
         if (tryFallDown(x, y)) {
             moved = false;
             ((RockTile) board.getTile(new GridPoint2(x, y - 1))).setMoved(true);
@@ -57,10 +63,15 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
                 moved = false;
                 ((RockTile) board.getTile(new GridPoint2(x + side, y))).setMoved(true);
 
+            } else {
+                moved = false;
             }
-        } else {
-            moved = false;
         }
+    }
+
+    private boolean playerUnder(int x,int y) {
+        GridPoint2 pos = PlayerManager.getPlayer().getPosition();
+        return pos.x == x && pos.y + 1 == y;
     }
 
     private boolean tryFallDown(int x, int y) {
