@@ -30,6 +30,7 @@ public class GameScreen extends ScreenAdapter {
 
     // --- Dependencies ---
     private final GameStart gameStart;
+    private final ELevelType levelType;
 
     // --- View/Model/Controller ---
     private GameViewModel gameViewModel;
@@ -50,13 +51,14 @@ public class GameScreen extends ScreenAdapter {
 
     private Stage hudStage;
 
-    public GameScreen(GameStart gameStart) {
+    public GameScreen(GameStart gameStart, ELevelType levelType) {
         this.gameStart = gameStart;
+        this.levelType = levelType;
     }
 
     @Override
     public void show() {
-        gameViewModel = new GameViewModel(ELevelType.STANDARD);
+        gameViewModel = new GameViewModel(levelType);
         gameController = new GameController(gameViewModel);
 
         initGameViewport();

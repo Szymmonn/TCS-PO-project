@@ -18,6 +18,7 @@ public interface ILevelStats {
 
     int getHP();
     void setHP(int hp);
+    void decreaseHP();
 
     Duration getTimeElapsed();
     void setStartTime(LocalTime startTime);

@@ -56,8 +56,7 @@ public class Player implements IPlayer {
         ATile tilecurrent = LevelManager.getBoard().getTile(pos);
         if(tilecurrent instanceof RockTile) {
             setPosition(new GridPoint2(1, 1));
-            int hp = LevelManager.getStats().getHP();
-            LevelManager.getStats().setHP(hp-1);
+            LevelManager.getStats().decreaseHP();
         }
 
     }
