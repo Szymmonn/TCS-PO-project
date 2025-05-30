@@ -34,6 +34,9 @@ public class Player implements IPlayer {
         ATile t = LevelManager.getBoard().getTile(new GridPoint2(pos.x+dir.getDx(),pos.y+dir.getDy()));
         if(!(t.isWalkable(dir))) return;
 
+        /// moving
+        pos.add(dir.getDx(), dir.getDy());
+
         /// Actions
 
         if(t instanceof DirtTile) {
@@ -45,9 +48,6 @@ public class Player implements IPlayer {
         } else if (t instanceof DiamondTile) {
             ((DiamondTile) t).onWalkBy(this,dir);
         }
-
-        /// Moving at the end
-        pos.add(dir.getDx(), dir.getDy());
     }
 
 

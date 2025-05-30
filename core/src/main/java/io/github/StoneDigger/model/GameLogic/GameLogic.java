@@ -26,8 +26,11 @@ public class GameLogic {
     public static void startTheGame() {
         /// Level Manager
         setGameOver(false);
+        ///  Board setup
         Board empty = new Board(new ATile[1 + 20][1 + 15], new GridPoint2(1, 1));
         setBoard(empty);
+        /// Player manager
+        PlayerManager.setPlayer(new Player(new GridPoint2(1, 1)));
         LevelManager.startLevel(1, empty);
         Board full;
         //do {
@@ -36,8 +39,6 @@ public class GameLogic {
         LevelManager.startLevel(1, full);
         LevelManager.setBoard(full);
 
-        /// Player manager
-        PlayerManager.setPlayer(new Player(new GridPoint2(1, 1)));
 
         /// Update manager
         UpdateManager.addToUpdates(PlayerManager.getPlayer());

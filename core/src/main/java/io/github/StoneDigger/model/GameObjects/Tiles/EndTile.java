@@ -12,7 +12,7 @@ public class EndTile extends ATile implements IWalkableTile {
 
     @Override
     public boolean isWalkable(EDirections dir) {
-        return false;
+        return true;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class RandomBoardGenerator {
             }
         }
         tiles[start.x][start.y] = new StartTile(new GridPoint2(start.x, start.y));
-        tiles[w-2][h-2] = new EndTile(new GridPoint2(w-2, h-2));
+        tiles[w-2][h-2] = new DeactivatedEndTile(new GridPoint2(w-2, h-2));
         return new Board(tiles, start);
     }
 }

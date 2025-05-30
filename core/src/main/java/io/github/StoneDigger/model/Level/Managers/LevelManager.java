@@ -11,10 +11,11 @@ public abstract class LevelManager {
     private static LevelStats stats = null;
 
     public static void resetLevel() {
-        startLevel(1, board);
+        startLevel(2, board);
     }
 
     public static void startLevel(int index, Board board) {
+
         LevelManager.board = board;
         /*
         all diamonds on board counter
@@ -22,10 +23,16 @@ public abstract class LevelManager {
         int count = 0;
         int width = board.getWidth();
         int height = board.getHeight();
-        for(int n=0;n<width * height; n++)
-            if(board.getTile(new GridPoint2(n%width, n/width)) instanceof DiamondTile) {
-                count ++;
+
+        // TO CHANGE
+        GridPoint2 playerStartPosition = new GridPoint2(1,1);
+
+        for(int n=0;n<width * height; n++) {
+            if (board.getTile(new GridPoint2(n % width, n / width)) instanceof DiamondTile) {
+                count++;
             }
+        }
+        PlayerManager.getPlayer().setPosition(playerStartPosition);
         stats = new LevelStats(count,0, index);
     }
 
