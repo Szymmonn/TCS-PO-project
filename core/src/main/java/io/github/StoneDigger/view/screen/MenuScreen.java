@@ -5,36 +5,55 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
 
 import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
 
 public class MenuScreen extends ScreenAdapter {
     private final GameStart gameStart;
-    private Label label;
+
+    private Viewport viewport;
     private Stage stage;
 
+    private BitmapFont font;
+    private Texture texture;
+
+    private ELevelType levelType = ELevelType.STANDARD;
     public MenuScreen(GameStart gameStart) {
         this.gameStart = gameStart;
     }
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport());
+        viewport = new ScalingViewport(Scaling.fit, 800, 480);
+        stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
+        createStage();
+    }
+
+    private void createStage() {
+        /*
+        label font parameters
+         */
         FreeTypeFontGenerator generator = REGULAR_FONT_GENERATOR;
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        parameter.size = 50; // Font size in pixels
+        parameter.size = 60;
 
         parameter.color = Color.WHITE; // Text color
         parameter.borderColor = Color.BLACK; // Outline color
@@ -46,55 +65,135 @@ public class MenuScreen extends ScreenAdapter {
 
         parameter.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:!?.,'\"()-=+/\\ "; // Optimization (optional)
 
-        BitmapFont font = generator.generateFont(parameter);
+        font = generator.generateFont(parameter);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
-        label = new Label("PRESS <ENTER>\n TO START", labelStyle);
 
+        /*
+        creating labels
+         */
+
+        /*
+        title label
+         */
+        Label titleLabel = new Label("STONE \n DIGGER", labelStyle);
+
+        /*
+        press enter label
+         */
+        Label pressEnterLabel = new Label("PRESS <ENTER>\n TO START", labelStyle);
+
+        /*
+        button style parameters
+         */
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.SKY);
+        pixmap.fill();
+        texture = new Texture(pixmap);
+        TextureRegionDrawable whiteBg = new TextureRegionDrawable(new TextureRegion(texture));
+
+        /*
+        standard style
+         */
+        TextButton.TextButtonStyle styleStandard = new TextButton.TextButtonStyle();
+        styleStandard.up = whiteBg;      // default button background
+        styleStandard.down = whiteBg.tint(Color.FIREBRICK); // pressed background
+        styleStandard.font = font;
+        styleStandard.fontColor = Color.FIREBRICK; // text color
+
+        /*
+        random style
+         */
+        TextButton.TextButtonStyle styleRandom = new TextButton.TextButtonStyle();
+        styleRandom.up = whiteBg;      // default button background
+        styleRandom.down = whiteBg.tint(Color.FIREBRICK); // pressed background
+        styleRandom.font = font;
+        styleRandom.fontColor = Color.GRAY; // text color
+
+        /*
+        standard button
+         */
+        TextButton standardButton = new TextButton("STANDARD", styleStandard);
+        standardButton.setSize(300, 80);
+
+        /*
+        random button
+         */
+        TextButton randomButton = new TextButton("RANDOM", styleRandom);
+        randomButton.setSize(300, 80);
+
+        /*
+        creating table
+         */
         Table table = new Table();
         table.setFillParent(true);
-        table.center();
-        table.add(label);
-
+        table.add(titleLabel).expand().padBottom(30).row();
+        table.add(standardButton).expand().padBottom(10).row();
+        table.add(randomButton).expand().padBottom(30).row();
+        table.add(pressEnterLabel).expand();
         stage.addActor(table);
 
+        /*
+        adding listeners
+         */
+        /*
+        enter listener
+         */
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if(keycode != Input.Keys.ENTER)
                     return false;
                 Gdx.input.setInputProcessor(null);
-                gameStart.setScreen(new GameScreen(gameStart));
+                gameStart.setScreen(new GameScreen(gameStart, levelType));
                 return true;
+            }
+        });
+        /*
+        arrow up and down listener
+         */
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.UP) {
+                    if (levelType == ELevelType.STANDARD) return true;
+                    levelType = ELevelType.STANDARD;
+                    standardButton.getStyle().fontColor = Color.FIREBRICK;
+                    randomButton.getStyle().fontColor = Color.GRAY;
+                    return true;
+                }
+                if (keycode == Input.Keys.DOWN) {
+                    if (levelType == ELevelType.RANDOM) return true;
+                    levelType = ELevelType.RANDOM;
+                    standardButton.getStyle().fontColor = Color.GRAY;
+                    randomButton.getStyle().fontColor = Color.FIREBRICK;
+                    return true;
+                }
+                return false;
             }
         });
     }
 
     @Override
-    public void render(float v) {
+    public void render(float delta) {
         Gdx.gl.glClearColor(0.53f, 0.81f, 0.92f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(v);
+        stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void resize(int i, int i1) {
-        float old = Math.min(stage.getViewport().getWorldHeight(), stage.getViewport().getWorldWidth());
-        float new_ = Math.min(i ,i1);
-        stage.getViewport().update(i,i1, true);
-        applyScale(new_/old);
-    }
-    // need to change that in some way
-    // not yet know how
-    private void applyScale(float scale) {
-        float labelNewSize = label.getFontScaleY();
-        label.setFontScale(labelNewSize*scale);
+        viewport.update(i,i1, true);
     }
 
     @Override
-    public void dispose() {stage.dispose(); label.getStyle().font.dispose();}
+    public void dispose() {
+        stage.dispose();
+        font.dispose();
+        texture.dispose();
+    }
 
 }

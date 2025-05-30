@@ -32,6 +32,8 @@ public class LevelStats implements ILevelStats {
     public void setHP(int HP) {
         this.hp = HP;
     }
+    @Override
+    public void decreaseHP() {hp --; }
 
     @Override
     public Duration getTimeElapsed() {return Duration.between(startTime, LocalTime.now());}

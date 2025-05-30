@@ -117,7 +117,6 @@ public class HUDView extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                System.exit(1);
                 gameStart.setScreen(new SettingsScreen(gameStart));
             }
         });
