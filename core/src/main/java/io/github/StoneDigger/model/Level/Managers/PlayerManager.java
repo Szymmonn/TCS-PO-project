@@ -1,4 +1,4 @@
-package io.github.StoneDigger.model.Level;
+package io.github.StoneDigger.model.Level.Managers;
 
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 

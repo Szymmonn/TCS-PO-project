@@ -1,16 +1,7 @@
-package io.github.StoneDigger.model.Level.LevelManagement;
-
-import com.badlogic.gdx.math.GridPoint2;
-import java.util.List;
-import java.util.ArrayList;
+package io.github.StoneDigger.model.Level.Managers;
 
 import io.github.StoneDigger.model.Boards.Board;
-import io.github.StoneDigger.model.GameObjects.Entities.IEntity;
-import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
-import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
-import io.github.StoneDigger.model.GameObjects.Entities.Player;
-import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 
 public abstract class LevelManager {
     private static Board board = null;

@@ -16,7 +16,7 @@ public class GameController {
     }
 
     public boolean isKeyPressed(float delta) {
-        if(timeSinceLast < 0.25f) {
+        if(timeSinceLast < 0.22f) {
             timeSinceLast += delta;
             return false;
         }

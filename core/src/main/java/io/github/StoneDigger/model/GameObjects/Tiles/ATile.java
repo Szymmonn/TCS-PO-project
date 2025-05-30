@@ -2,7 +2,7 @@ package io.github.StoneDigger.model.GameObjects.Tiles;
 
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
-import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
+import io.github.StoneDigger.model.Level.Managers.LevelManager;
 import io.github.StoneDigger.model.Directions.EDirections;
 
 public abstract class ATile {

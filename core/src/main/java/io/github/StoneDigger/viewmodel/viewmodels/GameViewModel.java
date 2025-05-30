@@ -6,8 +6,8 @@ import io.github.StoneDigger.model.GameLogic.GameLogic;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.Level.ILevelStats;
-import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
-import io.github.StoneDigger.model.Level.PlayerManager;
+import io.github.StoneDigger.model.Level.Managers.LevelManager;
+import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 
 public class GameViewModel {
 

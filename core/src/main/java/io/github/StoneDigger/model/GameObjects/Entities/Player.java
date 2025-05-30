@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.GameObjects.Entities.Hunting.IHunting;
 import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
-import io.github.StoneDigger.model.Level.LevelManagement.LevelManager;
+import io.github.StoneDigger.model.Level.Managers.LevelManager;
 
 public class Player implements IPlayer {
     private GridPoint2 pos;
@@ -52,11 +52,13 @@ public class Player implements IPlayer {
 
 
 
-    @Override public void collect() {
+    @Override
+    public void collect() {
         score += 10;
     }
 
-    @Override public void kill(IEntity target) {
+    @Override
+    public void kill(IEntity target) {
         // Trigger target's death
         if (target instanceof IHunting) {
             ((IHunting) target).onKilled(this);
@@ -65,6 +67,8 @@ public class Player implements IPlayer {
 
     @Override
     public void update(float delta) {
+        ATile tilecurrent = LevelManager.getBoard().getTile(pos);
+
 
     }
 
