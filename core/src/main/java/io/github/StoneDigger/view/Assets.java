@@ -18,19 +18,19 @@ public class Assets {
     public static FreeTypeFontGenerator REGULAR_FONT_GENERATOR;
 
     public static void load() {
-        ROCK_TEXTURE = new Texture("images/rock.png");
-        DIRT_TEXTURE = new Texture("images/dirt.png");
-        DIAMOND_TEXTURE = new Texture("images/diamond.png");
+        ROCK_TEXTURE = new Texture("images/rock-removebg-preview.png");
+        DIRT_TEXTURE = new Texture("images/dirt-removebg-preview.png");
+        DIAMOND_TEXTURE = new Texture("images/diamond-removebg-preview.png");
         BRICK_TEXTURE = new Texture("images/wall.png");
-        PLAYER_TEXTURE = new Texture("images/player.png");
-        START_TEXTURE = new Texture("images/start.png");
-        END_TEXTURE = new Texture("images/exit.png");
+        PLAYER_TEXTURE = new Texture("images/player-removebg-preview.png");
+        START_TEXTURE = new Texture("images/start-removebg-preview.png");
+        END_TEXTURE = new Texture("images/exit-removebg-preview.png");
         HEART_TEXTURE = new Texture("images/pixel_heart.jpg");
         SETTINGS_TEXTURE = new Texture("images/settings_icon.png");
         /*
         TO CHANGE
          */
-        BORDER_TEXTURE = BRICK_TEXTURE;
+        BORDER_TEXTURE = new Texture("images/blaszka.png");
 
         REGULAR_FONT_GENERATOR = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PressStart2P-Regular.ttf"));
 

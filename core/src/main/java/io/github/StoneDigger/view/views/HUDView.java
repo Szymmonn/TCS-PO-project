@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import io.github.StoneDigger.model.Level.ILevelStats;
-import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
 import java.time.Duration;
@@ -36,6 +35,56 @@ public class HUDView extends Group {
     private int prevHp;
     private int prevDiamonds;
     private int prevLevelNumber;
+
+    @Override
+    public void act(float delta) {
+        int currDiamonds = levelStats.getScore();
+        if(prevDiamonds != currDiamonds) {
+            prevDiamonds = currDiamonds;
+            diamondCountLabel.setText(currDiamonds < 10 ? "0" + currDiamonds : String.valueOf(currDiamonds));
+        }
+
+        int currHP = levelStats.getHP();
+        if(prevHp != currHP) {
+            prevHp = currHP;
+            for(int i=3-1;i>=currHP;i--) {
+                hpTable.removeActor(heartImage[i]);
+            }
+        }
+
+        Duration currDuration = levelStats.getTimeElapsed();
+        long minutes = currDuration.getSeconds() /60;
+        long seconds = currDuration.getSeconds() %60;
+        String minS = minutes < 10 ? "0"+minutes : String.valueOf(minutes);
+        String secS = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
+
+        timeElapsedLabel.setText(minS + ":" + secS);
+
+        int currLevel = levelStats.getLevelNumber();
+        if(prevLevelNumber != currLevel) {
+            prevLevelNumber = currLevel;
+            levelNumberLabel.setText("L" + (prevLevelNumber < 10 ? "0"+prevLevelNumber : String.valueOf(prevLevelNumber)));
+        }
+
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        Color prev = batch.getColor();
+        batch.setColor(1,1,1,1);
+
+        /*
+        where to draw background parameters
+         */
+
+        background.draw(batch, parentAlpha);
+        diamondTable.draw(batch, parentAlpha);
+        hpTable.draw(batch, parentAlpha);
+        timeElapsedLabel.draw(batch, parentAlpha);
+        levelNumberLabel.draw(batch, parentAlpha);
+
+        batch.setColor(prev);
+    }
 
     public HUDView(ILevelStats levelStatus) {
         this.levelStats = levelStatus;
@@ -66,6 +115,12 @@ public class HUDView extends Group {
     private void createLabels() {
         FreeTypeFontGenerator generator = REGULAR_FONT_GENERATOR;
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        /*
+        true for almost all
+         */
+        parameter.borderColor = Color.BLACK;
+        parameter.size = 30;
+
         BitmapFont font = generator.generateFont(parameter);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -75,7 +130,7 @@ public class HUDView extends Group {
         int temp = levelStats.getDiamondCount();
         diamondCountLabel = new Label(temp < 10 ? "0" + temp : String.valueOf(temp) , labelStyle);
         //hpLabel = new Label(String.valueOf(prevHp), labelStyle);
-        timeElapsedLabel = new Label("00 : 00", labelStyle);
+        timeElapsedLabel = new Label("00:00", labelStyle);
         setupTimeElapsedLabel();
         levelNumberLabel = new Label("L" + (prevLevelNumber < 10 ? "0" + prevLevelNumber : String.valueOf(prevDiamonds)) , labelStyle);
         setupLevelLabel();
@@ -90,56 +145,6 @@ public class HUDView extends Group {
         for(int i=3-1;i>=0; i--) {
             heartImage[i] = new Image(region);
         }
-    }
-
-    @Override
-    public void act(float delta) {
-        int currDiamonds = levelStats.getScore();
-        if(prevDiamonds != currDiamonds) {
-            prevDiamonds = currDiamonds;
-            diamondCountLabel.setText(currDiamonds < 10 ? "0" + currDiamonds : String.valueOf(currDiamonds));
-        }
-
-        int currHP = levelStats.getHP();
-        if(prevHp != currHP) {
-            prevHp = currHP;
-            for(int i=3-1;i>=currHP;i--) {
-                hpTable.removeActor(heartImage[i]);
-            }
-        }
-
-        Duration currDuration = levelStats.getTimeElapsed();
-        long minutes = currDuration.getSeconds() /60;
-        long seconds = currDuration.getSeconds() %60;
-        String minS = minutes < 10 ? "0"+minutes : String.valueOf(minutes);
-        String secS = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
-
-        timeElapsedLabel.setText(minS + " : " + secS);
-
-        int currLevel = levelStats.getLevelNumber();
-        if(prevLevelNumber != currLevel) {
-            prevLevelNumber = currLevel;
-            levelNumberLabel.setText("L" + (prevLevelNumber < 10 ? "0"+prevLevelNumber : String.valueOf(prevLevelNumber)));
-        }
-
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        Color prev = batch.getColor();
-        batch.setColor(1,1,1,1);
-
-        /*
-        where to draw background parameters
-         */
-
-        background.draw(batch, parentAlpha);
-        diamondTable.draw(batch, parentAlpha);
-        hpTable.draw(batch, parentAlpha);
-        timeElapsedLabel.draw(batch, parentAlpha);
-
-
-        batch.setColor(prev);
     }
 
     private Table createDiamondTable() {
@@ -172,18 +177,19 @@ public class HUDView extends Group {
     /*
     diamondCountLabel font parameters
     */
-        diamondCountLabel.getStyle().font.getData().setScale(100 , 80);
+        diamondCountLabel.getStyle().font.getData().setScale(3 , 2);
 
         table.add(diamondCountLabel)
-            .pad(pad_top, pad_left, pad_bottom, pad_right)
-            .width(diamondCountLabel_size_x)
-            .height(diamondCountLabel_size_y);
+            .pad(pad_top, pad_left, pad_bottom, pad_right);
+            //.width(diamondCountLabel_size_x)
+            //.height(diamondCountLabel_size_y);
 
     /*
     diamondImage parameters
      */
-        float diamondImage_size_x = 80;
-        float diamondImage_size_y = 80;
+        float diamondImage_size_x = 100;
+        float diamondImage_size_y = 100;
+       // diamondImage.setSize(diamondImage_size_x, diamondImage_size_y);
 
         table.add(diamondImage)
             .pad(pad_top, pad_left, pad_bottom, pad_right)
@@ -222,16 +228,16 @@ public class HUDView extends Group {
         /*
         paddings for all
          */
-        float pad_left = 10;
-        float pad_right = 10;
-        float pad_top = 10;
-        float pad_bottom = 10;
+        float pad_left = 5;
+        float pad_right = 5;
+        float pad_top = 0;
+        float pad_bottom = 0;
 
         /*
         heart parameters
          */
-        float heart_width = 80;
-        float heart_height = 80;
+        float heart_width = 100;
+        float heart_height = 100;
 
         for(int i = 0;i < prevHp; i++) {
             table.add(heartImage[i])

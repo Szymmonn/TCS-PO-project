@@ -23,10 +23,10 @@ public class GameScreen extends ScreenAdapter {
     view parameters
      */
     public static int BLOCK_SIZE = 100;
-    public static int GAP_SIZE = 20;
+    public static int GAP_SIZE = 0;
 
-    public static float VISIBLE_WORLD_WIDTH = 9*(BLOCK_SIZE + GAP_SIZE);
-    public static float VISIBLE_WORLD_HEIGHT = 7*(BLOCK_SIZE + GAP_SIZE);
+    public static float VISIBLE_WORLD_WIDTH = 21*(BLOCK_SIZE + GAP_SIZE);
+    public static float VISIBLE_WORLD_HEIGHT = 12*(BLOCK_SIZE + GAP_SIZE);
     public static float HUD_SIZE = 100;
 
     private final GameStart gameStart;
@@ -38,12 +38,13 @@ public class GameScreen extends ScreenAdapter {
     private GameController gameController;
 
 
-    private OrthographicCamera gameCamera;
     private Viewport gameViewport;
+    private OrthographicCamera gameCamera;
     private PlayerView playerView;
     private BoardView boardView;
 
     private Viewport hudViewport;
+    private OrthographicCamera hudCamera;
     private HUDView hudView;
 
     private SpriteBatch spriteBatch;
@@ -86,7 +87,7 @@ public class GameScreen extends ScreenAdapter {
         viewport - hud
          */
         hudViewport = new ScalingViewport(Scaling.fit, VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT + HUD_SIZE);
-        OrthographicCamera hudCamera = (OrthographicCamera) hudViewport.getCamera();
+        hudCamera = (OrthographicCamera) hudViewport.getCamera();
 
         hudCamera.position.set(gameViewport.getWorldWidth(), HUD_SIZE, 0);
         hudCamera.update();
@@ -116,10 +117,10 @@ public class GameScreen extends ScreenAdapter {
         if(needToUpdateCamera)
             updateCamera();
 
-        spriteBatch.setProjectionMatrix(gameCamera.combined);
         /*
         board and player drawing
          */
+        spriteBatch.setProjectionMatrix(gameCamera.combined);
         gameViewport.apply();
         boardView.act(delta);
         playerView.act(delta);
@@ -132,11 +133,12 @@ public class GameScreen extends ScreenAdapter {
         /*
         hud drawing
          */
+        spriteBatch.setProjectionMatrix(hudCamera.combined);
         hudViewport.apply();
         hudView.act(delta);
 
         spriteBatch.begin();
-        //hudView.draw(spriteBatch, 1);
+        hudView.draw(spriteBatch, 1);
         spriteBatch.end();
 
 

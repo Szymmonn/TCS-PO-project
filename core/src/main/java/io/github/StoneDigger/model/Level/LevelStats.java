@@ -11,7 +11,7 @@ public class LevelStats implements ILevelStats {
     private LocalTime startTime;
 
     public LevelStats() {
-        this(0,0,1);
+        this(0,3,1);
     }
 
     public LevelStats(int diamondCount, int hp, int levelNumber) {
