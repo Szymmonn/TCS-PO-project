@@ -2,6 +2,7 @@ package io.github.StoneDigger.viewmodel.viewmodels;
 
 
 import io.github.StoneDigger.model.Boards.Board;
+import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.model.GameLogic.GameLogic;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.EDirections;
@@ -11,8 +12,8 @@ import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 
 public class GameViewModel {
 
-    public GameViewModel() {
-        startTheGame();
+    public GameViewModel(ELevelType standard) {
+        startTheGame(standard);
     }
 
     public Board getBoard() {
@@ -27,8 +28,8 @@ public class GameViewModel {
 //        return opponentList;
 //    }
 
-    public void startTheGame() {
-        GameLogic.startTheGame();
+    public void startTheGame(ELevelType levelType) {
+        GameLogic.startTheGame(levelType);
     }
 
     public void update(float delta) {

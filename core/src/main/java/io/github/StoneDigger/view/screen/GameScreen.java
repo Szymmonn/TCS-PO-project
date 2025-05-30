@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.GameController;
 import io.github.StoneDigger.view.views.*;
@@ -55,7 +56,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        gameViewModel = new GameViewModel();
+        gameViewModel = new GameViewModel(ELevelType.STANDARD);
         gameController = new GameController(gameViewModel);
 
         initGameViewport();

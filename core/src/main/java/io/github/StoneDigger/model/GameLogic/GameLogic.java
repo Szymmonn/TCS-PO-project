@@ -21,7 +21,7 @@ responsible for game cycle
  */
 public class GameLogic {
 
-    public static void startTheGame() {
+    public static void startTheGame(ELevelType levelType) {
         /// Level Manager
         LevelManager.setGameOver(false);
         ///  Board setup
