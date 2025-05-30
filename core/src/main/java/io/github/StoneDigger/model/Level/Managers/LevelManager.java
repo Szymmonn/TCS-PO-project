@@ -12,7 +12,7 @@ import io.github.StoneDigger.model.Level.LevelStats;
 public abstract class LevelManager {
     private static Board board = null;
     private static LevelStats stats = null;
-    private static int levelNumber;
+    private static int levelNumber=-1;
     private static boolean gameOver;
 
     public static void startNewLevel() {
@@ -76,8 +76,8 @@ public abstract class LevelManager {
     }
 
     public static void setBoard(Board board) {
-        board.setTiles(board.getTiles());
-        //        LevelManager.board = board;
+        if(levelNumber!=-1) LevelManager.board.setTiles(board.getTiles());
+        else LevelManager.board = board;
     }
 
     public static Board getBoard() {
