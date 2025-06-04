@@ -3,6 +3,7 @@ package io.github.StoneDigger.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
 
 public class Assets {
     public static Texture ROCK_TEXTURE;
@@ -16,6 +17,8 @@ public class Assets {
     public static Texture SETTINGS_TEXTURE;
     public static Texture BORDER_TEXTURE;
     public static FreeTypeFontGenerator REGULAR_FONT_GENERATOR;
+
+    public static String menuScreenPropertiesPath;
 
     public static void load() {
         ROCK_TEXTURE = new Texture("images/rock-removebg-preview.png");
@@ -34,6 +37,7 @@ public class Assets {
 
         REGULAR_FONT_GENERATOR = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PressStart2P-Regular.ttf"));
 
+        menuScreenPropertiesPath = "config/MenuScreenProperties.properties";
     }
 
     public static void dispose() {
