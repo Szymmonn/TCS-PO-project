@@ -23,10 +23,6 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
 
     @Override
     public void onWalkBy(IEntity entity, EDirections dir) {
-        if(entity instanceof Player) {
-            LevelManager.getStats().collectDiamond();
-            this.destroy();
-        }
     }
 
     @Override
@@ -88,11 +84,10 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
 
     private int tryRollSideways(int x, int y) {
         Board board = LevelManager.getBoard();
-        GridPoint2 pos = PlayerManager.getPlayer().getPosition();
 
         if (!(board.getTile(new GridPoint2(x,y-1)) instanceof EmptyTile)) {
             // Toczenie w prawo
-            if (tryFallRight(x,y) && !(pos.x == x+1 && pos.y == y)) {
+            if (tryFallRight(x,y)) {
 
                 GridPoint2 from = new GridPoint2(x, y);
                 GridPoint2 to = new GridPoint2(x+1, y);
@@ -101,7 +96,7 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
                 return 1;
             }
             // Toczenie w lewo
-            else if (tryFallLeft(x,y) && !(pos.x == x-1 && pos.y == y)) {
+            else if (tryFallLeft(x,y)) {
 
                 GridPoint2 from = new GridPoint2(x, y);
                 GridPoint2 to = new GridPoint2(x-1, y);

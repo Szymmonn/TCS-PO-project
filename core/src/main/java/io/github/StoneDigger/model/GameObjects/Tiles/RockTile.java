@@ -32,7 +32,6 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
     public void onWalkBy(IEntity entity, EDirections dir) {
         if(entity instanceof Player) {
             move(dir);
-
         }
     }
 

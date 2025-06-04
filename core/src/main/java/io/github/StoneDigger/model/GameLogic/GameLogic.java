@@ -30,10 +30,12 @@ public class GameLogic {
         setBoard(empty);
 
         /// Player manager
-        PlayerManager.setPlayer(new Player(new GridPoint2(1, 1)));
+
+        System.out.println("gamelogic po boardzie empty");
 
         /// Level starting
         LevelManager.startNewLevel();
+        System.out.println("gamelogic po starcie");
     }
 
     public static void tick(float delta) {

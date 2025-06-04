@@ -16,33 +16,57 @@ public class Levels {
     };
 
     private static final char[][][] rawBoards = {
-        {
-            "sdddrdddcddrddaddddd".toCharArray(),
-            "ddccrrdadddrdrcdcddd".toCharArray(),
-            "dddddddrdcdddddraddd".toCharArray(),
-            "ddrrdcdadrrddddrcddd".toCharArray(),
-            "ddaddrrdddddrcdddddd".toCharArray(),
-            "dddddcdddccddaddrddd".toCharArray(),
-            "ddcdddddraddrddcdddd".toCharArray(),
-            "ddrdddddddcdddddrcdd".toCharArray(),
-            "dddrdddcdrdadddddrdd".toCharArray(),
-            "ddddddddddrdddddadde".toCharArray()
-        },
+//
+//        {
+//            "sdddrdddcddrddaddddd".toCharArray(),
+//            "ddccrrdadddrdrcdcddd".toCharArray(),
+//            "dddddddrdcdddddraddd".toCharArray(),
+//            "ddrrdcdadrrddddrcddd".toCharArray(),
+//            "ddaddrrdddddrcdddddd".toCharArray(),
+//            "dddddcdddccddaddrddd".toCharArray(),
+//            "ddcdddddraddrddcdddd".toCharArray(),
+//            "ddrdddddddcdddddrcdd".toCharArray(),
+//            "dddrdddcdrdadddddrdd".toCharArray(),
+//            "ddddddddddrdddddadde".toCharArray()
+//        },
 
         {
-            "sddddadddrdddcddddddddda".toCharArray(),
-            "ddrcdrdddrdccdrrddaddddd".toCharArray(),
-            "dddddrcdaddddddrdcddrdcd".toCharArray(),
-            "dddddrddcddaddrcddddrddd".toCharArray(),
-            "ddccdadddddrcdddddaddcdd".toCharArray(),
-            "dddddrdddddrdddddrdddddd".toCharArray(),
-            "ddrdddddrcdddcddadrddddd".toCharArray(),
-            "ddadccdrdddddrddcdddrcdd".toCharArray(),
-            "ddddddaddrddcdddddaddddd".toCharArray(),
-            "ddrddddddaddrcdddddrcddd".toCharArray(),
-            "dddddddddrddadddrddddddd".toCharArray(),
-            "dddddddrcddddddrddaddcde".toCharArray()
+            "aaddcccccccccccccarrraaaccccccccccccca".toCharArray(),
+            "aarrc           crrraraac           cr".toCharArray(),
+            "rrrac           caadrarac           cr".toCharArray(),
+            "rrrac                               cr".toCharArray(),
+            "araac           ccccccccc           cr".toCharArray(),
+            "araac           cdrarrarc           cr".toCharArray(),
+            "rrrrc           carraarrc           cr".toCharArray(),
+            "raaac           carradarc           ca".toCharArray(),
+            "arrac           caaaararc           ca".toCharArray(),
+            "arrac           crdrraarc           cr".toCharArray(),
+            "ararc sx        craarrrac           cr".toCharArray(),
+            "adaac           craarrrac           cr".toCharArray(),
+            "araacccccccdcccccarrrrarcccccccccccccr".toCharArray(),
+            "rrrrrarraaaaddrrraraadraraardrraaaaaar".toCharArray(),
+            "aaarraradaarraarraaarrararrrdaraarrara".toCharArray(),
+            "rraraarrrrrrarradararrrrarararraarrara".toCharArray(),
+            "rraraarrrrrrarraaaddaarraraarraraadrra".toCharArray(),
+            "aarrrrrrraraarrdrrrarraaarardrrarrraar".toCharArray(),
+            "arraaarrraraarrrrrrarradararrrraraarra".toCharArray(),
+            "aaarraaraardrrrraraadaaraaraaaarrararr".toCharArray()
         },
+
+//        {
+//            "sddddadddrdddcddddddddda".toCharArray(),
+//            "ddrcdrdddrdccdrrddaddddd".toCharArray(),
+//            "dddddrcdaddddddrdcddrdcd".toCharArray(),
+//            "dddddrddcddaddrcddddrddd".toCharArray(),
+//            "ddccdadddddrcdddddaddcdd".toCharArray(),
+//            "dddddrdddddrdddddrdddddd".toCharArray(),
+//            "ddrdddddrcdddcddadrddddd".toCharArray(),
+//            "ddadccdrdddddrddcdddrcdd".toCharArray(),
+//            "ddddddaddrddcdddddaddddd".toCharArray(),
+//            "ddrddddddaddrcdddddrcddd".toCharArray(),
+//            "dddddddddrddadddrddddddd".toCharArray(),
+//            "dddddddrcddddddrddaddcde".toCharArray()
+//        },
 
         {
             "sddddcdddaddrddddddrcddaddddddd".toCharArray(),
