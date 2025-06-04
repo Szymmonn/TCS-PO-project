@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
-import io.github.StoneDigger.view.PlayerInputReceiver.GameController;
+import io.github.StoneDigger.view.PlayerInputReceiver.InputReceiver;
 import io.github.StoneDigger.view.views.*;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter {
 
     // --- View/Model/Controller ---
     private GameViewModel gameViewModel;
-    private GameController gameController;
+    private InputReceiver gameController;
 
     // --- Rendering ---
     private SpriteBatch spriteBatch;
@@ -59,7 +59,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         gameViewModel = new GameViewModel(levelType);
-        gameController = new GameController(gameViewModel);
+        gameController = new InputReceiver(gameViewModel);
 
         initGameViewport();
         initHudViewport();

@@ -8,14 +8,14 @@ import java.util.HashSet;
 
 import static io.github.StoneDigger.model.Directions.EDirections.*;
 
-public class GameController extends InputAdapter {
+public class InputReceiver extends InputAdapter {
     private final GameViewModel gameViewModel;
 
     private final HashSet<Integer> heldKeys = new HashSet<>();
     private float timeSinceLast = 1f;
     private final float inputRepeatDelay = 0.25f; // delay between repeated actions
 
-    public GameController(GameViewModel gameViewModel) {
+    public InputReceiver(GameViewModel gameViewModel) {
         this.gameViewModel = gameViewModel;
     }
 

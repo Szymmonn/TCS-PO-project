@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -21,26 +20,31 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
+import io.github.StoneDigger.view.configs.MenuScreenProperties;
+import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
 
 import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
 
 public class MenuScreen extends ScreenAdapter {
     private final GameStart gameStart;
+    private MenuScreenProperties properties;
 
     private Viewport viewport;
     private Stage stage;
 
     private BitmapFont font;
-    private Texture texture;
+    private Texture backgroundTexture;
+    private Texture buttonBackgroundTexture;
 
     private ELevelType levelType = ELevelType.STANDARD;
     public MenuScreen(GameStart gameStart) {
         this.gameStart = gameStart;
+        properties = MenuScreenPropertiesLoader.getInstance();
     }
 
     @Override
     public void show() {
-        viewport = new ScalingViewport(Scaling.fit, 800, 480);
+        viewport = new ScalingViewport(Scaling.fit, properties.worldWidth, properties.worldHeight);
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
@@ -49,89 +53,72 @@ public class MenuScreen extends ScreenAdapter {
 
     private void createStage() {
         /*
-        label font parameters
+        font
          */
         FreeTypeFontGenerator generator = REGULAR_FONT_GENERATOR;
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        parameter.size = 60;
+        parameter.size = (int) properties.fontSize;
 
-        parameter.color = Color.WHITE; // Text color
-        parameter.borderColor = Color.BLACK; // Outline color
-        parameter.borderWidth = 2f; // Thickness of the border
+        parameter.color = Color.valueOf(properties.fontColor);
+        parameter.borderColor = Color.valueOf(properties.fontBorderColor);
+        parameter.borderWidth = properties.fontBorderWidth;
 
-        parameter.shadowColor = new Color(0, 0, 0, 0.4f); // Semi-transparent black shadow
-        parameter.shadowOffsetX = 2;
-        parameter.shadowOffsetY = 2;
+        parameter.shadowColor = Color.valueOf(properties.fontShadowColor);
+        parameter.shadowOffsetX = (int) properties.fontShadowOffsetX;
+        parameter.shadowOffsetY = (int) properties.fontShadowOffsetY;
 
-        parameter.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:!?.,'\"()-=+/\\ "; // Optimization (optional)
+        parameter.characters = properties.fontCharacterOptimization;
 
         font = generator.generateFont(parameter);
 
+        /*
+        labels and buttons
+         */
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
 
-        /*
-        creating labels
-         */
-
-        /*
-        title label
-         */
         Label titleLabel = new Label("STONE \n DIGGER", labelStyle);
-
-        /*
-        press enter label
-         */
         Label pressEnterLabel = new Label("PRESS <ENTER>\n TO START", labelStyle);
 
-        /*
-        button style parameters
-         */
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.SKY);
+        pixmap.setColor(Color.valueOf(properties.backgroundColor));
         pixmap.fill();
-        texture = new Texture(pixmap);
-        TextureRegionDrawable whiteBg = new TextureRegionDrawable(new TextureRegion(texture));
+        backgroundTexture = new Texture(pixmap);
+        TextureRegionDrawable bg = new TextureRegionDrawable(new TextureRegion(backgroundTexture));
 
-        /*
-        standard style
-         */
+        Pixmap pixmap2 = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap2.setColor(Color.valueOf(properties.buttonStyleBackgroundColor));
+        pixmap2.fill();
+        buttonBackgroundTexture = new Texture(pixmap2);
+        TextureRegionDrawable buttonBg = new TextureRegionDrawable(new TextureRegion(buttonBackgroundTexture));
+
         TextButton.TextButtonStyle styleStandard = new TextButton.TextButtonStyle();
-        styleStandard.up = whiteBg;      // default button background
-        styleStandard.down = whiteBg.tint(Color.FIREBRICK); // pressed background
+        styleStandard.up = bg;
+        styleStandard.down = buttonBg;
         styleStandard.font = font;
-        styleStandard.fontColor = Color.FIREBRICK; // text color
+        styleStandard.fontColor = Color.valueOf(properties.buttonStyleFontColor1);
 
-        /*
-        random style
-         */
         TextButton.TextButtonStyle styleRandom = new TextButton.TextButtonStyle();
-        styleRandom.up = whiteBg;      // default button background
-        styleRandom.down = whiteBg.tint(Color.FIREBRICK); // pressed background
+        styleRandom.up = bg;
+        styleRandom.down = buttonBg;
         styleRandom.font = font;
-        styleRandom.fontColor = Color.GRAY; // text color
+        styleRandom.fontColor = Color.valueOf(properties.buttonStyleFontColor2);
 
-        /*
-        standard button
-         */
         TextButton standardButton = new TextButton("STANDARD", styleStandard);
-        standardButton.setSize(300, 80);
+        standardButton.setSize(properties.buttonWidth, properties.buttonHeight);
 
-        /*
-        random button
-         */
         TextButton randomButton = new TextButton("RANDOM", styleRandom);
-        randomButton.setSize(300, 80);
+        randomButton.setSize(properties.buttonWidth, properties.buttonHeight);
 
         /*
-        creating table
+        table
          */
         Table table = new Table();
         table.setFillParent(true);
-        table.add(titleLabel).expand().padBottom(30).row();
-        table.add(standardButton).expand().padBottom(10).row();
-        table.add(randomButton).expand().padBottom(30).row();
+        table.add(titleLabel).expand().padBottom(properties.tableTitleStandardBottomPad).row();
+        table.add(standardButton).expand().padBottom(properties.tableStandardRandomBottomPad).row();
+        table.add(randomButton).expand().padBottom(properties.tableRandomEnterBottomPad).row();
         table.add(pressEnterLabel).expand();
         stage.addActor(table);
 
@@ -160,15 +147,15 @@ public class MenuScreen extends ScreenAdapter {
                 if (keycode == Input.Keys.UP) {
                     if (levelType == ELevelType.STANDARD) return true;
                     levelType = ELevelType.STANDARD;
-                    standardButton.getStyle().fontColor = Color.FIREBRICK;
-                    randomButton.getStyle().fontColor = Color.GRAY;
+                    standardButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor1);
+                    randomButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor2);
                     return true;
                 }
                 if (keycode == Input.Keys.DOWN) {
                     if (levelType == ELevelType.RANDOM) return true;
                     levelType = ELevelType.RANDOM;
-                    standardButton.getStyle().fontColor = Color.GRAY;
-                    randomButton.getStyle().fontColor = Color.FIREBRICK;
+                    standardButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor2);
+                    randomButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor1);
                     return true;
                 }
                 return false;
@@ -183,8 +170,8 @@ public class MenuScreen extends ScreenAdapter {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (levelType == ELevelType.STANDARD) return;
                 levelType = ELevelType.STANDARD;
-                standardButton.getStyle().fontColor = Color.FIREBRICK;
-                randomButton.getStyle().fontColor = Color.GRAY;
+                standardButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor1);
+                randomButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor2);
             }
         });
 
@@ -192,21 +179,21 @@ public class MenuScreen extends ScreenAdapter {
         hover over random button listener
          */
         randomButton.addListener(new InputListener() {
-
-
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (levelType == ELevelType.RANDOM) return;
                 levelType = ELevelType.RANDOM;
-                standardButton.getStyle().fontColor = Color.GRAY;
-                randomButton.getStyle().fontColor = Color.FIREBRICK;
+                standardButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor2);
+                randomButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor1);
             }
         });
     }
 
+
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.53f, 0.81f, 0.92f, 1f);
+        Color background = Color.valueOf(properties.backgroundColor);
+        Gdx.gl.glClearColor(background.r, background.g, background.b, background.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(delta);
@@ -222,7 +209,8 @@ public class MenuScreen extends ScreenAdapter {
     public void dispose() {
         stage.dispose();
         font.dispose();
-        texture.dispose();
+        backgroundTexture.dispose();
+        buttonBackgroundTexture.dispose();
     }
 
 }
