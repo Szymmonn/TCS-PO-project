@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -137,6 +138,20 @@ public class MenuScreen extends ScreenAdapter {
                 Gdx.input.setInputProcessor(null);
                 gameStart.setScreen(new GameScreen(gameStart, levelType));
                 return true;
+            }
+        });
+        standardButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(null);
+                gameStart.setScreen(new GameScreen(gameStart, levelType));
+            }
+        });
+        randomButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(null);
+                gameStart.setScreen(new GameScreen(gameStart, levelType));
             }
         });
         /*

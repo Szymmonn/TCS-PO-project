@@ -7,7 +7,7 @@ import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Level.ILevelStats;
 
 public class PlayerManager {
-    private Player player = null;
+    private final Player player;
 
     PlayerManager(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager) {
         player = new Player(start, boardManager, levelStats, updateManager);
