@@ -82,7 +82,6 @@ public class Player implements IPlayer {
             updateManager.removedFromUpdates((ISelfUpdate) currentTile);
             boardManager.setTile(pos, new EmptyTile(pos, boardManager));
         }
-
     }
 
     public void moveOnStart() {

@@ -7,6 +7,7 @@ import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.model.Boards.BoardGenerators.Levels;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
+import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
 import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
@@ -14,10 +15,13 @@ import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 
+import java.util.Objects;
+
 public class LevelManager {
     private ILevelStats levelStats;
     private UpdateManager updateManager;
     private PlayerManager playerManager;
+    private OpponentManager opponentManager;
     private BoardManager boardManager;
 
     public LevelManager() {
@@ -71,12 +75,18 @@ public class LevelManager {
         GridPoint2 startPosition = new GridPoint2(1, 1);
 
         char[][] raw = BoardGenerator.generateBoard(levelType, levelStats.getLevelNumber());
+//        System.out.println("TERAZ CI POKAZE ZAWARTOSC TABLICY RAW:");
+//        for(int i = 0; i< Objects.requireNonNull(raw).length; i++) {
+//            for(int j=0;j<raw[0].length;j++) {
+//                System.out.println(raw[i][j]);
+//            }
+//        }
 
         ATile[][] placeholder = new ATile[raw[0].length][raw.length];
         Board tempBoard = new Board(placeholder);
 
         boardManager = new BoardManager(tempBoard);
-
+        opponentManager = new OpponentManager(startPosition, boardManager, updateManager);
         playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager);
 
         ATile[][] tiles = convertBoard(raw);
@@ -133,6 +143,9 @@ public class LevelManager {
     public IPlayer getPlayer() {
         return playerManager.getPlayer();
     }
+    public IOpponent getOpponent() {
+        return opponentManager.getOpponent();
+    }
     public ILevelStats getLevelStats() {
         return levelStats;
     }
@@ -142,5 +155,9 @@ public class LevelManager {
 
     public void movePlayer(EDirections direction) {
         playerManager.movePlayer(direction);
+    }
+
+    public void moveOpponent(EDirections direction) {
+        opponentManager.moveOpponent(direction);
     }
 }

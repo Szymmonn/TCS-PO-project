@@ -25,7 +25,7 @@ public class Opponent implements IOpponent {
 
     private GridPoint2 pos;
 
-    public Opponent(BoardManager boardManager, UpdateManager updateManager, GridPoint2 start) {
+    public Opponent(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager) {
         this.updateManager = updateManager;
         this.pos=start;
         this.boardManager = boardManager;

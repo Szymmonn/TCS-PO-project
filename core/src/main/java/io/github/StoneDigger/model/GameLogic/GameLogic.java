@@ -3,6 +3,7 @@ package io.github.StoneDigger.model.GameLogic;
 import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
+import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
 import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
@@ -40,6 +41,9 @@ public class GameLogic {
 
     public boolean getIsNewGame() {return newGame;}
 
+    public IOpponent getOpponent() {
+        return levelManager.getOpponent();
+    }
     public IPlayer getPlayer() {
         return levelManager.getPlayer();
     }
@@ -52,6 +56,9 @@ public class GameLogic {
 
     public void movePlayer(EDirections direction) {
         levelManager.movePlayer(direction);
+    }
+    public void moveOpponent(EDirections direction) {
+        levelManager.moveOpponent(direction);
     }
 
     public ELevelType getLevelType() {return levelType;}

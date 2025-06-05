@@ -9,23 +9,24 @@ import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 
+import static io.github.StoneDigger.view.Assets.OPPONENT_TEXTURE;
 import static io.github.StoneDigger.view.Assets.PLAYER_TEXTURE;
 
 
-public class PlayerView extends Actor {
-    private IPlayer player;
+public class OpponentView extends Actor {
+    private IOpponent opponent;
 
     private final float BLOCK_SIZE;
 
-    public PlayerView(IPlayer playerModel) {
-        player = playerModel;
+    public OpponentView(IOpponent opponentModel) {
+        opponent = opponentModel;
 
         GameScreenProperties config = GameScreenPropertiesLoader.getInstance();
         BLOCK_SIZE = config.blockSize;
     }
 
-    public void setPlayer(IPlayer player) {
-        this.player = player;
+    public void setOpponent(IOpponent opponent) {
+        this.opponent = opponent;
     }
 
     @Override
@@ -38,15 +39,15 @@ public class PlayerView extends Actor {
         Color prev = batch.getColor();
         batch.setColor(1,1,1,1);
 
-        float playerXPosition = player.getPosition().x*BLOCK_SIZE;
-        float playerYPosition = player.getPosition().y*BLOCK_SIZE;
-        batch.draw(PLAYER_TEXTURE, playerXPosition, playerYPosition, BLOCK_SIZE, BLOCK_SIZE);
+        float playerXPosition = opponent.getPosition().x*BLOCK_SIZE;
+        float playerYPosition = opponent.getPosition().y*BLOCK_SIZE;
+        batch.draw(OPPONENT_TEXTURE, playerXPosition, playerYPosition, BLOCK_SIZE, BLOCK_SIZE);
 
         batch.setColor(prev);
 
     }
 
-    public GridPoint2 getPlayerPosition() {
-        return player.getPosition();
+    public GridPoint2 getOpponentPosition() {
+        return opponent.getPosition();
     }
 }

@@ -5,6 +5,7 @@ import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.GameLogic.GameLogic;
+import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
 import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Directions.EDirections;
@@ -29,6 +30,10 @@ public class GameViewModel {
     public IPlayer getPlayer() {
         return gameLogic.getPlayer();
     }
+    public IOpponent getOpponent() {
+        return gameLogic.getOpponent();
+    }
+
     public ILevelStats getLevelStats() { return gameLogic.getLevelStats(); }
 
 //    public List<Opponent> getOpponentList() {

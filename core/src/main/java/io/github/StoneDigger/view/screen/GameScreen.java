@@ -50,6 +50,7 @@ public class GameScreen extends ScreenAdapter {
     // --- Views ---
     private PlayerView playerView;
     private BoardView boardView;
+    private OpponentView opponentView;
     private final Color bg;
 
     private Stage hudStage;
@@ -95,6 +96,7 @@ public class GameScreen extends ScreenAdapter {
     private void initViews() {
         boardView = new BoardView(gameViewModel.getBoard());
         playerView = new PlayerView(gameViewModel.getPlayer());
+        opponentView = new OpponentView(gameViewModel.getOpponent());
 
         HUDView hudView = new HUDView(gameViewModel.getLevelStats(), gameStart);
 
@@ -114,6 +116,7 @@ public class GameScreen extends ScreenAdapter {
         if(gameViewModel.getIsNewGame()) {
             boardView.setBoard(gameViewModel.getBoard());
             playerView.setPlayer(gameViewModel.getPlayer());
+            opponentView.setOpponent(gameViewModel.getOpponent());
         }
 
         gameViewModel.update(delta);
@@ -134,10 +137,12 @@ public class GameScreen extends ScreenAdapter {
 
         boardView.act(delta);
         playerView.act(delta);
+        opponentView.act(delta);
 
         spriteBatch.begin();
         boardView.draw(spriteBatch, 1);
         playerView.draw(spriteBatch, 1);
+        opponentView.draw(spriteBatch,1);
         spriteBatch.end();
     }
 
