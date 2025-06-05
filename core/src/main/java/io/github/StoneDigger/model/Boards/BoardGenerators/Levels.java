@@ -133,47 +133,6 @@ public class Levels {
 
     public static char[][][] boards = normalizeAndFrameBoards(rawBoards);
 
-
-    public static ATile[][] convertBoard(char[][] board) {
-        if (board == null || board.length == 0 || board[0] == null || board[0].length == 0) {
-            throw new IllegalArgumentException("Board nie może być pusty lub null.");
-        }
-
-        int rows = board.length;
-        int cols = board[0].length;
-        ATile[][] tiles = new ATile[cols][rows];
-
-        for (int y = 0; y < rows; y++) {
-            if (board[y] == null || board[y].length != cols) {
-                throw new IllegalArgumentException("Wszystkie wiersze muszą mieć tę samą długość.");
-            }
-            for (int x = 0; x < cols; x++) {
-                char ch = board[y][x];
-                GridPoint2 pos = new GridPoint2(x, y);
-                ATile tile;
-                switch (ch) {
-                    case 'd': tile = new DirtTile(pos); break;
-                    case 'r': tile = new RockTile(pos); break;
-                    case 'a': tile = new DiamondTile(pos); break;
-                    case ' ': tile = new EmptyTile(pos); break;
-                    case 'c': tile = new BrickTile(pos); break;
-                    case 's': tile = new StartTile(pos); break;
-                    case 'e': tile = new EndTile(pos); break;
-                    case 'x': tile = new DeactivatedEndTile(pos); break;
-                    case 'b': tile = new BorderTile(pos); break;
-                    default:
-                        throw new IllegalArgumentException(
-                            "Nieznany znak: '" + ch + "' na pozycji (" + y + "," + x + ")"
-                        );
-                }
-                tiles[x][y] = tile;
-            }
-        }
-
-        return tiles;
-    }
-
-
     public static char[][][] normalizeAndFrameBoards(char[][][] rawBoards) {
         if (rawBoards == null) throw new IllegalArgumentException("Brak plansz.");
 

@@ -3,14 +3,13 @@ package io.github.StoneDigger.model.Level;
 import java.time.Duration;
 import java.time.LocalTime;
 
-import static java.lang.System.exit;
-
 public class LevelStats implements ILevelStats {
     private int score;
     private int diamondCount;
     private int hp;
     private int levelNumber;
-    private LocalTime startTime;
+    private final LocalTime startTime;
+    private boolean gameOver;
 
     public LevelStats() {
         this(0,3,1);
@@ -22,6 +21,7 @@ public class LevelStats implements ILevelStats {
         this.hp = hp;
         this.levelNumber = levelNumber;
         this.startTime = LocalTime.now();
+        gameOver = false;
     }
 
     @Override
@@ -37,17 +37,10 @@ public class LevelStats implements ILevelStats {
 
     @Override
     public Duration getTimeElapsed() {return Duration.between(startTime, LocalTime.now());}
-    @Override
-    public void setStartTime(LocalTime startTime) {this.startTime = startTime;}
 
     @Override
     public int getLevelNumber() {
         return levelNumber;
-    }
-
-    @Override
-    public void setLevelNumber(int levelNumber) {
-        this.levelNumber = levelNumber;
     }
 
     @Override
@@ -61,4 +54,9 @@ public class LevelStats implements ILevelStats {
     public int getDiamondCount() { return diamondCount;}
     @Override
     public void setDiamondCount(int n) {diamondCount = n;}
+    public boolean isGameOver() {return gameOver;}
+    public void setGameOverTrue() {gameOver = true;}
+    public void setGameOverFalse() {gameOver = false;}
+    public void incrementLevelNumber() {levelNumber++;}
+    public void setLevelNumber(int levelNumber) {this.levelNumber = levelNumber;}
 }

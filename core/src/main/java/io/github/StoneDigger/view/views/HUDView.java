@@ -12,6 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.view.Game.GameStart;
+import io.github.StoneDigger.view.configs.GameScreenProperties;
+import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
+import io.github.StoneDigger.view.configs.HudViewProperties;
+import io.github.StoneDigger.view.configs.HudViewPropertiesLoader;
 import io.github.StoneDigger.view.screen.SettingsScreen;
 import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
@@ -36,12 +40,17 @@ public class HUDView extends Group {
     private Image diamondImage;
     private Image[] heartImages;
 
-    private Table diamondTable;
-    private Table hpTable;
+    private final Table diamondTable;
+    private final Table hpTable;
 
     private int prevHp;
     private int prevDiamonds;
     private int prevLevelNumber;
+
+    private final float VISIBLE_WORLD_HEIGHT;
+    private final float VISIBLE_WORLD_WIDTH;
+    private final float HUD_SIZE;
+    private final HudViewProperties config;
 
     public HUDView(ILevelStats levelStats, final GameStart gameStart) {
         this.gameStart = gameStart;
@@ -49,6 +58,12 @@ public class HUDView extends Group {
         this.prevHp = levelStats.getHP();
         this.prevDiamonds = levelStats.getDiamondCount();
         this.prevLevelNumber = levelStats.getLevelNumber();
+
+        config = HudViewPropertiesLoader.getInstance();
+        GameScreenProperties gameConfig = GameScreenPropertiesLoader.getInstance();
+        VISIBLE_WORLD_HEIGHT = gameConfig.blocksInViewHeight * gameConfig.blockSize;
+        VISIBLE_WORLD_WIDTH = gameConfig.blocksInViewWidth * gameConfig.blockSize;
+        HUD_SIZE = gameConfig.hudSize;
 
         background = createBackground();
         createLabels();
@@ -79,14 +94,14 @@ public class HUDView extends Group {
 
     private Image createBackground() {
         return BackgroundFactory.createSolidBackground(
-            0, VISIBLE_WORLD_HEIGHT, VISIBLE_WORLD_WIDTH, HUD_SIZE, Color.FIREBRICK
+            0, VISIBLE_WORLD_HEIGHT, VISIBLE_WORLD_WIDTH, HUD_SIZE, Color.valueOf(config.hudBgColor)
         );
     }
 
     private void createLabels() {
-        BitmapFont font = createFont(30, Color.BLACK);
-
-        Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
+        BitmapFont font = createFont(config.fontSize, Color.valueOf(config.fontBorderColor));
+        font.getData().setScale(config.fontScaleX, config.fontScaleY);
+        Label.LabelStyle style = new Label.LabelStyle(font, Color.valueOf(config.fontColor));
 
         diamondCollectedLabel = new Label(formatNumber(prevDiamonds), style);
         diamondCountLabel = new Label(formatNumber(levelStats.getDiamondCount()), style);
@@ -105,10 +120,10 @@ public class HUDView extends Group {
         /*
         settings button parameters
          */
-        float button_position_x = VISIBLE_WORLD_WIDTH - 100;
+        float button_position_x = VISIBLE_WORLD_WIDTH + config.settingsButtonPositionXOffset;
         float button_position_y = VISIBLE_WORLD_HEIGHT;
-        float button_width = 100;
-        float button_height = 100;
+        float button_width = config.settingsButtonWidth;
+        float button_height = config.settingsButtonHeight;
 
         settingsButton.setPosition(button_position_x, button_position_y);
         settingsButton.setSize(button_width, button_height);
@@ -141,13 +156,13 @@ public class HUDView extends Group {
         Table table = new Table();
         table.setPosition(0, VISIBLE_WORLD_HEIGHT);
         table.setSize(VISIBLE_WORLD_WIDTH, HUD_SIZE);
-        table.left().pad(10);
+        table.left().pad(config.diamondTablePad);
 
         diamondCountLabel.getStyle().font.getData().setScale(3, 2);
 
-        table.add(diamondCountLabel).pad(10);
-        table.add(diamondImage).size(100).pad(10);
-        table.add(diamondCollectedLabel).size(80).pad(10);
+        table.add(diamondCountLabel).pad(config.diamondTablePad).padTop(config.labelTopPad);
+        table.add(diamondImage).size(config.diamondImageSize).pad(config.diamondTablePad);
+        table.add(diamondCollectedLabel).size(config.diamondCollectedLabelSize).pad(config.diamondTablePad).padTop(config.labelTopPad);
 
         return table;
     }
@@ -155,28 +170,24 @@ public class HUDView extends Group {
     private Table createHpTable() {
         Table table = new Table();
         table.setPosition(0, VISIBLE_WORLD_HEIGHT);
-        table.setSize(VISIBLE_WORLD_WIDTH - 150, HUD_SIZE);
+        table.setSize(VISIBLE_WORLD_WIDTH + config.hpTableWidthOffset, HUD_SIZE);
         table.right();
 
         for (int i = 0; i < prevHp; i++) {
-            table.add(heartImages[i]).size(100).pad(5);
+            table.add(heartImages[i]).size(config.hpImageSize).pad(config.hpImagePad);
         }
 
         return table;
     }
 
     private void configureTimeElapsedLabel() {
-        timeElapsedLabel.getStyle().font.setColor(Color.OLIVE);
-        timeElapsedLabel.getStyle().font.getData().setScale(100, 80);
-        timeElapsedLabel.setPosition(VISIBLE_WORLD_WIDTH * 0.50f, VISIBLE_WORLD_HEIGHT + 10);
-        timeElapsedLabel.setSize(4 * 80 + 50, 80);
+        timeElapsedLabel.setPosition(VISIBLE_WORLD_WIDTH * config.timeLabelPositionXMultiplier, VISIBLE_WORLD_HEIGHT + config.timeLabelPad);
+        timeElapsedLabel.setSize(config.timeLabelWidth, config.levelLabelHeight);
     }
 
     private void configureLevelLabel() {
-        levelNumberLabel.getStyle().font.setColor(Color.WHITE);
-        levelNumberLabel.getStyle().font.getData().setScale(100, 80);
-        levelNumberLabel.setPosition(VISIBLE_WORLD_WIDTH * 0.30f, VISIBLE_WORLD_HEIGHT + 10);
-        levelNumberLabel.setSize(2 * 80 + 20, 80);
+        levelNumberLabel.setPosition(VISIBLE_WORLD_WIDTH * config.levelLabelPositionXMultiplier, VISIBLE_WORLD_HEIGHT + config.levelLabelPositionYPad);
+        levelNumberLabel.setSize(config.leveLabelWidth, config.levelLabelHeight);
     }
 
     private void updateDiamonds() {

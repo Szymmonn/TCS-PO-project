@@ -1,12 +1,11 @@
 package io.github.StoneDigger.model.Boards.BoardGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
-import io.github.StoneDigger.model.Boards.Board;
-import io.github.StoneDigger.model.Level.Managers.LevelManager;
+import io.github.StoneDigger.model.Boards.BoardGenerators.BoardValidators.SimpleBoardValidator;
 
 public class BoardGenerator {
 
-    public static Board generateBoard(ELevelType levelType , int levelNumber) {
+    public static char[][] generateBoard(ELevelType levelType , int levelNumber) {
         if(levelType == ELevelType.STANDARD) {
             StandardBoardGenerator standardBoardGenerator = new StandardBoardGenerator();
             return StandardBoardGenerator.generate(levelNumber);
@@ -16,7 +15,15 @@ public class BoardGenerator {
             int height = 15 + levelNumber;
             GridPoint2 startingPos = new GridPoint2(1, 1);
             RandomBoardGenerator randomBoardGenerator = new RandomBoardGenerator(0.1, 0.1, 0.1);
-            return RandomBoardGenerator.generate(new GridPoint2(width, height), startingPos);
+            char[][] board = RandomBoardGenerator.generate(new GridPoint2(width, height), startingPos);
+
+            SimpleBoardValidator boardValidator = new SimpleBoardValidator();
+
+            while(!boardValidator.validate(board)) {
+                board = RandomBoardGenerator.generate(new GridPoint2(width, height), startingPos);
+            }
+
+            return board;
 
         } else {
             return null;

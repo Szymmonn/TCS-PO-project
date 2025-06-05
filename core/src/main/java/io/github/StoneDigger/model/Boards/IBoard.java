@@ -8,5 +8,6 @@ public interface IBoard {
     int getHeight();
     ATile getTile(GridPoint2 pos);
     void setTile(GridPoint2 pos, ATile tile);
-    GridPoint2 getStartingPosition();
+    public void setTiles(ATile [][] tiles);
+    public ATile[][] getTiles();
 }
