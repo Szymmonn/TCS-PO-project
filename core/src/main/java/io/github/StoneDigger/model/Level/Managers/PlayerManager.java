@@ -20,8 +20,4 @@ public class PlayerManager {
     public void movePlayer(EDirections direction) {
         player.move(direction);
     }
-
-    public void movePlayerToStart() {
-        player.moveOnStart();
-    }
 }

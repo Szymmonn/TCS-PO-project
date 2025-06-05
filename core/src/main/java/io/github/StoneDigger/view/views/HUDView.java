@@ -201,8 +201,8 @@ public class HUDView extends Group {
     private void updateHp() {
         int current = levelStats.getHP();
         if (prevHp != current) {
-            for (int i = 2; i >= current; i--) {
-                hpTable.removeActor(heartImages[i]); //TODO: to jest chyba nie dziala
+            for (int i = prevHp; i > current; i--) {
+                hpTable.removeActor(heartImages[i-1]);
             }
             prevHp = current;
         }

@@ -5,12 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
-import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 
 import static io.github.StoneDigger.view.Assets.OPPONENT_TEXTURE;
-import static io.github.StoneDigger.view.Assets.PLAYER_TEXTURE;
 
 
 public class OpponentView extends Actor {
@@ -45,9 +43,5 @@ public class OpponentView extends Actor {
 
         batch.setColor(prev);
 
-    }
-
-    public GridPoint2 getOpponentPosition() {
-        return opponent.getPosition();
     }
 }

@@ -2,19 +2,10 @@ package io.github.StoneDigger.model.GameObjects.Entities;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-import java.util.Arrays;
-import java.util.Random;
-
-import io.github.StoneDigger.model.Boards.Board;
-import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 import io.github.StoneDigger.model.Directions.*;
-import io.github.StoneDigger.model.GameObjects.Tiles.DiamondTile;
 import io.github.StoneDigger.model.GameObjects.Tiles.EmptyTile;
-import io.github.StoneDigger.model.GameObjects.Tiles.RockTile;
-import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
-import io.github.StoneDigger.model.Level.Managers.LevelManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
 public class Opponent implements IOpponent {
@@ -32,12 +23,11 @@ public class Opponent implements IOpponent {
     }
 
     @Override public GridPoint2 getPosition() { return pos; }
-    @Override public void setPosition(GridPoint2 p){ pos=p; }
 
-    @Override public boolean canMove(EDirections dir) {
-        /// MAM TĄ FUNKCJE W DUPIE, PRZYKRO MI, JEST TROCHE USELESS
-        return true;
-    }
+//    @Override public boolean canMove(EDirections dir) {
+//        /// MAM TĄ FUNKCJE W DUPIE, PRZYKRO MI, JEST TROCHE USELESS
+//        return true;
+//    }
 
     ///  Moving alongside a border
 
@@ -86,8 +76,10 @@ public class Opponent implements IOpponent {
         }
     }
 
+    // fix that
     @Override public void move(EDirections dir) {
-        if(canMove(dir)) pos.add(dir.getDx(), dir.getDy());
+//        if(canMove(dir))
+          pos.add(dir.getDx(), dir.getDy());
     }
 
     @Override

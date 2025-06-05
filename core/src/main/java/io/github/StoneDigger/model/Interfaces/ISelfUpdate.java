@@ -1,4 +1,4 @@
-package io.github.StoneDigger.model.GameObjects;
+package io.github.StoneDigger.model.Interfaces;
 
 public interface ISelfUpdate {
     void update(float delta);

@@ -33,13 +33,11 @@ public class LevelStats implements ILevelStats {
 
     @Override
     public void setHP(int HP) {
-        if (HP <= 0) throw new IllegalArgumentException("HP must be greater than zero");
         this.hp = HP;
     }
 
     @Override
     public void decreaseHP() {
-        System.out.println(hp + " \n");
         if (hp <= 0) hp = 0;
         hp--;
     }

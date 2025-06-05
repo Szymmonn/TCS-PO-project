@@ -1,11 +1,8 @@
 package io.github.StoneDigger.model.Level.Managers;
 
-import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
-import io.github.StoneDigger.model.GameObjects.Tiles.RockTile;
+import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 public class UpdateManager {

@@ -1,7 +1,8 @@
 package io.github.StoneDigger.model.GameObjects.Tiles;
 
 import com.badlogic.gdx.math.GridPoint2;
-import io.github.StoneDigger.model.GameObjects.Entities.IEntity;
+import io.github.StoneDigger.model.Interfaces.IEntity;
+import io.github.StoneDigger.model.Interfaces.IWalkableTile;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
