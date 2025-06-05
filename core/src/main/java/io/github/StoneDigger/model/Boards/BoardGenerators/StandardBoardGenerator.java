@@ -6,9 +6,7 @@ import io.github.StoneDigger.model.Level.Managers.LevelManager;
 
 public class StandardBoardGenerator implements IBoardGenerator {
 
-    public static Board generate(int levelNumber) {
-        GridPoint2 start = Levels.startingPoints[levelNumber];
-        char[][] board = Levels.boards[levelNumber];
-        return new Board(Levels.convertBoard(board), start);
+    public static char[][] generate(int levelNumber) {
+        return Levels.boards[levelNumber];
     }
 }

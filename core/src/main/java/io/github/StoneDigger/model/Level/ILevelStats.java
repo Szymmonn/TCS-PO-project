@@ -14,13 +14,15 @@ public interface ILevelStats {
     void setDiamondCount(int n);
 
     int getLevelNumber();
-    void setLevelNumber(int levelNumber);
 
     int getHP();
     void setHP(int hp);
     void decreaseHP();
 
     Duration getTimeElapsed();
-    void setStartTime(LocalTime startTime);
+    public void setGameOverTrue();
+    public void setGameOverFalse();
+    public void incrementLevelNumber();
+    public void setLevelNumber(int levelNumber);
 }
 
