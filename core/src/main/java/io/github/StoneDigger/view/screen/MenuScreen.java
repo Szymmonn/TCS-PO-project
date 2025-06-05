@@ -28,7 +28,7 @@ import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
 
 public class MenuScreen extends ScreenAdapter {
     private final GameStart gameStart;
-    private MenuScreenProperties properties;
+    private final MenuScreenProperties properties;
 
     private Viewport viewport;
     private Stage stage;
