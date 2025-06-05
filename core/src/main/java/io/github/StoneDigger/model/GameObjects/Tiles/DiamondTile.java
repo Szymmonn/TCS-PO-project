@@ -14,7 +14,10 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
     float dropDiamondTimer =0;
     int moved=0;
 
-    public DiamondTile(GridPoint2 start) {super(start);}
+    public DiamondTile(GridPoint2 start) {
+        super(start);
+
+    }
 
 
     @Override public boolean isWalkable(EDirections dir) {

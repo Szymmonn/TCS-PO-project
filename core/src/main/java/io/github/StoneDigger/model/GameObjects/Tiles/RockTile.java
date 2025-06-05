@@ -83,6 +83,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
                     return true;
                 }
             }
+
             if (tryFallLeft(x, y) && pos.x == x - 1 && pos.y == y) {
                 if(tryFallRight(x, y)) return false;
                 else {
@@ -154,6 +155,10 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         RockTile oldRock = (RockTile) board.getTile(from);
         RockTile newRock = new RockTile(to);
 
+
+//        UpdateManager.removedFromUpdates(oldRock);
+
+//        oldRock.setPosition(to);
         board.setTile(to, newRock);
         board.setTile(from, new EmptyTile(from));
 

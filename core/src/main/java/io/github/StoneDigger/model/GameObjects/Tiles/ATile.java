@@ -20,6 +20,9 @@ public abstract class ATile {
     public GridPoint2 getPosition() {
         return position;
     }
+    public void setPosition(GridPoint2 pos) {
+        position = pos;
+    }
 
     protected Board getBoard() {
         return LevelManager.getBoard();
