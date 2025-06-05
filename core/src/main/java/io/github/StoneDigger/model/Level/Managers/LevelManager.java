@@ -64,12 +64,13 @@ public class LevelManager {
         return tiles;
     }
 
-    public void startNewLevel() {
+    public void startNewLevel(ELevelType levelType) {
         levelStats.setGameOverFalse();
+        levelStats.setIsGameComplete(false);
         levelStats.incrementLevelNumber();
         GridPoint2 startPosition = new GridPoint2(1, 1);
 
-        char[][] raw = BoardGenerator.generateBoard(ELevelType.STANDARD, levelStats.getLevelNumber());
+        char[][] raw = BoardGenerator.generateBoard(levelType, levelStats.getLevelNumber());
 
         ATile[][] placeholder = new ATile[raw[0].length][raw.length];
         Board tempBoard = new Board(placeholder);

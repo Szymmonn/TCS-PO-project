@@ -111,6 +111,11 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        if(gameViewModel.getIsNewGame()) {
+            boardView.setBoard(gameViewModel.getBoard());
+            playerView.setPlayer(gameViewModel.getPlayer());
+        }
+
         gameViewModel.update(delta);
         gameController.update(delta);
 //        boolean needToUpdateCamera = gameController.isKeyPressed(delta);

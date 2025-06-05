@@ -22,6 +22,7 @@ import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.configs.MenuScreenProperties;
 import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
+import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
 import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
 
@@ -170,6 +171,7 @@ public class MenuScreen extends ScreenAdapter {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (levelType == ELevelType.STANDARD) return;
                 levelType = ELevelType.STANDARD;
+
                 standardButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor1);
                 randomButton.getStyle().fontColor = Color.valueOf(properties.buttonStyleFontColor2);
             }

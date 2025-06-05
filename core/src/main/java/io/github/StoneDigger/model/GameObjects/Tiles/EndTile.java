@@ -28,7 +28,7 @@ public class EndTile extends ATile implements IWalkableTile {
     public void onWalkBy(IEntity entity, EDirections dir) {
         if(entity instanceof Player) {
             //levelStats.setGameOverTrue();
-            levelManager.startNewLevel();
+            levelStats.setIsGameComplete(true);
         }
     }
 }

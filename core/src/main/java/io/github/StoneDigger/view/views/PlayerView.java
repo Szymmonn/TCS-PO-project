@@ -4,22 +4,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.model.GameObjects.Entities.Player;
+import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 
 import static io.github.StoneDigger.view.Assets.PLAYER_TEXTURE;
 
 public class PlayerView extends Actor {
-    private final Player player;
+    private IPlayer player;
 
     private final float BLOCK_SIZE;
 
-    public PlayerView(Player playerModel) {
+    public PlayerView(IPlayer playerModel) {
         player = playerModel;
 
         GameScreenProperties config = GameScreenPropertiesLoader.getInstance();
         BLOCK_SIZE = config.blockSize;
+    }
+
+    public void setPlayer(IPlayer player) {
+        this.player = player;
     }
 
     @Override

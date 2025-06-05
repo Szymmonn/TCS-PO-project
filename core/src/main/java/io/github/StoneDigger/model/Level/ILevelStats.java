@@ -1,9 +1,6 @@
 package io.github.StoneDigger.model.Level;
 
-import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
-
 import java.time.Duration;
-import java.time.LocalTime;
 
 public interface ILevelStats {
     int getScore();
@@ -24,5 +21,9 @@ public interface ILevelStats {
     public void setGameOverFalse();
     public void incrementLevelNumber();
     public void setLevelNumber(int levelNumber);
+    public boolean isGameComplete();
+    public void setIsGameComplete(boolean b);
+    public boolean getIsGameWon();
+    public void setIsGameWon(boolean gameWon);
 }
 
