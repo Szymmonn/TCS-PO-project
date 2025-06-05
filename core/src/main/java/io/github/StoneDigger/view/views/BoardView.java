@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.model.Boards.Board;
+import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 import io.github.StoneDigger.utils.config.Configuration;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
@@ -16,10 +16,10 @@ import io.github.StoneDigger.view.views.utility.TileToTexture;
 import static io.github.StoneDigger.view.screen.GameScreen.*;
 
 public class BoardView extends Actor {
-    private final Board board;
+    private final IBoard board;
     private final float BLOCK_SIZE;
 
-    public BoardView(Board board) {
+    public BoardView(IBoard board) {
         this.board = board;
         GameScreenProperties config = GameScreenPropertiesLoader.getInstance();
         BLOCK_SIZE = config.blockSize;

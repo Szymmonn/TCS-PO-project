@@ -12,18 +12,24 @@ import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.GameObjects.Tiles.DiamondTile;
 import io.github.StoneDigger.model.GameObjects.Tiles.EmptyTile;
 import io.github.StoneDigger.model.GameObjects.Tiles.RockTile;
+import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
 public class Opponent implements IOpponent {
     private float opponentMoveTime = 0;
     private EDirections moveDirection;
+    private final BoardManager boardManager;
+    private final UpdateManager updateManager;
 
     private GridPoint2 pos;
-    private final Board board;
-    private final Random rnd = new Random();
 
-    public Opponent(Board board, GridPoint2 start){ this.board=board; this.pos=start; }
+    public Opponent(BoardManager boardManager, UpdateManager updateManager, GridPoint2 start) {
+        this.updateManager = updateManager;
+        this.pos=start;
+        this.boardManager = boardManager;
+    }
 
     @Override public GridPoint2 getPosition() { return pos; }
     @Override public void setPosition(GridPoint2 p){ pos=p; }
@@ -58,9 +64,9 @@ public class Opponent implements IOpponent {
             next = new GridPoint2(pos.x-1,pos.y);
         }
 
-        ATile leftTileToOpponent = LevelManager.getBoard().getTile(left);
-        ATile nextTileToOpponent = LevelManager.getBoard().getTile(next);
-        ATile rightTileToOpponent = LevelManager.getBoard().getTile(right);
+        ATile leftTileToOpponent = boardManager.getTile(left);
+        ATile nextTileToOpponent = boardManager.getTile(next);
+        ATile rightTileToOpponent = boardManager.getTile(right);
         EDirections[] tmp = {EDirections.UP, EDirections.LEFT, EDirections.DOWN, EDirections.RIGHT};
         int tmpPos = 0;
 
@@ -99,14 +105,14 @@ public class Opponent implements IOpponent {
     }
 
     public boolean emptyOrBlocksAroundOpponent(boolean b) {
-        if(!(LevelManager.getBoard().getTile(new GridPoint2(pos.x,pos.y+1)) instanceof EmptyTile)) return b;
-        if(!(LevelManager.getBoard().getTile(new GridPoint2(pos.x,pos.y-1)) instanceof EmptyTile)) return b;
-        if(!(LevelManager.getBoard().getTile(new GridPoint2(pos.x-1,pos.y)) instanceof EmptyTile)) return b;
-        if(!(LevelManager.getBoard().getTile(new GridPoint2(pos.x+1,pos.y)) instanceof EmptyTile)) return b;
-        if(!(LevelManager.getBoard().getTile(new GridPoint2(pos.x+1,pos.y+1)) instanceof EmptyTile)) return b;
-        if(!(LevelManager.getBoard().getTile(new GridPoint2(pos.x+1,pos.y-1)) instanceof EmptyTile)) return b;
-        if(!(LevelManager.getBoard().getTile(new GridPoint2(pos.x-1,pos.y+1)) instanceof EmptyTile)) return b;
-        if(!(LevelManager.getBoard().getTile(new GridPoint2(pos.x-1,pos.y-1)) instanceof EmptyTile)) return b;
+        if(!(boardManager.getTile(new GridPoint2(pos.x,pos.y+1)) instanceof EmptyTile)) return b;
+        if(!(boardManager.getTile(new GridPoint2(pos.x,pos.y-1)) instanceof EmptyTile)) return b;
+        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y)) instanceof EmptyTile)) return b;
+        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y)) instanceof EmptyTile)) return b;
+        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y+1)) instanceof EmptyTile)) return b;
+        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y-1)) instanceof EmptyTile)) return b;
+        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y+1)) instanceof EmptyTile)) return b;
+        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y-1)) instanceof EmptyTile)) return b;
 
         return true;
     }
