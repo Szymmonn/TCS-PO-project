@@ -4,18 +4,22 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
+import io.github.StoneDigger.view.configs.GameScreenProperties;
+import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 
 import static io.github.StoneDigger.view.Assets.PLAYER_TEXTURE;
-import static io.github.StoneDigger.view.screen.GameScreen.BLOCK_SIZE;
-import static io.github.StoneDigger.view.screen.GameScreen.GAP_SIZE;
 
 public class PlayerView extends Actor {
-    private IPlayer player;
+    private final Player player;
 
-    public PlayerView(IPlayer playerModel) {
+    private final float BLOCK_SIZE;
+
+    public PlayerView(Player playerModel) {
         player = playerModel;
+
+        GameScreenProperties config = GameScreenPropertiesLoader.getInstance();
+        BLOCK_SIZE = config.blockSize;
     }
 
     @Override
@@ -28,8 +32,8 @@ public class PlayerView extends Actor {
         Color prev = batch.getColor();
         batch.setColor(1,1,1,1);
 
-        int playerXPosition = player.getPosition().x * (BLOCK_SIZE + GAP_SIZE);
-        int playerYPosition = player.getPosition().y * (BLOCK_SIZE + GAP_SIZE);
+        float playerXPosition = player.getPosition().x*BLOCK_SIZE;
+        float playerYPosition = player.getPosition().y*BLOCK_SIZE;
         batch.draw(PLAYER_TEXTURE, playerXPosition, playerYPosition, BLOCK_SIZE, BLOCK_SIZE);
 
         batch.setColor(prev);

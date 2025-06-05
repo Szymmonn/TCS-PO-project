@@ -3,6 +3,7 @@ package io.github.StoneDigger.view.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,18 +16,19 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.InputReceiver;
+import io.github.StoneDigger.view.configs.GameScreenProperties;
+import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 import io.github.StoneDigger.view.views.*;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
 public class GameScreen extends ScreenAdapter {
 
     // --- Constants ---
-    public static final int BLOCK_SIZE = 100;
-    public static final int GAP_SIZE = 0;
+    private final float BLOCK_SIZE;
 
-    public static final float VISIBLE_WORLD_WIDTH = 21 * (BLOCK_SIZE + GAP_SIZE);
-    public static final float VISIBLE_WORLD_HEIGHT = 12 * (BLOCK_SIZE + GAP_SIZE);
-    public static final float HUD_SIZE = 100f;
+    private final float VISIBLE_WORLD_WIDTH;
+    private final float VISIBLE_WORLD_HEIGHT;
+    private final float HUD_SIZE;
 
     // --- Dependencies ---
     private final GameStart gameStart;
@@ -48,12 +50,20 @@ public class GameScreen extends ScreenAdapter {
     // --- Views ---
     private PlayerView playerView;
     private BoardView boardView;
+    private final Color bg;
 
     private Stage hudStage;
 
     public GameScreen(GameStart gameStart, ELevelType levelType) {
         this.gameStart = gameStart;
         this.levelType = levelType;
+        GameScreenProperties config = GameScreenPropertiesLoader.getInstance();
+
+        BLOCK_SIZE = config.blockSize;
+        VISIBLE_WORLD_WIDTH = config.blocksInViewWidth * BLOCK_SIZE;
+        VISIBLE_WORLD_HEIGHT = config.blocksInViewHeight * BLOCK_SIZE;
+        HUD_SIZE = config.hudSize;
+        bg = Color.valueOf(config.backgroundColor);
     }
 
     @Override
@@ -105,7 +115,7 @@ public class GameScreen extends ScreenAdapter {
         gameController.update(delta);
 //        boolean needToUpdateCamera = gameController.isKeyPressed(delta);
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(bg.r, bg.g, bg.b, bg.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         drawGameLayer(delta);
@@ -135,10 +145,10 @@ public class GameScreen extends ScreenAdapter {
     public void updateCamera() {
         GridPoint2 pos = playerView.getPlayerPosition();
 
-        float cameraX = clampCenter(pos.x * (BLOCK_SIZE + GAP_SIZE) + BLOCK_SIZE / 2f, VISIBLE_WORLD_WIDTH / 2f, boardView.getBoardWidth() * (BLOCK_SIZE + GAP_SIZE));
-        float cameraY = clampCenter(pos.y * (BLOCK_SIZE + GAP_SIZE) + BLOCK_SIZE / 2f, VISIBLE_WORLD_HEIGHT / 2f, boardView.getBoardHeight() * (BLOCK_SIZE + GAP_SIZE));
+        float cameraX = clampCenter(pos.x * BLOCK_SIZE + BLOCK_SIZE / 2f, VISIBLE_WORLD_WIDTH / 2f, boardView.getBoardWidth() * BLOCK_SIZE);
+        float cameraY = clampCenter(pos.y * BLOCK_SIZE + BLOCK_SIZE / 2f, VISIBLE_WORLD_HEIGHT / 2f, boardView.getBoardHeight() * BLOCK_SIZE);
 
-        gameCamera.position.set(cameraX, cameraY + 50, 0);  // TODO: smoothen movement
+        gameCamera.position.set(cameraX, cameraY + HUD_SIZE/2, 0);  // TODO: smoothen movement
         gameCamera.update();
     }
 

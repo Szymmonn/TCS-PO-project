@@ -19,6 +19,8 @@ public class Assets {
     public static FreeTypeFontGenerator REGULAR_FONT_GENERATOR;
 
     public static String menuScreenPropertiesPath;
+    public static String gameScreenPropertiesPath;
+    public static String hudViewPropertiesPath;
 
     public static void load() {
         ROCK_TEXTURE = new Texture("images/rock-removebg-preview.png");
@@ -38,6 +40,8 @@ public class Assets {
         REGULAR_FONT_GENERATOR = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PressStart2P-Regular.ttf"));
 
         menuScreenPropertiesPath = "config/MenuScreenProperties.properties";
+        gameScreenPropertiesPath = "config/GameScreenProperties.properties";
+        hudViewPropertiesPath = "config/HudViewProperties.properties";
     }
 
     public static void dispose() {
