@@ -8,15 +8,21 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
+import io.github.StoneDigger.utils.config.Configuration;
+import io.github.StoneDigger.view.configs.GameScreenProperties;
+import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 import io.github.StoneDigger.view.views.utility.TileToTexture;
 
 import static io.github.StoneDigger.view.screen.GameScreen.*;
 
 public class BoardView extends Actor {
     private final Board board;
+    private final float BLOCK_SIZE;
 
     public BoardView(Board board) {
         this.board = board;
+        GameScreenProperties config = GameScreenPropertiesLoader.getInstance();
+        BLOCK_SIZE = config.blockSize;
     }
 
     @Override
@@ -31,8 +37,8 @@ public class BoardView extends Actor {
         for(int i=0;i<board.getWidth();i++) {
             for(int j=0;j<board.getHeight();j++) {
                 ATile tileType = board.getTile(new GridPoint2(i, j));
-                int tileXPosition = GAP_SIZE/2 + i*(BLOCK_SIZE + GAP_SIZE);
-                int tileYPosition = GAP_SIZE/2 + j*(BLOCK_SIZE + GAP_SIZE);
+                float tileXPosition = i * BLOCK_SIZE;
+                float tileYPosition = j * BLOCK_SIZE;
                 Texture tileTexture = TileToTexture.getTexture(tileType);
                 if (tileTexture != null)
                     batch.draw(tileTexture, tileXPosition, tileYPosition, BLOCK_SIZE, BLOCK_SIZE);
