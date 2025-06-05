@@ -14,7 +14,9 @@ import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 
 public class GameViewModel {
     private final GameLogic gameLogic;
-    private boolean levelChanged = false;
+    private boolean newGame = false;
+    private boolean isGameWon = false;
+    ELevelType levelType;
 
     public GameViewModel(ELevelType levelType) {
         gameLogic = new GameLogic();
@@ -34,15 +36,30 @@ public class GameViewModel {
 //    }
 
     public void startTheGame(ELevelType levelType) {
+        isGameWon = false;
         gameLogic.startTheGame(levelType);
     }
 
     public void update(float delta) {
         gameLogic.tick(delta);
-        //if (GameLogic.isGameOver()) {}
+
+        if (gameLogic.getIsNewGame()) {
+            newGame = true;
+        }
+
+        if(gameLogic.getIsNewGame()) {
+            isGameWon = true;
+        }
     }
 
     public void handleInput(EDirections direction) {
         gameLogic.movePlayer(direction);
     }
+
+    public boolean getIsNewGame() {
+        boolean newGameCopy = newGame;
+        newGame = false;
+        return newGameCopy;
+    }
+
 }

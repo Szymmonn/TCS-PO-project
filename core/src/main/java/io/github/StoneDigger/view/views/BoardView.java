@@ -16,13 +16,17 @@ import io.github.StoneDigger.view.views.utility.TileToTexture;
 import static io.github.StoneDigger.view.screen.GameScreen.*;
 
 public class BoardView extends Actor {
-    private final IBoard board;
+    private IBoard board;
     private final float BLOCK_SIZE;
 
     public BoardView(IBoard board) {
         this.board = board;
         GameScreenProperties config = GameScreenPropertiesLoader.getInstance();
         BLOCK_SIZE = config.blockSize;
+    }
+
+    public void setBoard(IBoard board) {
+        this.board = board;
     }
 
     @Override

@@ -11,19 +11,34 @@ import io.github.StoneDigger.model.Level.Managers.LevelManager;
 responsible for game cycle
  */
 public class GameLogic {
+    private boolean newGame = false;
+    private boolean isGameWon = false;
     LevelManager levelManager;
+    ELevelType levelType;
 
     public GameLogic() {
         levelManager = new LevelManager();
     }
 
     public void startTheGame(ELevelType levelType) {
-        levelManager.startNewLevel();
+        newGame = false;
+        levelManager.startNewLevel(levelType);
     }
 
     public void tick(float delta) {
         levelManager.tick(delta);
+        if(levelManager.getLevelStats().isGameComplete()) {
+            newGame = true;
+            levelManager.startNewLevel(levelType);
+        }
+
+        if(levelManager.getLevelStats().getIsGameWon()) {
+            isGameWon = true;
+            //TODO: implement logic after finishing the game
+        }
     }
+
+    public boolean getIsNewGame() {return newGame;}
 
     public IPlayer getPlayer() {
         return levelManager.getPlayer();
@@ -38,4 +53,7 @@ public class GameLogic {
     public void movePlayer(EDirections direction) {
         levelManager.movePlayer(direction);
     }
+
+    public ELevelType getLevelType() {return levelType;}
+    public void setLevelType(ELevelType levelType) {this.levelType = levelType;}
 }

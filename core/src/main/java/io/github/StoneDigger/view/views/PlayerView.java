@@ -11,7 +11,7 @@ import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 import static io.github.StoneDigger.view.Assets.PLAYER_TEXTURE;
 
 public class PlayerView extends Actor {
-    private final IPlayer player;
+    private IPlayer player;
 
     private final float BLOCK_SIZE;
 
@@ -20,6 +20,10 @@ public class PlayerView extends Actor {
 
         GameScreenProperties config = GameScreenPropertiesLoader.getInstance();
         BLOCK_SIZE = config.blockSize;
+    }
+
+    public void setPlayer(IPlayer player) {
+        this.player = player;
     }
 
     @Override

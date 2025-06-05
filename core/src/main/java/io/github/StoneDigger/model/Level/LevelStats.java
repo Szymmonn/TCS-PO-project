@@ -10,6 +10,8 @@ public class LevelStats implements ILevelStats {
     private int levelNumber;
     private final LocalTime startTime;
     private boolean gameOver;
+    private boolean isGameComplete;
+    private boolean isGameWon;
 
     public LevelStats() {
         this(0,3,1);
@@ -59,4 +61,8 @@ public class LevelStats implements ILevelStats {
     public void setGameOverFalse() {gameOver = false;}
     public void incrementLevelNumber() {levelNumber++;}
     public void setLevelNumber(int levelNumber) {this.levelNumber = levelNumber;}
+    public boolean isGameComplete() {return isGameComplete;}
+    public void setIsGameComplete(boolean isGameComplete) {this.isGameComplete = isGameComplete;}
+    public boolean getIsGameWon() {return isGameWon;}
+    public void setIsGameWon(boolean gameWon) {this.isGameWon = gameWon;}
 }
