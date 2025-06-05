@@ -8,7 +8,7 @@ public class LevelStats implements ILevelStats {
     private int diamondCount;
     private int hp;
     private int levelNumber;
-    private final LocalTime startTime;
+    private LocalTime startTime;
     private boolean gameOver;
     private boolean isGameComplete;
     private boolean isGameWon;
@@ -30,12 +30,19 @@ public class LevelStats implements ILevelStats {
     public int getHP() {
         return hp;
     }
+
     @Override
     public void setHP(int HP) {
+        if (HP <= 0) throw new IllegalArgumentException("HP must be greater than zero");
         this.hp = HP;
     }
+
     @Override
-    public void decreaseHP() {hp --; }
+    public void decreaseHP() {
+        System.out.println(hp + " \n");
+        if (hp <= 0) hp = 0;
+        hp--;
+    }
 
     @Override
     public Duration getTimeElapsed() {return Duration.between(startTime, LocalTime.now());}
@@ -65,4 +72,13 @@ public class LevelStats implements ILevelStats {
     public void setIsGameComplete(boolean isGameComplete) {this.isGameComplete = isGameComplete;}
     public boolean getIsGameWon() {return isGameWon;}
     public void setIsGameWon(boolean gameWon) {this.isGameWon = gameWon;}
+
+    public void resetLevelSTats() {
+        this.startTime = LocalTime.now();
+        setHP(3); //TODO: make it not always 3
+        setScore(0);
+        setDiamondCount(0);
+        setIsGameWon(false);
+        setIsGameComplete(false);
+    }
 }

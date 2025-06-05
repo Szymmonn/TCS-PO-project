@@ -69,8 +69,7 @@ public class LevelManager {
     }
 
     public void startNewLevel(ELevelType levelType) {
-        levelStats.setGameOverFalse();
-        levelStats.setIsGameComplete(false);
+        levelStats.resetLevelSTats();
         levelStats.incrementLevelNumber();
         GridPoint2 startPosition = new GridPoint2(1, 1);
 

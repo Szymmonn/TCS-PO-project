@@ -202,7 +202,7 @@ public class HUDView extends Group {
         int current = levelStats.getHP();
         if (prevHp != current) {
             for (int i = 2; i >= current; i--) {
-                hpTable.removeActor(heartImages[i]);
+                hpTable.removeActor(heartImages[i]); //TODO: to jest chyba nie dziala
             }
             prevHp = current;
         }

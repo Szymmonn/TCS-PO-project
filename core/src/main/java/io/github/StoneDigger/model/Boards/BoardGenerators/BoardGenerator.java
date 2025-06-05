@@ -5,8 +5,8 @@ import io.github.StoneDigger.model.Boards.BoardGenerators.BoardValidators.Simple
 
 public class BoardGenerator {
 
-    public static char[][] generateBoard(ELevelType levelType , int levelNumber) {
-        if(levelType == ELevelType.STANDARD) {
+    public static char[][] generateBoard(ELevelType levelType, int levelNumber) {
+        if(levelType == ELevelType.STANDARD || levelType == null) {
             StandardBoardGenerator standardBoardGenerator = new StandardBoardGenerator();
             return StandardBoardGenerator.generate(levelNumber);
 

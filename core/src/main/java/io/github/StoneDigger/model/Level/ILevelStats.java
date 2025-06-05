@@ -25,5 +25,6 @@ public interface ILevelStats {
     public void setIsGameComplete(boolean b);
     public boolean getIsGameWon();
     public void setIsGameWon(boolean gameWon);
+    public void resetLevelSTats();
 }
 
