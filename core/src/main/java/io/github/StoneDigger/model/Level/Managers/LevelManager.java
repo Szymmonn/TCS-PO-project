@@ -4,18 +4,14 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
 import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
-import io.github.StoneDigger.model.Boards.BoardGenerators.Levels;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
-import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
-import io.github.StoneDigger.model.GameObjects.Entities.Player;
-import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
+import io.github.StoneDigger.model.Interfaces.IPlayer;
+import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
-
-import java.util.Objects;
 
 public class LevelManager {
     private LevelStats levelStats;

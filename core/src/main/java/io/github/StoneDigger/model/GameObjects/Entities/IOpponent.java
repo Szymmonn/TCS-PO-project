@@ -1,6 +1,6 @@
 package io.github.StoneDigger.model.GameObjects.Entities;
 
-import io.github.StoneDigger.model.GameObjects.IMovable;
-import io.github.StoneDigger.model.GameObjects.ISelfUpdate;
+import io.github.StoneDigger.model.Interfaces.IMovable;
+import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 
 public interface IOpponent extends IMovable, ISelfUpdate {}

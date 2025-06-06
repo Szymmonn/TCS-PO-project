@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
-import io.github.StoneDigger.model.GameObjects.Entities.IPlayer;
+import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 
@@ -46,6 +45,7 @@ public class PlayerView extends Actor {
 
     }
 
+    // for camera update
     public GridPoint2 getPlayerPosition() {
         return player.getPosition();
     }
