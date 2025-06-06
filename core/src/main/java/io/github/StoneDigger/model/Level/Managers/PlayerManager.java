@@ -5,6 +5,7 @@ import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Entities.OpponentAI;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
+import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Level.ILevelStats;
 
 public class PlayerManager {

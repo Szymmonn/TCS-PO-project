@@ -35,9 +35,9 @@ public class OpponentAI implements IOpponent {
     }
 
     @Override public GridPoint2 getPosition() { return pos; }
-    @Override public void setPosition(GridPoint2 p){ pos=p; }
+    public void setPosition(GridPoint2 p){ pos=p; }
 
-    @Override public boolean canMove(EDirections dir) {
+    public boolean canMove(EDirections dir) {
         /// MAM TĄ FUNKCJE W DUPIE, PRZYKRO MI, JEST TROCHE USELESS
         return true;
     }

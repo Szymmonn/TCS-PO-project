@@ -17,6 +17,7 @@ public class Assets {
     public static Texture SETTINGS_TEXTURE;
     public static Texture BORDER_TEXTURE;
     public static Texture OPPONENT_TEXTURE;
+    public static Texture SHELTER_TEXTURE;
     public static FreeTypeFontGenerator REGULAR_FONT_GENERATOR;
 
     public static String menuScreenPropertiesPath;
@@ -34,6 +35,7 @@ public class Assets {
         HEART_TEXTURE = new Texture("images/pixel_heart.jpg");
         SETTINGS_TEXTURE = new Texture("images/settings_icon.png");
         OPPONENT_TEXTURE = new Texture("images/police.png");
+        SHELTER_TEXTURE = new Texture("images/shelter.png");
         /*
         TO CHANGE
          */
@@ -58,6 +60,7 @@ public class Assets {
         SETTINGS_TEXTURE.dispose();
         BORDER_TEXTURE.dispose();
         OPPONENT_TEXTURE.dispose();
+        SHELTER_TEXTURE.dispose();
 
         REGULAR_FONT_GENERATOR.dispose();
     }
