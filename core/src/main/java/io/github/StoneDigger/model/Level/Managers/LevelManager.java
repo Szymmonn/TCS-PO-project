@@ -18,7 +18,7 @@ import io.github.StoneDigger.model.Level.LevelStats;
 import java.util.Objects;
 
 public class LevelManager {
-    private ILevelStats levelStats;
+    private LevelStats levelStats;
     private UpdateManager updateManager;
     private PlayerManager playerManager;
     private OpponentManager opponentManager;
@@ -48,7 +48,7 @@ public class LevelManager {
                 ATile tile;
                 switch (ch) {
                     case 'd': tile = new DirtTile(pos, boardManager); break;
-                    case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager); break;
+                    case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager,levelStats); break;
                     case 'a': tile = new DiamondTile(pos, boardManager, updateManager); break;
                     case ' ': tile = new EmptyTile(pos, boardManager); break;
                     case 'c': tile = new BrickTile(pos, boardManager); break;
@@ -85,8 +85,8 @@ public class LevelManager {
         Board tempBoard = new Board(placeholder);
 
         boardManager = new BoardManager(tempBoard);
-        opponentManager = new OpponentManager(startPosition, boardManager, updateManager);
         playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager);
+        opponentManager = new OpponentManager(startPosition, boardManager, updateManager,playerManager);
 
         ATile[][] tiles = convertBoard(raw);
 
@@ -113,6 +113,7 @@ public class LevelManager {
         System.out.println("levelmanager po przjesciach");
 
         updateManager.addToUpdates(playerManager.getPlayer());
+        updateManager.addToUpdates(opponentManager.getOpponent());
 
         startMechanics(levelStats.getLevelNumber(), boardManager.getBoard());
     }

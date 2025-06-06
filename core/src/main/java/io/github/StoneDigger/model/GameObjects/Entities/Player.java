@@ -11,6 +11,7 @@ import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
+import io.github.StoneDigger.model.Level.Managers.OpponentManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
 public class Player implements IPlayer {
@@ -19,6 +20,7 @@ public class Player implements IPlayer {
     private final BoardManager boardManager;
     private final ILevelStats levelStats;
     private final UpdateManager updateManager;
+//    private final OpponentManager opponentManager;
 
     public Player(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager) {
         pos = start;
@@ -26,6 +28,7 @@ public class Player implements IPlayer {
         this.boardManager = boardManager;
         this.levelStats = levelStats;
         this.updateManager = updateManager;
+//        this.opponentManager = opponentManager;
     }
 
     public void setOnStartingPosition() {
@@ -74,10 +77,7 @@ public class Player implements IPlayer {
     @Override
     public void update(float delta) {
         ATile currentTile = boardManager.getTile(pos);
-        if(currentTile instanceof RockTile) {
-            setPosition(startingPosition);
-            levelStats.decreaseHP();
-        } else if(currentTile instanceof DiamondTile) {
+        if(currentTile instanceof DiamondTile) {
             levelStats.collectDiamond();
             updateManager.removedFromUpdates((ISelfUpdate) currentTile);
             boardManager.setTile(pos, new EmptyTile(pos, boardManager));
