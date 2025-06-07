@@ -25,7 +25,7 @@ import io.github.StoneDigger.view.configs.MenuScreenProperties;
 import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
-import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
+import static io.github.StoneDigger.view.Assets.*;
 
 public class MenuScreen extends ScreenAdapter {
     private final GameStart gameStart;
@@ -46,11 +46,21 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        menuMusic.play();
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(menuMusicVolume);
+
         viewport = new ScalingViewport(Scaling.fit, properties.worldWidth, properties.worldHeight);
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
         createStage();
+    }
+
+    @Override
+    public void hide() {
+        //menuMusic.pause();
+        menuMusic.stop();
     }
 
     private void createStage() {

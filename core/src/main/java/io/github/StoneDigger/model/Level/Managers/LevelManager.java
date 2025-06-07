@@ -133,6 +133,7 @@ public class LevelManager {
 
     public void tick(float delta) {
         updateManager.updateAll(delta);
+        levelStats.update(delta);
     }
 
     public IPlayer getPlayer() {

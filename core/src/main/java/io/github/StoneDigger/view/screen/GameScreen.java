@@ -21,6 +21,9 @@ import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 import io.github.StoneDigger.view.views.*;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
+import static io.github.StoneDigger.view.Assets.gameMusic;
+import static io.github.StoneDigger.view.Assets.gameMusicVolume;
+
 public class GameScreen extends ScreenAdapter {
 
     // --- Constants ---
@@ -55,6 +58,12 @@ public class GameScreen extends ScreenAdapter {
 
     private Stage hudStage;
 
+    // --- Settings ---
+    private Stage settingsStage;
+    private Viewport settingsViewport;
+    private SettingsView settingsView;
+    private boolean firstUpdateAfterSettings;
+
     public GameScreen(GameStart gameStart, ELevelType levelType) {
         this.gameStart = gameStart;
         this.levelType = levelType;
@@ -69,15 +78,25 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        gameMusic.play();
+        gameMusic.setVolume(gameMusicVolume);
+
         gameViewModel = new GameViewModel(levelType);
         gameController = new InputReceiver(gameViewModel);
 
         initGameViewport();
         initHudViewport();
+        initSettingsViewport();
         initViews();
+        initSettings();
         setupInputProcessor();
 
         spriteBatch = new SpriteBatch();
+    }
+
+    @Override
+    public void hide() {
+        gameMusic.stop();
     }
 
     private void initGameViewport() {
@@ -89,8 +108,14 @@ public class GameScreen extends ScreenAdapter {
     private void initHudViewport() {
         hudViewport = new ScalingViewport(Scaling.fit, VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT + HUD_SIZE);
         OrthographicCamera hudCamera = (OrthographicCamera) hudViewport.getCamera();
-        hudCamera.position.set(VISIBLE_WORLD_WIDTH / 2f, VISIBLE_WORLD_HEIGHT + HUD_SIZE / 2f, 0);
+        hudCamera.position.set(VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT + HUD_SIZE, 0);
         hudCamera.update();
+    }
+
+    private void initSettingsViewport() {
+        settingsViewport = new ScalingViewport(Scaling.fit, VISIBLE_WORLD_WIDTH, VISIBLE_WORLD_HEIGHT + HUD_SIZE);
+        OrthographicCamera settingsCamera = (OrthographicCamera) settingsViewport.getCamera();
+        settingsCamera.update();
     }
 
     private void initViews() {
@@ -104,8 +129,18 @@ public class GameScreen extends ScreenAdapter {
         hudStage.addActor(hudView);
     }
 
+    private void initSettings() {
+        settingsView = new SettingsView(gameStart, settingsViewport);
+        settingsStage = new Stage(settingsViewport);
+        settingsStage.addActor(settingsView);
+        settingsStage.setKeyboardFocus(settingsView);   // very important
+
+        firstUpdateAfterSettings = false;
+    }
+
     private void setupInputProcessor() {
         InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(settingsStage);
         multiplexer.addProcessor(hudStage);
         multiplexer.addProcessor(gameController);
         Gdx.input.setInputProcessor(multiplexer);
@@ -113,22 +148,33 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if(gameViewModel.getIsNewGame()) {
+        if (gameViewModel.getIsNewGame()) {
             boardView.setBoard(gameViewModel.getBoard());
             playerView.setPlayer(gameViewModel.getPlayer());
             opponentView.setOpponent(gameViewModel.getOpponent());
         }
 
-        gameViewModel.update(delta);
-        gameController.update(delta);
-//        boolean needToUpdateCamera = gameController.isKeyPressed(delta);
+        // settings above all
+        // if settings are on then pause
+        if (!settingsView.isSettingsOn()) {
+            if (firstUpdateAfterSettings) {
+                delta = 0;
+                firstUpdateAfterSettings = false;
+            }
 
-        Gdx.gl.glClearColor(bg.r, bg.g, bg.b, bg.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            gameViewModel.update(delta);
+            gameController.update(delta);
 
-        drawGameLayer(delta);
-        drawHudLayer(delta);
-        updateCamera();
+            Gdx.gl.glClearColor(bg.r, bg.g, bg.b, bg.a);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            drawGameLayer(delta);
+            drawHudLayer(delta);
+            updateCamera();
+        } else {
+            firstUpdateAfterSettings = true;
+        }
+        drawSettingsLayer(delta);
     }
 
     private void drawGameLayer(float delta) {
@@ -142,7 +188,7 @@ public class GameScreen extends ScreenAdapter {
         spriteBatch.begin();
         boardView.draw(spriteBatch, 1);
         playerView.draw(spriteBatch, 1);
-        opponentView.draw(spriteBatch,1);
+        //opponentView.draw(spriteBatch,1);
         spriteBatch.end();
     }
 
@@ -150,6 +196,12 @@ public class GameScreen extends ScreenAdapter {
         hudViewport.apply();
         hudStage.act(delta);
         hudStage.draw();
+    }
+
+    private void drawSettingsLayer(float delta) {
+        settingsViewport.apply();
+        settingsStage.act(delta);
+        settingsStage.draw();
     }
 
     public void updateCamera() {
@@ -170,6 +222,7 @@ public class GameScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         gameViewport.update(width, height, true);
         hudViewport.update(width, height, true);
+        settingsViewport.update(width, height, true);
     }
 
     @Override

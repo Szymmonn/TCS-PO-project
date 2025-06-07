@@ -1,6 +1,7 @@
 package io.github.StoneDigger.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
@@ -23,6 +24,11 @@ public class Assets {
     public static String gameScreenPropertiesPath;
     public static String hudViewPropertiesPath;
 
+    public static Music gameMusic;
+    public static float gameMusicVolume = 1f; // not the best place but fine for a simple game
+    public static Music menuMusic;
+    public static float menuMusicVolume = 1f;
+
     public static void load() {
         ROCK_TEXTURE = new Texture("images/rock-removebg-preview.png");
         DIRT_TEXTURE = new Texture("images/dirt-removebg-preview.png");
@@ -34,9 +40,6 @@ public class Assets {
         HEART_TEXTURE = new Texture("images/pixel_heart.jpg");
         SETTINGS_TEXTURE = new Texture("images/settings_icon.png");
         OPPONENT_TEXTURE = new Texture("images/police.png");
-        /*
-        TO CHANGE
-         */
         BORDER_TEXTURE = new Texture("images/blaszka.png");
 
         REGULAR_FONT_GENERATOR = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PressStart2P-Regular.ttf"));
@@ -44,6 +47,9 @@ public class Assets {
         menuScreenPropertiesPath = "config/MenuScreenProperties.properties";
         gameScreenPropertiesPath = "config/GameScreenProperties.properties";
         hudViewPropertiesPath = "config/HudViewProperties.properties";
+
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Eric Skiff - Underclocked (underunderclocked mix).mp3"));
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Eric Skiff - A Night Of Dizzy Spells.mp3"));
     }
 
     public static void dispose() {
@@ -60,6 +66,9 @@ public class Assets {
         OPPONENT_TEXTURE.dispose();
 
         REGULAR_FONT_GENERATOR.dispose();
+
+        gameMusic.dispose();
+        menuMusic.dispose();
     }
 
 

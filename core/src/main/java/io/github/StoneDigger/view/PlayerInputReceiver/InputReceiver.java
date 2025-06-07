@@ -21,16 +21,20 @@ public class InputReceiver extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode != Input.Keys.RIGHT && keycode != Input.Keys.LEFT && keycode != Input.Keys.UP && keycode != Input.Keys.DOWN) return false;
-        heldKeys.add(keycode); // mark key as held
-        return true;
+        if(keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN) {
+            heldKeys.add(keycode); // mark key as held
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode != Input.Keys.RIGHT && keycode != Input.Keys.LEFT && keycode != Input.Keys.UP && keycode != Input.Keys.DOWN) return false;
-        heldKeys.remove(keycode); // stop tracking when key is released
-        return true;
+        if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN) {
+            heldKeys.remove(keycode); // stop tracking when key is released
+            return true;
+        }
+        return false;
     }
 
     public void update(float delta) {

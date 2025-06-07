@@ -5,7 +5,6 @@ import io.github.StoneDigger.view.Assets;
 import io.github.StoneDigger.view.screen.MenuScreen;
 
 public class GameStart extends Game {
-
     @Override
     public void create() {
         Assets.load();
