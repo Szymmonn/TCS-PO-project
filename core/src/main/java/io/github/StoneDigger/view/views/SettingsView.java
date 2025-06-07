@@ -9,70 +9,38 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import io.github.StoneDigger.view.Game.GameStart;
-import io.github.StoneDigger.view.configs.GameScreenProperties;
-import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
-import io.github.StoneDigger.view.configs.HudViewProperties;
-import io.github.StoneDigger.view.configs.HudViewPropertiesLoader;
+import io.github.StoneDigger.view.configs.*;
 import io.github.StoneDigger.view.screen.MenuScreen;
-import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
 import static io.github.StoneDigger.view.Assets.*;
 
-
 public class SettingsView extends Group {
     private final GameStart gameStart;
-    private boolean isEnabled;
     private final Viewport viewport;
-
     private final float VISIBLE_WORLD_WIDTH;
     private final float VISIBLE_WORLD_HEIGHT;
 
-    private Image background;
-    private Image windowBg;
+    private boolean isEnabled = false;
+    private boolean isKeyBindsOn = false;
+
+    private final ShapeRenderer shapeRenderer = new ShapeRenderer();
+
     private ImageButton settingsButton;
-
-    private Table mainTable;
-    private Table buttonTable;
-
-    private Label titleLabel;
-
-    private Skin skinMusic;
-    private Slider sliderMusic;
-    private Skin skinSound;
-    private Slider sliderSound;
-
-    private Label musicLabel;
-    private Label soundLabel;
-
-    private Label moveUpLabel;
-    private Label moveDownLabel;
-    private Label moveRightLabel;
-    private Label moveLeftLabel;
-
-    private TextButton keyUpButton;
-    private TextButton keyDownButton;
-    private TextButton keyRightButton;
-    private TextButton keyLeftButton;
-
-    private TextButton backButton;
-    private TextButton bindsButton;
-
-    private ShapeRenderer shapeRenderer;
-
-
-    // TODO: delete
-    HudViewProperties config;
+    private Table mainTable, buttonTable;
+    private Slider sliderMusic, sliderSound;
+    private Label titleLabel, musicLabel, soundLabel;
+    private Label moveUpLabel, moveDownLabel, moveRightLabel, moveLeftLabel;
+    private TextButton keyUpButton, keyDownButton, keyRightButton, keyLeftButton;
+    private Label keybindsTitle;
+    private TextButton backToGameButton, bindsButton;
+    private TextButton backKeyBindsButton, applyKeyBindsButton;
 
     public SettingsView(GameStart gameStart, Viewport viewport) {
         this.gameStart = gameStart;
@@ -82,369 +50,152 @@ public class SettingsView extends Group {
         VISIBLE_WORLD_WIDTH = gameScreenProperties.blocksInViewWidth * gameScreenProperties.blockSize;
         VISIBLE_WORLD_HEIGHT = gameScreenProperties.blocksInViewHeight * gameScreenProperties.blockSize;
 
-        // temporary
-        config = HudViewPropertiesLoader.getInstance();
-
-        create();
-
+        initUI();
         addActor(settingsButton);
         addActor(mainTable);
+        addActor(buttonTable);
     }
 
-    /*
-    CREATE  METHOD
-     */
-    private void create() {
-        isEnabled = false;
-
-        shapeRenderer = new ShapeRenderer();
-
+    private void initUI() {
         createSettingsButton();
-        createSlider();
+        createSliders();
         createLabels();
         createButtons();
-        addButtonsListeners();
-
-        createTable();
-
+        createTables();
+        addListeners();
         addEscapeListener();
     }
 
-
-    /*
-    background
-     */
-    public void drawRoundedRectWithBorder(ShapeRenderer shapeRenderer,
-                                          float x, float y,
-                                          float width, float height,
-                                          float r, float borderWidth) {
-        int segments = 20;
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        // === BORDER (ciemnoczerwony) ===
-        shapeRenderer.setColor(0.5f, 0, 0, 1);
-        drawRoundedRect(shapeRenderer, x, y, width, height, r, segments);
-
-        // === ŚRODEK (szary) ===
-        float innerR = borderWidth;// Math.max(r - borderWidth, 0);
-        float inset = borderWidth;
-
-        shapeRenderer.setColor(Color.DARK_GRAY);
-        drawRoundedRect(
-            shapeRenderer,
-            x + inset,
-            y + inset,
-            width - 2 * inset,
-            height - 2 * inset,
-            innerR,
-            segments
-        );
-
-        shapeRenderer.end();
-    }
-
-    private void drawRoundedRect(ShapeRenderer sr,
-                                 float x, float y, float w, float h, float r, int segments) {
-
-        // Środek
-        sr.rect(x + r, y + r, w - 2 * r, h - 2 * r);
-
-        // Boki
-        sr.rect(x + r, y, w - 2 * r, r);                  // dół
-        sr.rect(x + r, y + h - r, w - 2 * r, r);          // góra
-        sr.rect(x, y + r, r, h - 2 * r);                  // lewy
-        sr.rect(x + w - r, y + r, r, h - 2 * r);          // prawy
-
-        // Rogi (ćwiartki okręgu)
-        sr.arc(x + r, y + r, r, 180f, 90f, segments);             // lewy-dolny
-        sr.arc(x + w - r, y + r, r, 270f, 90f, segments);         // prawy-dolny
-        sr.arc(x + w - r, y + h - r, r, 0f, 90f, segments);       // prawy-górny
-        sr.arc(x + r, y + h - r, r, 90f, 90f, segments);          // lewy-górny
-    }
-
-    /// ///////////////////////////////////////////////
-    /// ///////////////////////////////////////////////
-    /// ///////////////////////////////////////////////
-
     private void createSettingsButton() {
         settingsButton = new ImageButton(new TextureRegionDrawable(SETTINGS_TEXTURE));
-
-        /*
-        settings button parameters
-         */
-        float button_position_x = VISIBLE_WORLD_WIDTH + config.settingsButtonPositionXOffset;
-        float button_position_y = VISIBLE_WORLD_HEIGHT;
-        float button_width = config.settingsButtonWidth;
-        float button_height = config.settingsButtonHeight;
-
-        settingsButton.setPosition(button_position_x, button_position_y);
-        settingsButton.setSize(button_width, button_height);
-
+        settingsButton.setPosition(VISIBLE_WORLD_WIDTH - 100, VISIBLE_WORLD_HEIGHT);
+        settingsButton.setSize(100, 100);
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 isEnabled = !isEnabled;
+                mainTable.setTouchable(isEnabled ? Touchable.enabled : Touchable.disabled);
+                buttonTable.setTouchable(isEnabled && isKeyBindsOn ? Touchable.enabled : Touchable.disabled);
             }
         });
     }
 
-    /*
-    CREATE TABLE  METHOD
-     */
-    private void createTable() {
-        // === MAIN SETTINGS TABLE ===
-        mainTable = new Table();
-        mainTable.setSize(1000, 900);
-        mainTable.setPosition( 550, 150);
+    private void createSliders() {
+        sliderMusic = createCustomSlider(700, 40);
+        sliderMusic.setValue(musicVolume / musicVolumeMultiplier * sliderMusic.getMaxValue());
 
-        mainTable.add(titleLabel)
-            .height(200)
-            .colspan(2)
-            .padBottom(40)
-            .center();
-        mainTable.row();
-
-        mainTable.add(musicLabel).width(200).padRight(20).left();
-        mainTable.add(sliderMusic).expandX().fillX().height(60).padBottom(20);
-        mainTable.row();
-
-        mainTable.add(soundLabel).width(200).padRight(20).left();
-        mainTable.add(sliderSound).expandX().fillX().height(60);
-        mainTable.row();
-
-        mainTable.add(bindsButton).expandX().fillX().padTop(100).width(400).colspan(2);
-        mainTable.row();
-        mainTable.add(backButton).expandX().fillX().center().padTop(50).width(600).colspan(2);
-
-        mainTable.setDebug(false); // set to true if you want to see layout borders
-
-
-
-
-        // === BUTTON TABLE (KEY BINDINGS) ===
-        buttonTable = new Table();
-        buttonTable.setSize(1000, 300);
-        buttonTable.setPosition(
-            (VISIBLE_WORLD_WIDTH - buttonTable.getWidth()) / 2f,
-            mainTable.getY() - buttonTable.getHeight() - 40
-        );
-
-        // === BUTTON GROUPS ===
-        Table keyUpGroup = new Table();
-        keyUpGroup.add(moveUpLabel).expandX().fillX().row();
-        keyUpGroup.add(keyUpButton).expandX().fillX();
-
-        Table keyDownGroup = new Table();
-        keyDownGroup.add(moveDownLabel).expandX().fillX().row();
-        keyDownGroup.add(keyDownButton).expandX().fillX();
-
-        Table keyLeftGroup = new Table();
-        keyLeftGroup.add(moveLeftLabel).expandX().fillX().row();
-        keyLeftGroup.add(keyLeftButton).expandX().fillX();
-
-        Table keyRightGroup = new Table();
-        keyRightGroup.add(moveRightLabel).expandX().fillX().row();
-        keyRightGroup.add(keyRightButton).expandX().fillX();
-
-        // === ADD BUTTON GROUPS TO TABLE ===
-        buttonTable.add(keyUpGroup).expand().fill().pad(20);
-        buttonTable.add(keyDownGroup).expand().fill().pad(20);
-        buttonTable.row();
-        buttonTable.add(keyLeftGroup).expand().fill().pad(20);
-        buttonTable.add(keyRightGroup).expand().fill().pad(20);
+        sliderSound = createCustomSlider(700, 40);
+        sliderSound.setValue(4);
     }
 
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-
-
-    private void createSlider() {
-        //
-        skinMusic = new Skin();
-
-        Drawable trackDrawable = createTrackDrawable(700, 40, Color.GOLD);
-
-        Drawable knobDrawable = createRectKnobDrawable(24, 70, Color.ORANGE, Color.RED);
-
-        Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
-        sliderStyle.background = trackDrawable;
-        sliderStyle.knob = knobDrawable;
-
-        skinMusic.add("custom-sliderMusic", sliderStyle);
-
-        sliderMusic = new Slider(0, 4, 1, false, skinMusic, "custom-sliderMusic");
-        sliderMusic.setSize(700, 40);
-        sliderMusic.setValue(musicVolume / musicVolumeMultiplier * sliderMusic.getMaxValue()); // initial value
-
-
-        /// /////////////////////////////////////////////
-        /// /////////////////////////////////////////////
-
-        skinSound = new Skin();
-        Drawable trackDrawable2 = createTrackDrawable(700, 40, Color.GOLD);
-
-        Drawable knobDrawable2 = createRectKnobDrawable(24, 70, Color.ORANGE, Color.RED);
-
-        Slider.SliderStyle sliderStyle2 = new Slider.SliderStyle();
-        sliderStyle2.background = trackDrawable2;
-        sliderStyle2.knob = knobDrawable2;
-
-        skinSound.add("custom-sliderSound", sliderStyle2);
-
-        sliderSound = new Slider(0, 4, 1, false, skinSound, "custom-sliderSound");
-        sliderSound.setSize(700, 40);
-        sliderSound.setValue(4); // initial value
+    private Slider createCustomSlider(int width, int height) {
+        Skin skin = new Skin();
+        Slider.SliderStyle style = new Slider.SliderStyle();
+        style.background = createTrackDrawable(width, height, Color.GOLD);
+        style.knob = createRectKnobDrawable(24, 70, Color.ORANGE, Color.RED);
+        skin.add("custom-slider", style);
+        return new Slider(0, 4, 1, false, skin, "custom-slider");
     }
-
-    // Create a rectangular track with a colored fill and outline
-    private Drawable createTrackDrawable(int width, int height, Color fillColor) {
-        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-
-        // Fill background
-        pixmap.setColor(fillColor);
-        pixmap.fillRectangle(0, 0, width, height);
-
-        Texture texture = new Texture(pixmap);
-        pixmap.dispose();
-
-        return new TextureRegionDrawable(new com.badlogic.gdx.graphics.g2d.TextureRegion(texture));
-    }
-
-    // Create a rectangular knob
-    private Drawable createRectKnobDrawable(int width, int height, Color fillColor, Color outlineColor) {
-        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-
-        // Fill rectangle
-        pixmap.setColor(fillColor);
-        pixmap.fillRectangle(0, 0, width, height);
-
-        // Draw outline rectangle 1px thick
-        pixmap.setColor(outlineColor);
-        pixmap.drawRectangle(0, 0, width - 1, height - 1);
-
-        Texture texture = new Texture(pixmap);
-        pixmap.dispose();
-
-        return new TextureRegionDrawable(new com.badlogic.gdx.graphics.g2d.TextureRegion(texture));
-    }
-
-
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-
-
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-
 
     private void createLabels() {
-        //  TODO: config this
-        BitmapFont musicFont = createFont(40, Color.valueOf(config.fontBorderColor));
-//        font.getData().setScale(config.fontScaleX, config.fontScaleY);
-        Label.LabelStyle style = new Label.LabelStyle(musicFont, Color.valueOf(config.fontColor));
+        Label.LabelStyle labelStyle = new Label.LabelStyle(createFont(40, Color.BLACK), Color.WHITE);
+        musicLabel = new Label("music", labelStyle);
+        soundLabel = new Label("sound", labelStyle);
 
-        musicLabel = new Label("music", style);
-        soundLabel = new Label("sound", style);
+        titleLabel = new Label("SETTINGS", new Label.LabelStyle(createFont(60, Color.BLACK), Color.WHITE));
 
-        BitmapFont titleFont = createFont(60, Color.BLACK);
-        Label.LabelStyle titleStyle = new Label.LabelStyle(titleFont, Color.WHITE);
-
-        titleLabel = new Label("SETTINGS", titleStyle);
-
-        BitmapFont keyFont = createFont(24, Color.BLACK);
-        Label.LabelStyle keyStyle = new Label.LabelStyle(keyFont, Color.BLACK);
+        Label.LabelStyle keyStyle = new Label.LabelStyle(createFont(24, Color.BLACK), Color.BLACK);
         keyStyle.background = createBg(Color.RED, Color.GREEN);
 
+        // Center-align text
+        keyStyle.font = createFont(24, Color.BLACK);
+
+        keybindsTitle = new Label("KEY BINDS", new Label.LabelStyle(createFont(48, Color.BLACK), Color.WHITE));
 
         moveUpLabel = new Label("Move Up Key", keyStyle);
         moveDownLabel = new Label("Move Down Key", keyStyle);
         moveLeftLabel = new Label("Move Left Key", keyStyle);
         moveRightLabel = new Label("Move Right Key", keyStyle);
+
+        moveUpLabel.setAlignment(Align.center);
+        moveDownLabel.setAlignment(Align.center);
+        moveLeftLabel.setAlignment(Align.center);
+        moveRightLabel.setAlignment(Align.center);
     }
 
-    private BitmapFont createFont(int size, Color borderColor) {
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = size;
-        parameter.color = borderColor;
-        return REGULAR_FONT_GENERATOR.generateFont(parameter);
-    }
-
-    /*
-    create buttons
-     */
     private void createButtons() {
-        keyUpButton = createTextButton("keyUp", 5, Color.LIGHT_GRAY, Color.BLUE);
-        keyUpButton.setSize(200, 100);
+        keyUpButton = createTextButton("keyUp");
+        keyDownButton = createTextButton("keyDown");
+        keyLeftButton = createTextButton("keyLeft");
+        keyRightButton = createTextButton("keyRight");
+        backToGameButton = createTextButton("Back to Menu");
+        bindsButton = createTextButton("Key Binds");
 
-        keyDownButton = createTextButton("keyDown", 5, Color.LIGHT_GRAY, Color.BLUE);
-        keyDownButton.setSize(200, 100);
-
-        keyLeftButton = createTextButton("keyLeft", 5, Color.LIGHT_GRAY, Color.BLUE);
-        keyLeftButton.setSize(200, 100);
-
-        keyRightButton = createTextButton("keyRight", 5, Color.LIGHT_GRAY, Color.BLUE);
-        keyRightButton.setSize(200, 100);
-
-
-        backButton = createTextButton("Back to Menu", 5, Color.LIGHT_GRAY, Color.BLUE);
-        backButton.setSize(400, 100);
-
-        bindsButton = createTextButton("Key Binds", 5, Color.LIGHT_GRAY, Color.BLUE);
+        // === ADD BACK & APPLY BUTTONS ===
+        applyKeyBindsButton = createTextButton("Apply");
+        backKeyBindsButton = createTextButton("Back");
     }
 
-    private TextButton createTextButton(String text, int border_width, Color bgColor, Color borderColor) {
-        // Tworzymy font z obrysem
-        BitmapFont font = createFont(30, borderColor);
-
-        // Tworzymy tło z obramowaniem
-        int size = 64;  // przykładowy rozmiar kwadratu na teksturę, możesz dostosować
-
-        TextureRegionDrawable background = createBg(bgColor, borderColor);
-
-        // Tworzymy styl TextButton
+    private TextButton createTextButton(String text) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = font;
-        style.up = background;
-        style.down = background.tint(Color.DARK_GRAY);  // na kliknięcie
-
-        // Tworzymy TextButton
+        style.font = createFont(30, Color.BLUE);
+        style.up = createBg(Color.LIGHT_GRAY, Color.BLUE);
+        style.down = createBg(Color.DARK_GRAY, Color.BLUE);
         TextButton button = new TextButton(text, style);
-
-        // Ustawiamy minimalny rozmiar na podstawie tekstu i paddingu
         button.pack();
-
         return button;
     }
 
-    private TextureRegionDrawable createBg(Color main, Color border) {
-        Pixmap pixmap = new Pixmap(200, 100, Pixmap.Format.RGBA8888);
+    private void createTables() {
+        mainTable = new Table();
+        mainTable.setSize(1000, 900);
+        mainTable.setPosition(550, 150);
+        mainTable.setTouchable(Touchable.disabled);
+        mainTable.setDebug(false);
 
-        // Wypełnienie tła
-        pixmap.setColor(main);
-        pixmap.fill();
+        mainTable.add(titleLabel).height(200).colspan(2).padBottom(40).center();
+        mainTable.row();
+        mainTable.add(musicLabel).width(200).padRight(20).left();
+        mainTable.add(sliderMusic).expandX().fillX().height(60).padBottom(20);
+        mainTable.row();
+        mainTable.add(soundLabel).width(200).padRight(20).left();
+        mainTable.add(sliderSound).expandX().fillX().height(60);
+        mainTable.row();
+        mainTable.add(bindsButton).expandX().fillX().padTop(100).width(400).colspan(2);
+        mainTable.row();
+        mainTable.add(backToGameButton).expandX().fillX().center().padTop(50).width(600).colspan(2);
 
-        // Obramowanie
-        pixmap.setColor(border);
-        for (int i = 0; i < 3; i++) {
-            pixmap.drawRectangle(i, i, 200 - 1 - 2*i, 100 - 1 - 2*i);
-        }
+        buttonTable = new Table();
+        buttonTable.setSize(1000, 900);
+        buttonTable.setPosition(550, 150);
 
-        Texture texture = new Texture(pixmap);
-        pixmap.dispose();
+        // Title for key binds screen
+        buttonTable.add(keybindsTitle).colspan(2).padBottom(40);
+        buttonTable.row();
 
-        return new TextureRegionDrawable(texture);
+        buttonTable.add(createKeyGroup(moveUpLabel, keyUpButton)).expandX().fill().pad(20);
+        buttonTable.add(createKeyGroup(moveDownLabel, keyDownButton)).expandX().fill().pad(20);
+        buttonTable.row();
+        buttonTable.add(createKeyGroup(moveLeftLabel, keyLeftButton)).expandX().fill().pad(20);
+        buttonTable.add(createKeyGroup(moveRightLabel, keyRightButton)).expandX().fill().pad(20);
+        buttonTable.row();
+
+        Table buttonRow = new Table();
+        buttonRow.add(applyKeyBindsButton).width(300).pad(20);
+        buttonRow.add(backKeyBindsButton).width(300).pad(20);
+
+        buttonTable.add(buttonRow).colspan(2).padTop(40);
     }
 
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
+    private Table createKeyGroup(Label label, TextButton button) {
+        Table group = new Table();
+        group.add(label).expandX().fillX().row();
+        group.add(button).expandX().fillX();
+        return group;
+    }
 
-    private void addButtonsListeners() {
-        backButton.addListener(new ClickListener(){
+    private void addListeners() {
+        backToGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 gameStart.setScreen(new MenuScreen(gameStart));
@@ -455,9 +206,7 @@ public class SettingsView extends Group {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 float value = sliderMusic.getValue();
-                float maxValue = sliderMusic.getMaxValue();
-                // TODO: save this in config - music_sound config
-                musicVolume = value/maxValue * musicVolumeMultiplier;
+                musicVolume = value / sliderMusic.getMaxValue() * musicVolumeMultiplier;
                 gameMusic.setVolume(musicVolume);
                 menuMusic.setVolume(musicVolume);
             }
@@ -466,28 +215,133 @@ public class SettingsView extends Group {
         sliderSound.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                float value = sliderSound.getValue();
-                float maxValue = sliderSound.getMaxValue();
-                soundVolume = value/maxValue;
+                soundVolume = sliderSound.getValue() / sliderSound.getMaxValue();
+            }
+        });
+
+        bindsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isKeyBindsOn = true;
+                mainTable.setTouchable(Touchable.disabled);
+                buttonTable.setTouchable(Touchable.enabled);
+            }
+        });
+
+        backKeyBindsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isKeyBindsOn = false;
+                mainTable.setTouchable(Touchable.enabled);
+                buttonTable.setTouchable(Touchable.disabled);
+            }
+        });
+
+        applyKeyBindsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO: Implement saving logic for key binds
+                isKeyBindsOn = false;
+                mainTable.setTouchable(Touchable.enabled);
+                buttonTable.setTouchable(Touchable.disabled);
             }
         });
     }
 
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-    ///  //////////////////////////////////////////////////////////
-
     private void addEscapeListener() {
-        addListener(new InputListener(){
+        addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if(keycode == Input.Keys.ESCAPE) {
+                if (keycode == Input.Keys.ESCAPE) {
                     isEnabled = !isEnabled;
+                    mainTable.setTouchable(isEnabled ? Touchable.enabled : Touchable.disabled);
+                    buttonTable.setTouchable(isEnabled && isKeyBindsOn ? Touchable.enabled : Touchable.disabled);
                     return true;
                 }
                 return false;
             }
         });
+    }
+
+    private BitmapFont createFont(int size, Color borderColor) {
+        FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        param.size = size;
+        param.color = borderColor;
+        return REGULAR_FONT_GENERATOR.generateFont(param);
+    }
+
+    private Drawable createTrackDrawable(int width, int height, Color fillColor) {
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(fillColor);
+        pixmap.fillRectangle(0, 0, width, height);
+        Texture texture = new Texture(pixmap);
+        pixmap.dispose();
+        return new TextureRegionDrawable(new TextureRegion(texture));
+    }
+
+    private Drawable createRectKnobDrawable(int width, int height, Color fillColor, Color outlineColor) {
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(fillColor);
+        pixmap.fillRectangle(0, 0, width, height);
+        pixmap.setColor(outlineColor);
+        pixmap.drawRectangle(0, 0, width - 1, height - 1);
+        Texture texture = new Texture(pixmap);
+        pixmap.dispose();
+        return new TextureRegionDrawable(new TextureRegion(texture));
+    }
+
+    private TextureRegionDrawable createBg(Color main, Color border) {
+        Pixmap pixmap = new Pixmap(200, 100, Pixmap.Format.RGBA8888);
+        pixmap.setColor(main);
+        pixmap.fill();
+        pixmap.setColor(border);
+        for (int i = 0; i < 3; i++) pixmap.drawRectangle(i, i, 200 - 1 - 2 * i, 100 - 1 - 2 * i);
+        Texture texture = new Texture(pixmap);
+        pixmap.dispose();
+        return new TextureRegionDrawable(texture);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        Color prevColor = batch.getColor();
+        batch.setColor(Color.WHITE);
+        settingsButton.draw(batch, 1);
+
+        if (isEnabled) {
+            batch.end();
+            shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
+            drawRoundedRectWithBorder(shapeRenderer, 300, 150, 1500, 900, 50, 50);
+            batch.begin();
+
+            if (isKeyBindsOn) buttonTable.draw(batch, parentAlpha);
+            else mainTable.draw(batch, parentAlpha);
+        }
+
+        batch.setColor(prevColor);
+    }
+
+    private void drawRoundedRectWithBorder(ShapeRenderer sr, float x, float y, float w, float h, float r, float borderWidth) {
+        int segments = 20;
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        sr.setColor(0.5f, 0, 0, 1);
+        drawRoundedRect(sr, x, y, w, h, r, segments);
+
+        float innerR = borderWidth, inset = borderWidth;
+        sr.setColor(Color.DARK_GRAY);
+        drawRoundedRect(sr, x + inset, y + inset, w - 2 * inset, h - 2 * inset, innerR, segments);
+        sr.end();
+    }
+
+    private void drawRoundedRect(ShapeRenderer sr, float x, float y, float w, float h, float r, int segments) {
+        sr.rect(x + r, y + r, w - 2 * r, h - 2 * r);
+        sr.rect(x + r, y, w - 2 * r, r);
+        sr.rect(x + r, y + h - r, w - 2 * r, r);
+        sr.rect(x, y + r, r, h - 2 * r);
+        sr.rect(x + w - r, y + r, r, h - 2 * r);
+        sr.arc(x + r, y + r, r, 180f, 90f, segments);
+        sr.arc(x + w - r, y + r, r, 270f, 90f, segments);
+        sr.arc(x + w - r, y + h - r, r, 0f, 90f, segments);
+        sr.arc(x + r, y + h - r, r, 90f, 90f, segments);
     }
 
     public boolean isSettingsOn() {
@@ -498,27 +352,4 @@ public class SettingsView extends Group {
     public void act(float delta) {
         super.act(delta);
     }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        Color prev = batch.getColor();
-        batch.setColor(1,1,1,1);
-
-        settingsButton.draw(batch, 1);
-
-        if(isEnabled) {
-            settingsButton.draw(batch, 1);
-            ///
-            batch.end();
-            shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
-            drawRoundedRectWithBorder(shapeRenderer, 300, 150, 1500, 900, 50, 50);
-            batch.begin();
-            ///
-            mainTable.draw(batch, parentAlpha);
-            //buttonTable.draw(batch, parentAlpha);
-        }
-
-        batch.setColor(prev);
-    }
-
 }
