@@ -25,7 +25,8 @@ public class Assets {
     public static String gameScreenPropertiesPath;
     public static String hudViewPropertiesPath;
 
-    public static float musicVolume = 1f; // not the best place but fine for a simple game
+    public static float musicVolumeMultiplier = 0.4f;
+    public static float musicVolume = musicVolumeMultiplier; // not the best place but fine for a simple game
     public static Music gameMusic;
     public static Music menuMusic;
 
@@ -42,7 +43,6 @@ public class Assets {
 
     public static Sound rockFallingSound;
 
-
     public static void load() {
         ROCK_TEXTURE = new Texture("images/rock-removebg-preview.png");
         DIRT_TEXTURE = new Texture("images/dirt-removebg-preview.png");
@@ -51,7 +51,7 @@ public class Assets {
         PLAYER_TEXTURE = new Texture("images/player-removebg-preview.png");
         START_TEXTURE = new Texture("images/start-removebg-preview.png");
         END_TEXTURE = new Texture("images/exit-removebg-preview.png");
-        HEART_TEXTURE = new Texture("images/pixel_heart.jpg");
+        HEART_TEXTURE = new Texture("images/pixel_heart.png");
         SETTINGS_TEXTURE = new Texture("images/settings_icon.png");
         OPPONENT_TEXTURE = new Texture("images/police.png");
         BORDER_TEXTURE = new Texture("images/blaszka.png");
@@ -63,7 +63,7 @@ public class Assets {
         hudViewPropertiesPath = "config/HudViewProperties.properties";
 
         menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Eric Skiff - Underclocked (underunderclocked mix).mp3"));
-        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Eric Skiff - A Night Of Dizzy Spells.mp3"));
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Kevin MacLeod - Itty Bitty 8 Bit.mp3"));
 
         fallingDiamondSound = Gdx.audio.newSound(Gdx.files.internal("sounds/falling_diamond.mp3"));
         diamondCollectedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/diamondCollected.mp3"));

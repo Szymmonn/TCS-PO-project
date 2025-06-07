@@ -276,7 +276,7 @@ public class SettingsView extends Group {
 
         sliderMusic = new Slider(0, 4, 1, false, skinMusic, "custom-sliderMusic");
         sliderMusic.setSize(700, 40);
-        sliderMusic.setValue(musicVolume * sliderMusic.getMaxValue()); // initial value
+        sliderMusic.setValue(musicVolume / musicVolumeMultiplier * sliderMusic.getMaxValue()); // initial value
 
 
         /// /////////////////////////////////////////////
@@ -457,7 +457,7 @@ public class SettingsView extends Group {
                 float value = sliderMusic.getValue();
                 float maxValue = sliderMusic.getMaxValue();
                 // TODO: save this in config - music_sound config
-                musicVolume = value/maxValue;
+                musicVolume = value/maxValue * musicVolumeMultiplier;
                 gameMusic.setVolume(musicVolume);
                 menuMusic.setVolume(musicVolume);
             }

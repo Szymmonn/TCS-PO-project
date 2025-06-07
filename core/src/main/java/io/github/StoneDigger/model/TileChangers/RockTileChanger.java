@@ -44,10 +44,8 @@ public class RockTileChanger extends RockTile {
             int side = tryRollSideways(x, y);
             if(side!=0) {
                 ((RockTile) boardManager.getTile(new GridPoint2(x + side, y))).setMoved(moved+1);
-                moved = 0;
-            } else {
-                moved = 0;
             }
+            moved = 0;
         }
     }
 
