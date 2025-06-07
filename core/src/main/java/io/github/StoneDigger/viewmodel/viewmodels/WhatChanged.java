@@ -60,4 +60,5 @@ public class WhatChanged {
     }
     public void playerMovedOnDirt() {playerMovedOnEmptyTile = true;}
     public void playerDied() { death = true; }
+    public void endedLevel() {endedLevel = true; }
 }

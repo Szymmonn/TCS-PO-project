@@ -11,10 +11,10 @@ import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
 public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
-    private float rockDropTimer = 0;
-    private int moved = 0;
-    private UpdateManager updateManager;
-    private PlayerManager playerManager;
+    protected float rockDropTimer = 0;
+    protected int moved = 0;
+    protected UpdateManager updateManager;
+    protected PlayerManager playerManager;
 
     public RockTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager) {
         this.boardManager = boardManager;
@@ -47,7 +47,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         }
     }
 
-    private void processFallingRocks() {
+    protected void processFallingRocks() {
         int x = position.x;
         int y = position.y;
 
@@ -71,7 +71,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         }
     }
 
-    private boolean playerStops(int x,int y) {
+    protected boolean playerStops(int x, int y) {
         GridPoint2 pos = playerManager.getPlayer().getPosition();
 
         if(pos.x == x && pos.y + 1 == y && moved < 1) return true;
@@ -95,7 +95,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
         return false;
     }
 
-    private boolean tryFallDown(int x, int y) {
+    protected boolean tryFallDown(int x, int y) {
         GridPoint2 from = new GridPoint2(x, y);
         GridPoint2 to = new GridPoint2(x, y - 1);
 
@@ -120,7 +120,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
             boardManager.getTile(new GridPoint2(x-1,y-1)) instanceof EmptyTile;
     }
 
-    private int tryRollSideways(int x, int y) {
+    protected int tryRollSideways(int x, int y) {
         GridPoint2 pos = playerManager.getPlayer().getPosition();
 
         if (!(boardManager.getTile(new GridPoint2(x,y-1)) instanceof EmptyTile)) {

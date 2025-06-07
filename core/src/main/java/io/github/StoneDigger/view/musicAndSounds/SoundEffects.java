@@ -13,6 +13,10 @@ public class SoundEffects {
     }
 
     public void update(float delta) {
+        if(whatChanged.hasLevelEnded()) {
+            levelEndSound.play(soundVolume);
+            return;
+        }
         if(whatChanged.hasJustDiamondCollected()) {
             diamondCollectedSound.play(soundVolume);
         }
@@ -29,6 +33,9 @@ public class SoundEffects {
                 case 2: dirt3Sound.play(soundVolume); break;
             }
             whichDirtSound = (whichDirtSound + 1) % 3;
+        }
+        if(whatChanged.hasRockFell()) {
+            rockFallingSound.play(soundVolume);
         }
     }
 }

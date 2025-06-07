@@ -38,6 +38,10 @@ public class Assets {
     public static Sound dirt2Sound;
     public static Sound dirt3Sound;
 
+    public static Sound levelEndSound;
+
+    public static Sound rockFallingSound;
+
 
     public static void load() {
         ROCK_TEXTURE = new Texture("images/rock-removebg-preview.png");
@@ -63,11 +67,15 @@ public class Assets {
 
         fallingDiamondSound = Gdx.audio.newSound(Gdx.files.internal("sounds/falling_diamond.mp3"));
         diamondCollectedSound = Gdx.audio.newSound(Gdx.files.internal("sounds/diamondCollected.mp3"));
-        dieingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/dinig_sound.mp3"));
+
+        rockFallingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/dinig_sound.mp3"));
+        dieingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.mp3"));
 
         dirt1Sound = Gdx.audio.newSound(Gdx.files.internal("sounds/walk-on-dirt-1-291981.mp3"));
         dirt2Sound = Gdx.audio.newSound(Gdx.files.internal("sounds/walk-on-dirt-2-291982.mp3"));
         dirt3Sound = Gdx.audio.newSound(Gdx.files.internal("sounds/walk-on-dirt-3-291983.mp3"));
+
+        levelEndSound = Gdx.audio.newSound(Gdx.files.internal("sounds/winfantasia-6912.mp3"));
 
     }
 
@@ -96,6 +104,10 @@ public class Assets {
         dirt1Sound.dispose();
         dirt2Sound.dispose();
         dirt3Sound.dispose();
+
+        levelEndSound.dispose();
+
+        rockFallingSound.dispose();
     }
 
 

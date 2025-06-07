@@ -49,6 +49,7 @@ public class PlayerChanger extends Player {
             whatChanged.playerMovedOnDirt();
         } else if (t instanceof EndTile) {
             ((EndTile) t).onWalkBy(this,dir);
+            whatChanged.endedLevel();
         } else if (t instanceof RockTile) {
             ((RockTile) t).onWalkBy(this,dir);
         } else if (t instanceof DiamondTile) {

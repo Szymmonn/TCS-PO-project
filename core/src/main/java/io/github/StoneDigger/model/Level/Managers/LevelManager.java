@@ -13,6 +13,7 @@ import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.TileChangers.DiamondTileChanger;
+import io.github.StoneDigger.model.TileChangers.RockTileChanger;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 public class LevelManager {
@@ -48,7 +49,7 @@ public class LevelManager {
                 ATile tile;
                 switch (ch) {
                     case 'd': tile = new DirtTile(pos, boardManager); break;
-                    case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager); break;
+                    case 'r': tile = new RockTileChanger(pos, boardManager, updateManager, playerManager, whatChanged); break;
                     case 'a': tile = new DiamondTileChanger(pos, boardManager, updateManager, whatChanged); break;
                     case ' ': tile = new EmptyTile(pos, boardManager); break;
                     case 'c': tile = new BrickTile(pos, boardManager); break;
