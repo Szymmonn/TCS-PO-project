@@ -3,6 +3,7 @@ package io.github.StoneDigger.view.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,11 +19,12 @@ import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.InputReceiver;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
+import io.github.StoneDigger.view.musicAndSounds.SoundEffects;
 import io.github.StoneDigger.view.views.*;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
-import static io.github.StoneDigger.view.Assets.gameMusic;
-import static io.github.StoneDigger.view.Assets.gameMusicVolume;
+import static io.github.StoneDigger.view.Assets.*;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -64,6 +66,10 @@ public class GameScreen extends ScreenAdapter {
     private SettingsView settingsView;
     private boolean firstUpdateAfterSettings;
 
+    // --- Sound ---
+    private WhatChanged whatChanged;
+    private SoundEffects soundEffects;
+
     public GameScreen(GameStart gameStart, ELevelType levelType) {
         this.gameStart = gameStart;
         this.levelType = levelType;
@@ -79,9 +85,12 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         gameMusic.play();
-        gameMusic.setVolume(gameMusicVolume);
+        gameMusic.setVolume(musicVolume);
 
-        gameViewModel = new GameViewModel(levelType);
+        whatChanged = new WhatChanged();
+        soundEffects = new SoundEffects(whatChanged);
+
+        gameViewModel = new GameViewModel(levelType, whatChanged);
         gameController = new InputReceiver(gameViewModel);
 
         initGameViewport();
@@ -171,6 +180,8 @@ public class GameScreen extends ScreenAdapter {
             drawGameLayer(delta);
             drawHudLayer(delta);
             updateCamera();
+            soundEffects.update(delta);
+            whatChanged.update(delta);
         } else {
             firstUpdateAfterSettings = true;
         }

@@ -12,17 +12,21 @@ import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
+import io.github.StoneDigger.model.TileChangers.DiamondTileChanger;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 public class LevelManager {
+    private final WhatChanged whatChanged;
     private ILevelStats levelStats;
     private UpdateManager updateManager;
     private PlayerManager playerManager;
     private OpponentManager opponentManager;
     private BoardManager boardManager;
 
-    public LevelManager() {
+    public LevelManager(WhatChanged whatChanged) {
         levelStats = new LevelStats();
         updateManager = new UpdateManager();
+        this.whatChanged = whatChanged;
     }
 
     public ATile[][] convertBoard(char[][] board) {
@@ -45,7 +49,7 @@ public class LevelManager {
                 switch (ch) {
                     case 'd': tile = new DirtTile(pos, boardManager); break;
                     case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager); break;
-                    case 'a': tile = new DiamondTile(pos, boardManager, updateManager); break;
+                    case 'a': tile = new DiamondTileChanger(pos, boardManager, updateManager, whatChanged); break;
                     case ' ': tile = new EmptyTile(pos, boardManager); break;
                     case 'c': tile = new BrickTile(pos, boardManager); break;
                     case 's': tile = new StartTile(pos, boardManager); break;
@@ -82,7 +86,7 @@ public class LevelManager {
 
         boardManager = new BoardManager(tempBoard);
         opponentManager = new OpponentManager(startPosition, boardManager, updateManager);
-        playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager);
+        playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager, whatChanged);
 
         ATile[][] tiles = convertBoard(raw);
 

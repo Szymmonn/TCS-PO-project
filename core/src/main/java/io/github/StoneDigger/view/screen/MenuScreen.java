@@ -48,7 +48,7 @@ public class MenuScreen extends ScreenAdapter {
     public void show() {
         menuMusic.play();
         menuMusic.setLooping(true);
-        menuMusic.setVolume(menuMusicVolume);
+        menuMusic.setVolume(musicVolume);
 
         viewport = new ScalingViewport(Scaling.fit, properties.worldWidth, properties.worldHeight);
         stage = new Stage(viewport);

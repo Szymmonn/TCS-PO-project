@@ -13,10 +13,9 @@ public class GameViewModel {
     private final GameLogic gameLogic;
     private boolean newGame = false;
     private boolean isGameWon = false;
-    ELevelType levelType;
 
-    public GameViewModel(ELevelType levelType) {
-        gameLogic = new GameLogic();
+    public GameViewModel(ELevelType levelType, final WhatChanged whatChanged) {
+        gameLogic = new GameLogic(whatChanged);
         startTheGame(levelType);
     }
 

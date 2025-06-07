@@ -11,11 +11,11 @@ import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
 public class Player implements IPlayer {
-    private GridPoint2 pos;
-    private GridPoint2 startingPosition;
-    private final BoardManager boardManager;
-    private final ILevelStats levelStats;
-    private final UpdateManager updateManager;
+    protected GridPoint2 pos;
+    protected GridPoint2 startingPosition;
+    protected final BoardManager boardManager;
+    protected final ILevelStats levelStats;
+    protected final UpdateManager updateManager;
 
     public Player(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager) {;
         startingPosition = new GridPoint2(start);

@@ -7,11 +7,13 @@ import io.github.StoneDigger.model.Interfaces.IWalkableTile;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
+import io.github.StoneDigger.model.TileChangers.DiamondTileChanger;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
-    private float dropDiamondTimer = 0;
-    private int moved = 0;
-    private UpdateManager updateManager;
+    protected float dropDiamondTimer = 0;
+    protected int moved = 0;
+    protected UpdateManager updateManager;
 
     public DiamondTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager) {
         this.boardManager = boardManager;
@@ -36,7 +38,7 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
         }
     }
 
-    private void processFallingDiamonds() {
+    protected void processFallingDiamonds() {
         int x = position.x;
         int y = position.y;
 
@@ -48,14 +50,12 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
             int side = tryRollSideways(x, y);
             if(side!=0) {
                 ((DiamondTile) boardManager.getTile(new GridPoint2(x + side, y))).setMoved(moved+1);
-                moved = 0;
-            } else {
-                moved = 0;
             }
+            moved = 0;
         }
     }
 
-    private boolean tryFallDown(int x, int y) {
+    protected boolean tryFallDown(int x, int y) {
         GridPoint2 from = new GridPoint2(x, y);
         GridPoint2 to = new GridPoint2(x, y - 1);
 
@@ -80,7 +80,7 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
             boardManager.getTile(new GridPoint2(x-1,y-1)) instanceof EmptyTile;
     }
 
-    private int tryRollSideways(int x, int y) {
+    protected int tryRollSideways(int x, int y) {
 
         if (!(boardManager.getTile(new GridPoint2(x,y-1)) instanceof EmptyTile)) {
             // Toczenie w prawo

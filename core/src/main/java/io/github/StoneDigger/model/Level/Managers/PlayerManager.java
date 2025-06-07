@@ -5,12 +5,14 @@ import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.TileChangers.PlayerChanger;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 public class PlayerManager {
     private final Player player;
 
-    PlayerManager(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager) {
-        player = new Player(start, boardManager, levelStats, updateManager);
+    PlayerManager(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager, WhatChanged whatChanged) {
+        player = new PlayerChanger(start, boardManager, levelStats, updateManager, whatChanged);
     }
 
     public Player getPlayer() {

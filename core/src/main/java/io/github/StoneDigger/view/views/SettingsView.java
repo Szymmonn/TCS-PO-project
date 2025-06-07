@@ -276,7 +276,7 @@ public class SettingsView extends Group {
 
         sliderMusic = new Slider(0, 4, 1, false, skinMusic, "custom-sliderMusic");
         sliderMusic.setSize(700, 40);
-        sliderMusic.setValue(gameMusicVolume * sliderMusic.getMaxValue()); // initial value
+        sliderMusic.setValue(musicVolume * sliderMusic.getMaxValue()); // initial value
 
 
         /// /////////////////////////////////////////////
@@ -457,10 +457,9 @@ public class SettingsView extends Group {
                 float value = sliderMusic.getValue();
                 float maxValue = sliderMusic.getMaxValue();
                 // TODO: save this in config - music_sound config
-                gameMusicVolume = value/maxValue;
-                gameMusic.setVolume(gameMusicVolume);
-                menuMusicVolume = value/maxValue;
-                menuMusic.setVolume(menuMusicVolume);
+                musicVolume = value/maxValue;
+                gameMusic.setVolume(musicVolume);
+                menuMusic.setVolume(musicVolume);
             }
         });
 
@@ -469,7 +468,7 @@ public class SettingsView extends Group {
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 float value = sliderSound.getValue();
                 float maxValue = sliderSound.getMaxValue();
-                // ... sounds value
+                soundVolume = value/maxValue;
             }
         });
     }

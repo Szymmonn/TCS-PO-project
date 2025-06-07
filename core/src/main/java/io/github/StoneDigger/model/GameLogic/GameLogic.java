@@ -7,18 +7,21 @@ import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 /*
 responsible for game cycle
  */
 public class GameLogic {
+    private final WhatChanged whatChanged;
     private boolean newGame = false;
     private boolean isGameWon = false;
     LevelManager levelManager;
     ELevelType levelType;
 
-    public GameLogic() {
-        levelManager = new LevelManager();
+    public GameLogic(final WhatChanged whatChanged) {
+        this.whatChanged = whatChanged;
+        levelManager = new LevelManager(whatChanged);
     }
 
     public void startTheGame(ELevelType levelType) {
