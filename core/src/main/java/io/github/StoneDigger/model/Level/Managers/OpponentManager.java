@@ -27,9 +27,7 @@ public class OpponentManager {
     }
 
     public void tryClearOpponents(float delta) {
-        List<IOpponent> snapshot = new ArrayList<>(opponent);
-        for(IOpponent opp : snapshot) if(!opp.isActive()) snapshot.remove(opp);
-        opponent = snapshot;
+        opponent.removeIf(opp -> !opp.isActive());
     }
 
 }
