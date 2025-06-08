@@ -4,7 +4,7 @@ package io.github.StoneDigger.viewmodel.viewmodels;
 import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.GameLogic.GameLogic;
-import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
+import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.Level.ILevelStats;
@@ -15,8 +15,8 @@ public class GameViewModel {
     private final GameLogic gameLogic;
     private boolean newGame = false;
     public GameViewModel(ELevelType levelType, final WhatChanged whatChanged) {
-        gameLogic = new GameLogic(whatChanged);
-        startTheGame(levelType);
+        gameLogic = new GameLogic(whatChanged, levelType);
+        startTheGame();
     }
 
     public IBoard getBoard() {
@@ -31,12 +31,8 @@ public class GameViewModel {
 
     public ILevelStats getLevelStats() { return gameLogic.getLevelStats(); }
 
-//    public List<Opponent> getOpponentList() {
-//        return opponentList;
-//    }
-
-    public void startTheGame(ELevelType levelType) {
-        gameLogic.startTheGame(levelType);
+    public void startTheGame() {
+        gameLogic.startTheGame();
     }
 
     public void update(float delta) {

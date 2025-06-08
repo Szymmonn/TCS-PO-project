@@ -39,6 +39,7 @@ public class HUDView extends Group {
 
     private int prevHp;
     private int prevDiamonds;
+    private int prevDiaxCount;
     private int prevLevelNumber;
 
     private final float VISIBLE_WORLD_HEIGHT;
@@ -52,6 +53,7 @@ public class HUDView extends Group {
         this.prevHp = levelStats.getHP();
         this.prevDiamonds = levelStats.getDiamondCount();
         this.prevLevelNumber = levelStats.getLevelNumber();
+        this.prevDiaxCount = -1;
 
         config = HudViewPropertiesLoader.getInstance();
         GameScreenProperties gameConfig = GameScreenPropertiesLoader.getInstance();
@@ -164,6 +166,12 @@ public class HUDView extends Group {
             prevDiamonds = current;
             diamondCountLabel.setText(formatNumber(current));
         }
+        current = levelStats.getDiamondCount();
+        if(prevDiaxCount != current) {
+            prevDiaxCount = current;
+            diamondCollectedLabel.setText(formatNumber(current));
+        }
+
     }
 
     private void updateHp() {

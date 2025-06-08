@@ -9,16 +9,19 @@ public class LevelsLoader {
     public static char[][] getStandardLevel(int levelNumber) {
         Configuration config = new ConfigLoader(path);
 
-        // supposing this is fine
-        String raw = config.getProperty("level" + levelNumber);
-        String[] rowStrings = raw.split(";");
-        char[][] level = new char[rowStrings.length][];
+        int w = Integer.parseInt(config.getProperty("level" + levelNumber + "width"));
+        int h = Integer.parseInt(config.getProperty("level" + levelNumber + "height"));
+        String arr = config.getProperty("level" + levelNumber);
 
-        for (int i = 0; i < rowStrings.length; i++) {
-            String[] cells = rowStrings[i].split(",");
-            level[i] = new char[cells.length];
-            for (int j = 0; j < cells.length; j++) {
-                level[i][j] = cells[j].trim().isEmpty() ? ' ' : cells[j].trim().charAt(0);
+        char[][] level = new char[w][h];
+
+        int start = 0;
+        while(arr.charAt(start) != ';') start ++;
+        start++;
+        for(int y = h-1; y >= 0; y --) {
+            for(int x = 0; x < w; x ++) {
+                level[x][y] = arr.charAt(start);
+                start ++;
             }
         }
         return level;

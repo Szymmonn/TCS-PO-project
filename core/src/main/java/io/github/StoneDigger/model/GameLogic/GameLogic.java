@@ -1,10 +1,8 @@
 package io.github.StoneDigger.model.GameLogic;
 
-import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
-import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
@@ -18,19 +16,14 @@ responsible for game cycle
 public class GameLogic {
     private boolean newGame = false;
     LevelManager levelManager;
-    ELevelType levelType;
 
-    public GameLogic(final WhatChanged whatChanged) {
-        levelManager = new LevelManager(whatChanged);
+    public GameLogic(final WhatChanged whatChanged, ELevelType levelType) {
+        levelManager = new LevelManager(whatChanged, levelType);
     }
 
-    public void startTheGame(ELevelType levelType) {
+    public void startTheGame() {
         newGame = false;
-        if(levelType == ELevelType.RANDOM)
-            levelManager.startNewRandomLevel();
-        else {
-            System.exit(1);
-        }
+        levelManager.startNewLevel();
     }
 
     public void tick(float delta) {
@@ -39,11 +32,7 @@ public class GameLogic {
 
         if(levelManager.getLevelStats().isGameComplete()) {
             newGame = true;
-            if(levelType == ELevelType.RANDOM) {
-                levelManager.startNewRandomLevel();
-            } else {
-                System.exit(1);
-            }
+            levelManager.startNewLevel();
         }
     }
 

@@ -207,7 +207,7 @@ public class GameScreen extends ScreenAdapter {
         spriteBatch.begin();
         boardView.draw(spriteBatch, 1);
         playerView.draw(spriteBatch, 1);
-        //opponentView.draw(spriteBatch,1);
+        opponentView.draw(spriteBatch,1);
         spriteBatch.end();
     }
 

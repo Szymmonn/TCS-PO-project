@@ -16,27 +16,6 @@ public class Levels {
     };
 
     private static final char[][][] rawBoards = {
-
-////        {
-//            "                  rrrrrrrrrrrrrrrrrrr "
-//            "  a a a a a      rcccccccccccccccccccc"
-//            "               rrccaa           cdd  c"
-//            "              rrccccccccrccccc cddc  c"
-//            "                 rc           cddcc ac"
-//            "                 rcacdcccdddddddc c ac"
-//            "                 rcc        cddc  c ac"
-//            "                  c       cddc    c ac"
-//            "                  ccccccccddccccccc ac"
-//            "                   a     dd       c ac"
-//            "                r  a    aa      aac ac"
-//            "               rr  a   aa         c ac"
-//            "ddddddddddddddddddcccccccccccccccdc ac"
-//            "rrrrrrrrrrrrrracdradr daaacccaddcdc ac"
-//            "rrrrrrrrrrrrdadadddcd dccaaaar ar cxac"
-////        },
-
-
-
         {
             "aaddcccccccccccccarrraaaccccccccccccca".toCharArray(),
             "aarrc           crrraraac           cr".toCharArray(),
@@ -59,48 +38,6 @@ public class Levels {
             "arraaarrraraarrrrrrarradararrrraraarra".toCharArray(),
             "aaarraaraardrrrraraadaaraaraaaarrararr".toCharArray()
         },
-//
-//
-////        {
-//            "                 o "
-//            "o                  "
-//            "     r       r     "
-//            "     d       d     "
-//            "                   "
-//            "         s         "
-//            "         x         "
-//            "                  o"
-//            "o                  "
-//            "ccccccccccccccccccc"
-//            "cc   a   c   a   cc"
-////        },
-////
-//        {
-//            "     r           r      "
-//            "     d           d      "
-//            "    d ddd       d ddd   "
-//            "    d   d       d   d   "
-//            "    d   d       d   d   "
-//            "    d o d       d o d   "
-//            "    ccccc       ccccc   "
-//            "    caaac       caaac   "
-//            "    caaac       caaac   "
-//            "    caaac       caaac   "
-//            "s   ccccc       ccccc  x"
-//        },
-////
-//        {
-//            "sdddrdddcddrddaddddd".toCharArray(),
-//            "ddccrrdadddrdrcdcddd".toCharArray(),
-//            "dddddddrdcdddddraddd".toCharArray(),
-//            "ddrrdcdadrrddddrcddd".toCharArray(),
-//            "ddaddrrdddddrcdddddd".toCharArray(),
-//            "dddddcdddccddaddrddd".toCharArray(),
-//            "ddcdddddraddrddcdddd".toCharArray(),
-//            "ddrdddddddcdddddrcdd".toCharArray(),
-//            "dddrdddcdrdadddddrdd".toCharArray(),
-//            "ddddddddddrdddddadde".toCharArray()
-//        },
 
         {
             "sddddadddrdddcddddddddda".toCharArray(),

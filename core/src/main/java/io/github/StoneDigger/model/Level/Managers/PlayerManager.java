@@ -11,7 +11,7 @@ import io.github.StoneDigger.model.TileChangers.PlayerChanger;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 public class PlayerManager {
-    private Player player = null;
+    private Player player;
 
     PlayerManager(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager, WhatChanged whatChanged) {
         player = new PlayerChanger(start, boardManager, levelStats, updateManager, whatChanged);
