@@ -62,7 +62,8 @@ public class SettingsViewPropertiesLoader {
                 configToString(config, "keyLeftText", "keyLeft"),
                 configToString(config, "keyRightText", "keyRight"),
 
-                configToString(config, "backToGameText", "Back to Menu"),
+                configToString(config, "backToMenuText", "Back to Menu"),
+                configToString(config, "backToGameText", "Back to Game"),
                 configToString(config, "bindsButtonText", "Key Binds"),
                 configToString(config, "applyText", "Apply"),
                 configToString(config, "backText", "Back"),
@@ -86,8 +87,8 @@ public class SettingsViewPropertiesLoader {
 
                 configToFloat(config, "bindsButtonPadTop", 100f),
                 configToFloat(config, "bindsButtonWidth", 400f),
-                configToFloat(config, "backToGameButtonPadTop", 50f),
-                configToFloat(config, "backToGameButtonWidth", 600f),
+                configToFloat(config, "backToMenuButtonPadTop", 50f),
+                configToFloat(config, "backToMenuButtonWidth", 450f),
 
                 configToFloat(config, "keyButtonWidth", 300f),
                 configToFloat(config, "keyButtonHeight", 100f),

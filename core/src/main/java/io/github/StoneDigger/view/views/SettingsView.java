@@ -1,9 +1,6 @@
 package io.github.StoneDigger.view.views;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -47,7 +44,7 @@ public class SettingsView extends Group {
     private Label moveUpLabel, moveDownLabel, moveRightLabel, moveLeftLabel;
     private TextButton keyUpButton, keyDownButton, keyRightButton, keyLeftButton;
     private Label keybindsTitle;
-    private TextButton backToGameButton, bindsButton;
+    private TextButton backToMenuButton, backToGameButton, bindsButton;
     private TextButton backKeyBindsButton, applyKeyBindsButton;
 
     private final Map<TextButton, String> buttonKeyMap = new HashMap<>();
@@ -224,6 +221,7 @@ public class SettingsView extends Group {
         keyDownButton = createTextButton(properties.keyDownText);
         keyLeftButton = createTextButton(properties.keyLeftText);
         keyRightButton = createTextButton(properties.keyRightText);
+        backToMenuButton = createTextButton(properties.backToMenuText);
         backToGameButton = createTextButton(properties.backToGameText);
         bindsButton = createTextButton(properties.bindsButtonText);
 
@@ -263,7 +261,11 @@ public class SettingsView extends Group {
         mainTable.row();
         mainTable.add(bindsButton).expandX().fillX().padTop(properties.bindsButtonPadTop).width(properties.bindsButtonWidth).colspan(2);
         mainTable.row();
-        mainTable.add(backToGameButton).expandX().fillX().center().padTop(properties.backToGameButtonPadTop).width(properties.backToGameButtonWidth).colspan(2);
+
+        Table rowTable = new Table();
+        rowTable.add(backToGameButton).width(properties.backToMenuButtonWidth);
+        rowTable.add(backToMenuButton).width(properties.backToMenuButtonWidth).padLeft(50);
+        mainTable.add(rowTable).colspan(2).expandX().fillX().colspan(2).padTop(properties.backToMenuButtonPadTop);
 
         buttonTable = new Table();
         buttonTable.setSize(properties.mainTableWidth, properties.mainTableHeight);
@@ -294,10 +296,20 @@ public class SettingsView extends Group {
     }
 
     private void addListeners() {
-        backToGameButton.addListener(new ClickListener() {
+        backToMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 gameStart.setScreen(new MenuScreen(gameStart));
+            }
+        });
+
+        backToGameButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isEnabled = !isEnabled;
+                mainTable.setTouchable(isEnabled ? Touchable.enabled : Touchable.disabled);
+                buttonTable.setTouchable(isEnabled && isKeyBindsOn ? Touchable.enabled : Touchable.disabled);
+                if(buttonTable.isTouchable()) getStage().setKeyboardFocus(buttonTable);
             }
         });
 

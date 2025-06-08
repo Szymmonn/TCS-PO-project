@@ -47,6 +47,7 @@ public class SettingsViewProperties {
     public final String keyLeftText;
     public final String keyRightText;
 
+    public final String backToMenuText;
     public final String backToGameText;
     public final String bindsButtonText;
     public final String applyText;
@@ -72,8 +73,8 @@ public class SettingsViewProperties {
 
     public final float bindsButtonPadTop;
     public final float bindsButtonWidth;
-    public final float backToGameButtonPadTop;
-    public final float backToGameButtonWidth;
+    public final float backToMenuButtonPadTop;
+    public final float backToMenuButtonWidth;
 
     public final float keyButtonWidth;
     public final float keyButtonHeight;
@@ -130,6 +131,7 @@ public class SettingsViewProperties {
         String keyDownText,
         String keyLeftText,
         String keyRightText,
+        String backToMenuText,
         String backToGameText,
         String bindsButtonText,
         String applyText,
@@ -150,8 +152,8 @@ public class SettingsViewProperties {
         float labelPadBottom,
         float bindsButtonPadTop,
         float bindsButtonWidth,
-        float backToGameButtonPadTop,
-        float backToGameButtonWidth,
+        float backToMenuButtonPadTop,
+        float backToMenuButtonWidth,
         float keyButtonWidth,
         float keyButtonHeight,
         float keyGroupPad,
@@ -203,6 +205,7 @@ public class SettingsViewProperties {
         this.keyDownText = keyDownText;
         this.keyLeftText = keyLeftText;
         this.keyRightText = keyRightText;
+        this.backToMenuText = backToMenuText;
         this.backToGameText = backToGameText;
         this.bindsButtonText = bindsButtonText;
         this.applyText = applyText;
@@ -223,8 +226,8 @@ public class SettingsViewProperties {
         this.labelPadBottom = labelPadBottom;
         this.bindsButtonPadTop = bindsButtonPadTop;
         this.bindsButtonWidth = bindsButtonWidth;
-        this.backToGameButtonPadTop = backToGameButtonPadTop;
-        this.backToGameButtonWidth = backToGameButtonWidth;
+        this.backToMenuButtonPadTop = backToMenuButtonPadTop;
+        this.backToMenuButtonWidth = backToMenuButtonWidth;
         this.keyButtonWidth = keyButtonWidth;
         this.keyButtonHeight = keyButtonHeight;
         this.keyGroupPad = keyGroupPad;
