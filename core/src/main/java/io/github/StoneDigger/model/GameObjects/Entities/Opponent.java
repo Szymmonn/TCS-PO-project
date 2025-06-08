@@ -11,6 +11,7 @@ import io.github.StoneDigger.model.Interfaces.IDestructable;
 import io.github.StoneDigger.model.Interfaces.IMovable;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
+import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
@@ -23,16 +24,19 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
     private final BoardManager boardManager;
     private final UpdateManager updateManager;
     private final PlayerManager playerManager;
+    private final ILevelStats levelStats;
 
     private GridPoint2 pos;
 
-    public Opponent(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager) {
+    public Opponent(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats) {
         this.updateManager = updateManager;
         this.pos=start;
         this.boardManager = boardManager;
         this.moveDirection = EDirections.RIGHT;
         this.playerManager = playerManager;
+        this.levelStats = levelStats;
     }
+
 
     @Override public GridPoint2 getPosition() { return pos; }
     public void setPosition(GridPoint2 p){ pos=p; }
@@ -136,7 +140,10 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
         if(boardManager.getTile(new GridPoint2(pos.x,pos.y)) instanceof RockTile) destruct();
 
         /// DO POPRAWY
-        if(playerPos.equals(pos)) playerManager.getPlayer().setOnStartingPosition();
+        if(playerPos.equals(pos)) {
+            playerManager.getPlayer().setOnStartingPosition();
+            levelStats.decreaseHP();
+        }
 
         /// Moving opponent
         opponentMoveTime+=delta;

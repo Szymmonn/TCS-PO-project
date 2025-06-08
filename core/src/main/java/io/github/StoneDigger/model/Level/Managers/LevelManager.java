@@ -23,6 +23,7 @@ public class LevelManager {
     private OpponentManager opponentManager;
     private BoardManager boardManager;
 
+
     public LevelManager() {
         levelStats = new LevelStats();
         updateManager = new UpdateManager();
@@ -122,7 +123,7 @@ public class LevelManager {
             System.out.println();
         }
 
-        opponentManager = new OpponentManager(boardManager, updateManager,playerManager,counterO,counterP);
+        opponentManager = new OpponentManager(boardManager, updateManager,playerManager,levelStats,counterO,counterP);
 
 
         ///  Setting board

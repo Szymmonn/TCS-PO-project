@@ -13,6 +13,7 @@ import io.github.StoneDigger.model.Interfaces.IDestructable;
 import io.github.StoneDigger.model.Interfaces.IMovable;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
+import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
@@ -28,15 +29,18 @@ public class OpponentAI implements IOpponent,IMovable, ISelfUpdate {
     private final BoardManager boardManager;
     private final UpdateManager updateManager;
     private final PlayerManager playerManager;
+    private final ILevelStats levelStats;
+
 
     private GridPoint2 pos;
 
-    public OpponentAI(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager) {
+    public OpponentAI(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats) {
         this.updateManager = updateManager;
         this.pos=start;
         this.boardManager = boardManager;
         this.moveDirection = EDirections.RIGHT;
         this.playerManager = playerManager;
+        this.levelStats = levelStats;
     }
 
     @Override
@@ -159,11 +163,16 @@ public class OpponentAI implements IOpponent,IMovable, ISelfUpdate {
         GridPoint2 playerPos = playerManager.getPosition();
 
         /// DO POPRAWY
-        if(playerPos.equals(pos)) playerManager.getPlayer().setOnStartingPosition();
+        if(playerPos.equals(pos)) {
+            playerManager.getPlayer().setOnStartingPosition();
+            levelStats.decreaseHP();
+        }
 
 
         ///  Opponent Death
-        if(boardManager.getTile(new GridPoint2(pos.x,pos.y)) instanceof RockTile) destruct();
+        if(boardManager.getTile(new GridPoint2(pos.x,pos.y)) instanceof RockTile) {
+            destruct();
+        }
 
         /// Moving opponent
         opponentMoveTime+=delta;

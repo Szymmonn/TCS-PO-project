@@ -64,19 +64,20 @@ public class Levels {
 //        },
 ////
 //
-////        {
-//            "                 o "
-//            "o                  "
-//            "     r       r     "
-//            "     d       d     "
-//            "                   "
-//            "         s         "
-//            "         x         "
-//            "                  o"
-//            "o                  "
-//            "ccccccccccccccccccc"
-//            "cc   a   c   a   cc"
-////        },
+        {
+            "cc   a   c   a   cc".toCharArray(),
+            "ccccccccccccccccccc".toCharArray(),
+            "o                  ".toCharArray(),
+            "o                  ".toCharArray(),
+            "         x        o".toCharArray(),
+            "         s        o".toCharArray(),
+            "                   ".toCharArray(),
+            "     d       d     ".toCharArray(),
+            "o    r       r     ".toCharArray(),
+            "o                  ".toCharArray(),
+            "                oo ".toCharArray(),
+
+        },
 ////
         {
             "s   ccccc       ccccc  x".toCharArray(),
