@@ -1,12 +1,16 @@
 package io.github.StoneDigger.model.GameLogic;
 
+import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
+import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
+
+import java.util.List;
 
 /*
 responsible for game cycle
@@ -45,8 +49,8 @@ public class GameLogic {
 
     public boolean getIsNewGame() {return newGame;}
 
-    public IOpponent getOpponent() {
-        return levelManager.getOpponent();
+    public List<IOpponent> getOpponents() {
+        return levelManager.getOpponents();
     }
     public IPlayer getPlayer() {
         return levelManager.getPlayer();

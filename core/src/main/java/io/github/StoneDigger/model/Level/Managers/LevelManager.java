@@ -7,6 +7,7 @@ import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
+import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
@@ -15,6 +16,9 @@ import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.TileChangers.DiamondTileChanger;
 import io.github.StoneDigger.model.TileChangers.RockTileChanger;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LevelManager {
     private final WhatChanged whatChanged;
@@ -63,6 +67,8 @@ public class LevelManager {
                     case 'x': tile = new DeactivatedEndTile(pos, boardManager, levelStats, this); break;  // should use only this end tile
                     case 'b': tile = new BorderTile(pos, boardManager); break;
                     case 'h': tile = new ShelterTile(pos,boardManager); break;
+                    case 'o': tile = new EmptyTile(pos,boardManager);break;
+                    case 'p': tile = new EmptyTile(pos,boardManager);break;
                     default:
                         throw new IllegalArgumentException(
                             "Nieznany znak: '" + ch + "' na pozycji (" + y + "," + x + ")"
@@ -92,15 +98,49 @@ public class LevelManager {
         Board tempBoard = new Board(placeholder);
 
         boardManager = new BoardManager(tempBoard);
-        playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager, whatChanged);
-        opponentManager = new OpponentManager(startPosition, boardManager, updateManager, playerManager);
+        playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager);
+
+        List<GridPoint2> startOpponents = new ArrayList<>();
+        List<Character> rodzaj = new ArrayList<>();
+
+
+
+        int rows = raw.length;
+        int cols = raw[0].length;
+        int counterO=0,counterP=0;
+
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                char ch = raw[y][x];
+                System.out.print(ch);
+                if(ch == 'o') {
+                    counterO++;
+                    startOpponents.add(new GridPoint2(x,y));
+                }
+            }
+        }
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                char ch = raw[y][x];
+                System.out.print(ch);
+                if(ch == 'p') {
+                    counterP++;
+                    startOpponents.add(new GridPoint2(x,y));
+                }
+            }
+            System.out.println();
+        }
+
+        opponentManager = new OpponentManager(boardManager, updateManager,playerManager,counterO,counterP);
+
+
+        ///  Setting board
 
         ATile[][] tiles = convertBoard(raw);
 
         boardManager.setTiles(tiles);
 
         updateManager.clearAll();
-        System.out.println("gamelogic po starcie");
 
         int h = raw.length, w = raw[0].length;
         for (int y = 0; y < h; y++) {
@@ -114,13 +154,25 @@ public class LevelManager {
                 }
             }
         }
+        System.out.println("o : "+counterO+"   p: " + counterP+"\n"+startOpponents);
+        /// Updating player and opponents to its starting locations
 
         playerManager.getPlayer().setStartingPosition(startPosition);
+        for(int i=0;i<counterO;i++) {
+            opponentManager.getOpponents().get(i).setStartingPosition(startOpponents.get(i));
+            opponentManager.getOpponents().get(i).setOnStartingPosition();
+        }
+        for(int i=counterO;i<counterO+counterP;i++) {
+            opponentManager.getOpponents().get(i).setStartingPosition(startOpponents.get(i));
+            opponentManager.getOpponents().get(i).setOnStartingPosition();
+        }
 
-        System.out.println("levelmanager po przjesciach");
+        /// Adding to update Manager
 
         updateManager.addToUpdates((ISelfUpdate) playerManager.getPlayer());
-        updateManager.addToUpdates(opponentManager.getOpponent());
+
+        for (IOpponent opp : opponentManager.getOpponents())
+            updateManager.addToUpdates(opp);
 
         startMechanics(levelStats.getLevelNumber(), boardManager.getBoard());
     }
@@ -171,13 +223,14 @@ public class LevelManager {
         if(levelStats.getLevelNumber() == 6) {
             isGameWon = true;
         }
+        opponentManager.tryClearOpponents(delta);
     }
 
     public IPlayer getPlayer() {
         return playerManager.getPlayer();
     }
-    public IOpponent getOpponent() {
-        return opponentManager.getOpponent();
+    public List<IOpponent> getOpponents() {
+        return opponentManager.getOpponents();
     }
     public ILevelStats getLevelStats() {
         return levelStats;

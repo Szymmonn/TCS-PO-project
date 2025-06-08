@@ -20,6 +20,11 @@ public class UpdateManager {
     public void updateAll(float delta) {
         List<ISelfUpdate> snapshot = new ArrayList<>(selfUpdates);
         for(ISelfUpdate selfUpdate : snapshot) selfUpdate.update(delta);
+
+    }
+
+    public void opponentClear() {
+
     }
 
     public void clearAll() {

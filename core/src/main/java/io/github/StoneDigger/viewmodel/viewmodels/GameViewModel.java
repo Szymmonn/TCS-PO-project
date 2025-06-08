@@ -9,6 +9,8 @@ import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.Level.ILevelStats;
 
+import java.util.List;
+
 public class GameViewModel {
     private final GameLogic gameLogic;
     private boolean newGame = false;
@@ -23,8 +25,8 @@ public class GameViewModel {
     public IPlayer getPlayer() {
         return gameLogic.getPlayer();
     }
-    public IOpponent getOpponent() {
-        return gameLogic.getOpponent();
+    public List<IOpponent> getOpponents() {
+        return gameLogic.getOpponents();
     }
 
     public ILevelStats getLevelStats() { return gameLogic.getLevelStats(); }

@@ -129,7 +129,7 @@ public class GameScreen extends ScreenAdapter {
     private void initViews() {
         boardView = new BoardView(gameViewModel.getBoard());
         playerView = new PlayerView(gameViewModel.getPlayer());
-        opponentView = new OpponentView(gameViewModel.getOpponent());
+        opponentView = new OpponentView(gameViewModel.getOpponents());
 
         HUDView hudView = new HUDView(gameViewModel.getLevelStats(), gameStart);
 
@@ -159,7 +159,7 @@ public class GameScreen extends ScreenAdapter {
         if (gameViewModel.getIsNewGame()) {
             boardView.setBoard(gameViewModel.getBoard());
             playerView.setPlayer(gameViewModel.getPlayer());
-            opponentView.setOpponent(gameViewModel.getOpponent());
+            opponentView.setOpponent(gameViewModel.getOpponents());
         }
 
         // settings above all
