@@ -1,8 +1,11 @@
 package io.github.StoneDigger.model.TileChangers;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 import io.github.StoneDigger.model.GameObjects.Tiles.EmptyTile;
 import io.github.StoneDigger.model.GameObjects.Tiles.RockTile;
+import io.github.StoneDigger.model.Interfaces.IDestructable;
+import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
@@ -20,6 +23,28 @@ public class RockTileChanger extends RockTile {
 
     @Override
     public void update(float delta) {
+        /// Boom Boom Rock + Killing
+
+        GridPoint2 playerPos = playerManager.getPosition();
+        if(playerPos.equals(position)) {
+
+            playerManager.getPlayer().setOnStartingPosition();
+            levelStats.decreaseHP();
+
+            for(int i= position.x-1;i<=position.x+1;i++) {
+                for(int j = position.y-1;j<= position.y+1;j++) {
+                    ATile tile = boardManager.getTile(new GridPoint2(i,j));
+
+                    if(tile instanceof IDestructable) {
+                        if (tile instanceof ISelfUpdate) {
+                            updateManager.removedFromUpdates((ISelfUpdate) tile);
+                        }
+                        tile.destroy();
+                    }
+                }
+            }
+        }
+
         rockDropTimer += delta;
         if ((moved>0 && rockDropTimer >= 0.3f) || (moved==0 && rockDropTimer>=0.6f)) {
             processFallingRocks();

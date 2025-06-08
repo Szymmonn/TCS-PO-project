@@ -22,6 +22,7 @@ import io.github.StoneDigger.view.Game.GameStart;
 import static io.github.StoneDigger.view.Assets.SAD_MINER_TEXTURE;
 import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
 
+// TODO: config this
 public class LoserScreen extends ScreenAdapter {
     private final GameStart gameStart;
     private Viewport viewport;

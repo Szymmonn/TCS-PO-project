@@ -9,7 +9,7 @@ public abstract class ATile {
     protected GridPoint2 position;
     protected BoardManager boardManager;
 
-    protected void destroy() {
+    public void destroy() {
         boardManager.getBoard().setTile(position, new EmptyTile(position, boardManager));
     }
 

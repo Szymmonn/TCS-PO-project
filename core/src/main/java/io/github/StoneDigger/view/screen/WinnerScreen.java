@@ -22,6 +22,7 @@ import io.github.StoneDigger.view.Game.GameStart;
 
 import static io.github.StoneDigger.view.Assets.*;
 
+// TODO: config this
 public class WinnerScreen extends ScreenAdapter {
     private final GameStart gameStart;
     private Viewport viewport;
