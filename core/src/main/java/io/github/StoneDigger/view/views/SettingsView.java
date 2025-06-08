@@ -102,15 +102,29 @@ public class SettingsView extends Group {
     }
 
     private void applyEditedKeys() {
-        if (new HashSet<>(editedKeyCodes.values()).size() == 4) {
-            GlobalControls.moveUpKey = editedKeyCodes.get("moveUpKey");
-            GlobalControls.moveDownKey = editedKeyCodes.get("moveDownKey");
-            GlobalControls.moveLeftKey = editedKeyCodes.get("moveLeftKey");
-            GlobalControls.moveRightKey = editedKeyCodes.get("moveRightKey");
-            editedKeyCodes.clear();
+        // Get the final keys that will be used (edited or fallback to current)
+        int up = editedKeyCodes.getOrDefault("moveUpKey", GlobalControls.moveUpKey);
+        int down = editedKeyCodes.getOrDefault("moveDownKey", GlobalControls.moveDownKey);
+        int left = editedKeyCodes.getOrDefault("moveLeftKey", GlobalControls.moveLeftKey);
+        int right = editedKeyCodes.getOrDefault("moveRightKey", GlobalControls.moveRightKey);
+
+        Set<Integer> uniqueKeys = new HashSet<>(Arrays.asList(up, down, left, right));
+        if (uniqueKeys.size() < 4) {
+            // Don't apply duplicates
+            updateApplyButtonState();
+            return;
         }
+
+        // Apply changes
+        GlobalControls.moveUpKey = up;
+        GlobalControls.moveDownKey = down;
+        GlobalControls.moveLeftKey = left;
+        GlobalControls.moveRightKey = right;
+
+        editedKeyCodes.clear();
         updateApplyButtonState();
     }
+
 
     private void cancelEditedKeys() {
         for (Map.Entry<TextButton, String> entry : buttonKeyMap.entrySet()) {

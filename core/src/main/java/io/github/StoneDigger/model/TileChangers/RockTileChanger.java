@@ -3,6 +3,8 @@ package io.github.StoneDigger.model.TileChangers;
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.GameObjects.Tiles.EmptyTile;
 import io.github.StoneDigger.model.GameObjects.Tiles.RockTile;
+import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
@@ -11,8 +13,8 @@ import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 public class RockTileChanger extends RockTile {
     private final WhatChanged whatChanged;
 
-    public RockTileChanger(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, WhatChanged whatChanged) {
-        super(start, boardManager, updateManager, playerManager);
+    public RockTileChanger(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats, WhatChanged whatChanged) {
+        super(start, boardManager, updateManager, playerManager, levelStats);
         this.whatChanged = whatChanged;
     }
 
@@ -52,7 +54,7 @@ public class RockTileChanger extends RockTile {
     @Override
     public void moveWithUpdate(GridPoint2 from, GridPoint2 to) {
         RockTile oldRock = (RockTile) boardManager.getTile(from);
-        RockTileChanger newRock = new RockTileChanger(to, boardManager, updateManager, playerManager, whatChanged);
+        RockTileChanger newRock = new RockTileChanger(to, boardManager, updateManager, playerManager, levelStats, whatChanged);
 
         boardManager.setTile(to, newRock);
         boardManager.setTile(from, new EmptyTile(from, boardManager));

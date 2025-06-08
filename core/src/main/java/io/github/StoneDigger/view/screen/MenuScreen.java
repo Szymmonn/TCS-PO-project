@@ -19,11 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
+import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.configs.MenuScreenProperties;
 import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
-import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
 import static io.github.StoneDigger.view.Assets.*;
 

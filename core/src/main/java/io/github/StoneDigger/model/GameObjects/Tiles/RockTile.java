@@ -5,6 +5,7 @@ import io.github.StoneDigger.model.Interfaces.IDestructable;
 import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Interfaces.IWalkableTile;
+import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
@@ -17,9 +18,9 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
     protected int moved = 0;
     protected UpdateManager updateManager;
     protected PlayerManager playerManager;
-    private LevelStats levelStats;
+    protected ILevelStats levelStats;
 
-    public RockTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, LevelStats levelStats) {
+    public RockTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats) {
         this.boardManager = boardManager;
         this.position = start;
         this.updateManager = updateManager;

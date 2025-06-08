@@ -5,7 +5,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
 
 public class Assets {
     public static Texture ROCK_TEXTURE;
@@ -20,6 +19,9 @@ public class Assets {
     public static Texture BORDER_TEXTURE;
     public static Texture OPPONENT_TEXTURE;
     public static Texture SHELTER_TEXTURE;
+    public static Texture SAD_MINER_TEXTURE;
+    public static Texture HAPPY_MINER_TEXTURE;
+
     public static FreeTypeFontGenerator REGULAR_FONT_GENERATOR;
 
     public static String menuScreenPropertiesPath;
@@ -57,10 +59,10 @@ public class Assets {
         SETTINGS_TEXTURE = new Texture("images/settings_icon.png");
         OPPONENT_TEXTURE = new Texture("images/police.png");
         SHELTER_TEXTURE = new Texture("images/shelter.png");
-        /*
-        TO CHANGE
-         */
         BORDER_TEXTURE = new Texture("images/blaszka.png");
+
+        SAD_MINER_TEXTURE = new Texture(Gdx.files.internal("images/sad_miner.jpg"));
+        HAPPY_MINER_TEXTURE = new Texture(Gdx.files.internal("images/happy_miner.jpg"));
 
         REGULAR_FONT_GENERATOR = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PressStart2P-Regular.ttf"));
 
@@ -83,7 +85,6 @@ public class Assets {
         dirt3Sound = Gdx.audio.newSound(Gdx.files.internal("sounds/walk-on-dirt-3-291983.mp3"));
 
         levelEndSound = Gdx.audio.newSound(Gdx.files.internal("sounds/winfantasia-6912.mp3"));
-
     }
 
     public static void dispose() {
@@ -99,6 +100,7 @@ public class Assets {
         BORDER_TEXTURE.dispose();
         OPPONENT_TEXTURE.dispose();
         SHELTER_TEXTURE.dispose();
+        SAD_MINER_TEXTURE.dispose();
 
         REGULAR_FONT_GENERATOR.dispose();
 

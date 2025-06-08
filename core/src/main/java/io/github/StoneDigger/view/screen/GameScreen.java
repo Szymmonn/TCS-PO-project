@@ -3,7 +3,6 @@ package io.github.StoneDigger.view.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,7 +13,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
+import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.PlayerInputReceiver.InputReceiver;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
@@ -173,6 +172,15 @@ public class GameScreen extends ScreenAdapter {
 
             gameViewModel.update(delta);
             gameController.update(delta);
+            /*
+            checkers
+             */
+            if(gameViewModel.isGameLost()) {
+                gameStart.setScreen(new LoserScreen(gameStart));
+            }
+            if(gameViewModel.isGameWon()) {
+                gameStart.setScreen(new WinnerScreen(gameStart));
+            }
 
             Gdx.gl.glClearColor(bg.r, bg.g, bg.b, bg.a);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

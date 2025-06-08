@@ -3,11 +3,10 @@ package io.github.StoneDigger.model.Level.Managers;
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
-import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
+import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
-import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
@@ -24,11 +23,16 @@ public class LevelManager {
     private PlayerManager playerManager;
     private OpponentManager opponentManager;
     private BoardManager boardManager;
+    private boolean isGameLost;
+    private boolean isGameWon;
 
     public LevelManager(WhatChanged whatChanged) {
         levelStats = new LevelStats();
         updateManager = new UpdateManager();
         this.whatChanged = whatChanged;
+
+        isGameLost = false;
+        isGameWon = false;
     }
 
     public ATile[][] convertBoard(char[][] board) {
@@ -50,7 +54,7 @@ public class LevelManager {
                 ATile tile;
                 switch (ch) {
                     case 'd': tile = new DirtTile(pos, boardManager); break;
-                    case 'r': tile = new RockTileChanger(pos, boardManager, updateManager, playerManager, whatChanged); break;
+                    case 'r': tile = new RockTileChanger(pos, boardManager, updateManager, playerManager, levelStats, whatChanged); break;
                     case 'a': tile = new DiamondTileChanger(pos, boardManager, updateManager, whatChanged); break;
                     case ' ': tile = new EmptyTile(pos, boardManager); break;
                     case 'c': tile = new BrickTile(pos, boardManager); break;
@@ -71,12 +75,12 @@ public class LevelManager {
         return tiles;
     }
 
-    public void startNewLevel(ELevelType levelType) {
+    public void startNewRandomLevel() {
         levelStats.resetLevelSTats();
         levelStats.incrementLevelNumber();
         GridPoint2 startPosition = new GridPoint2(1, 1);
 
-        char[][] raw = BoardGenerator.generateBoard(levelType, levelStats.getLevelNumber());
+        char[][] raw = BoardGenerator.generateBoard(ELevelType.RANDOM, levelStats.getLevelNumber());
 //        System.out.println("TERAZ CI POKAZE ZAWARTOSC TABLICY RAW:");
 //        for(int i = 0; i< Objects.requireNonNull(raw).length; i++) {
 //            for(int j=0;j<raw[0].length;j++) {
@@ -88,8 +92,8 @@ public class LevelManager {
         Board tempBoard = new Board(placeholder);
 
         boardManager = new BoardManager(tempBoard);
-        opponentManager = new OpponentManager(startPosition, boardManager, updateManager);
         playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager, whatChanged);
+        opponentManager = new OpponentManager(startPosition, boardManager, updateManager, playerManager);
 
         ATile[][] tiles = convertBoard(raw);
 
@@ -121,6 +125,24 @@ public class LevelManager {
         startMechanics(levelStats.getLevelNumber(), boardManager.getBoard());
     }
 
+    public void startNewStandardLevel() {
+        levelStats.resetLevelSTats();
+        levelStats.incrementLevelNumber();
+
+        final int levelNumber = levelStats.getLevelNumber();
+        /*
+        /// CONFIG BOARD HERE
+         */
+        // get board
+        // boardmenager
+        // get start and updateManager
+        // playermanager
+        // opponentmanager
+        // updateManager.clearAll();
+        // board intit;
+        // add rest to update manager
+    }
+
 
     public void startMechanics(int index, IBoard board) {
         int count = 0;
@@ -142,6 +164,13 @@ public class LevelManager {
     public void tick(float delta) {
         updateManager.updateAll(delta);
         levelStats.update(delta);
+        if(levelStats.getHP() == 0) {
+            isGameLost = true;
+        }
+        // not very optimal placement here
+        if(levelStats.getLevelNumber() == 6) {
+            isGameWon = true;
+        }
     }
 
     public IPlayer getPlayer() {
@@ -163,5 +192,12 @@ public class LevelManager {
 
     public void moveOpponent(EDirections direction) {
         opponentManager.moveOpponent(direction);
+    }
+
+    public boolean isGameLost() {
+        return isGameLost;
+    }
+    public boolean isGameWon() {
+        return isGameWon;
     }
 }
