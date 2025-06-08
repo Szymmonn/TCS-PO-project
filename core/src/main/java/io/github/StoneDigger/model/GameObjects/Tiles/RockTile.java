@@ -42,6 +42,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile, IDest
         }
     }
 
+
     @Override
     public void update(float delta) {
 

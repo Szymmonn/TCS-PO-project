@@ -3,6 +3,7 @@ package io.github.StoneDigger.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import io.github.StoneDigger.model.GameObjects.Entities.Opponent;
 import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
 
 public class Assets {
@@ -18,6 +19,7 @@ public class Assets {
     public static Texture BORDER_TEXTURE;
     public static Texture OPPONENT_TEXTURE;
     public static Texture SHELTER_TEXTURE;
+    public static Texture OPPONENTAI_TEXTURE;
     public static FreeTypeFontGenerator REGULAR_FONT_GENERATOR;
 
     public static String menuScreenPropertiesPath;
@@ -36,6 +38,7 @@ public class Assets {
         SETTINGS_TEXTURE = new Texture("images/settings_icon.png");
         OPPONENT_TEXTURE = new Texture("images/police.png");
         SHELTER_TEXTURE = new Texture("images/shelter.png");
+        OPPONENTAI_TEXTURE = new Texture("images/policeAI.png");
         /*
         TO CHANGE
          */
@@ -61,6 +64,7 @@ public class Assets {
         BORDER_TEXTURE.dispose();
         OPPONENT_TEXTURE.dispose();
         SHELTER_TEXTURE.dispose();
+        OPPONENTAI_TEXTURE.dispose();
 
         REGULAR_FONT_GENERATOR.dispose();
     }
