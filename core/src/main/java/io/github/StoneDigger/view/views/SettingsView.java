@@ -321,6 +321,12 @@ public class SettingsView extends Group {
                 isKeyBindsOn = false;
                 mainTable.setTouchable(Touchable.enabled);
                 buttonTable.setTouchable(Touchable.disabled);
+
+                // force reset to current bindings
+                keyUpButton.setText(Input.Keys.toString(GlobalControls.moveUpKey));
+                keyDownButton.setText(Input.Keys.toString(GlobalControls.moveDownKey));
+                keyLeftButton.setText(Input.Keys.toString(GlobalControls.moveLeftKey));
+                keyRightButton.setText(Input.Keys.toString(GlobalControls.moveRightKey));
             }
         });
 
