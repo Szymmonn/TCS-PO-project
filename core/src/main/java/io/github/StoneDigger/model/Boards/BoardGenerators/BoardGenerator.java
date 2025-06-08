@@ -2,6 +2,7 @@ package io.github.StoneDigger.model.Boards.BoardGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.BoardGenerators.BoardValidators.SimpleBoardValidator;
+import io.github.StoneDigger.model.GameLogic.ELevelType;
 
 public class BoardGenerator {
 

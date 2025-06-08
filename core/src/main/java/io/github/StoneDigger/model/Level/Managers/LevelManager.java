@@ -3,7 +3,8 @@ package io.github.StoneDigger.model.Level.Managers;
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
-import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
+import io.github.StoneDigger.model.Boards.BoardGenerators.Levels;
+import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
@@ -12,21 +13,35 @@ import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
+import io.github.StoneDigger.model.TileChangers.DiamondTileChanger;
+import io.github.StoneDigger.model.TileChangers.RockTileChanger;
+import io.github.StoneDigger.view.configs.LevelsLoader;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LevelManager {
-    private LevelStats levelStats;
+    private final WhatChanged whatChanged;
+    private ILevelStats levelStats;
     private UpdateManager updateManager;
     private PlayerManager playerManager;
     private OpponentManager opponentManager;
     private BoardManager boardManager;
+    private boolean isGameLost;
+    private boolean isGameWon;
 
+    private ELevelType levelType;
 
-    public LevelManager() {
+    public LevelManager(WhatChanged whatChanged, ELevelType levelType) {
         levelStats = new LevelStats();
         updateManager = new UpdateManager();
+        this.whatChanged = whatChanged;
+
+        isGameLost = false;
+        isGameWon = false;
+
+        this.levelType = levelType;
     }
 
     public ATile[][] convertBoard(char[][] board) {
@@ -48,8 +63,8 @@ public class LevelManager {
                 ATile tile;
                 switch (ch) {
                     case 'd': tile = new DirtTile(pos, boardManager); break;
-                    case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager,levelStats); break;
-                    case 'a': tile = new DiamondTile(pos, boardManager, updateManager); break;
+                    case 'r': tile = new RockTileChanger(pos, boardManager, updateManager, playerManager, levelStats, whatChanged); break;
+                    case 'a': tile = new DiamondTileChanger(pos, boardManager, updateManager, whatChanged); break;
                     case ' ': tile = new EmptyTile(pos, boardManager); break;
                     case 'c': tile = new BrickTile(pos, boardManager); break;
                     case 's': tile = new StartTile(pos, boardManager); break;
@@ -71,31 +86,29 @@ public class LevelManager {
         return tiles;
     }
 
-    public void startNewLevel(ELevelType levelType) {
-        ///  Declaring all managers
-
+    public void startNewLevel() {
         levelStats.resetLevelSTats();
         levelStats.incrementLevelNumber();
         GridPoint2 startPosition = new GridPoint2(1, 1);
 
-        char[][] raw = BoardGenerator.generateBoard(levelType, levelStats.getLevelNumber());
-//        System.out.println("TERAZ CI POKAZE ZAWARTOSC TABLICY RAW:");
-//        for(int i = 0; i< Objects.requireNonNull(raw).length; i++) {
-//            for(int j=0;j<raw[0].length;j++) {
-//                System.out.println(raw[i][j]);
-//            }
-//        }
+        /*
+        here
+         */
+        char[][] raw;
+        if(levelType == ELevelType.RANDOM) {
+            raw = BoardGenerator.generateBoard(ELevelType.RANDOM, levelStats.getLevelNumber());
+        } else {
+            raw = Levels.boards[levelStats.getLevelNumber() +1];
+        }
+
 
         ATile[][] placeholder = new ATile[raw[0].length][raw.length];
         Board tempBoard = new Board(placeholder);
 
         boardManager = new BoardManager(tempBoard);
-        playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager);
+        playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager, whatChanged);
 
         List<GridPoint2> startOpponents = new ArrayList<>();
-        List<Character> rodzaj = new ArrayList<>();
-
-
 
         int rows = raw.length;
         int cols = raw[0].length;
@@ -189,6 +202,14 @@ public class LevelManager {
 
     public void tick(float delta) {
         updateManager.updateAll(delta);
+        levelStats.update(delta);
+        if(levelStats.getHP() == 0) {
+            isGameLost = true;
+        }
+        // not very optimal placement here
+        if(levelStats.getLevelNumber() == 6) {
+            isGameWon = true;
+        }
         opponentManager.tryClearOpponents(delta);
     }
 
@@ -209,4 +230,10 @@ public class LevelManager {
         playerManager.movePlayer(direction);
     }
 
+    public boolean isGameLost() {
+        return isGameLost;
+    }
+    public boolean isGameWon() {
+        return isGameWon;
+    }
 }

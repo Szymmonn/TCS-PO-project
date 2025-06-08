@@ -23,10 +23,6 @@ public class UpdateManager {
 
     }
 
-    public void opponentClear() {
-
-    }
-
     public void clearAll() {
         selfUpdates.clear();
     }

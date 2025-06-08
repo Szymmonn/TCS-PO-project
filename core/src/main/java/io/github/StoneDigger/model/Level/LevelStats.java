@@ -8,13 +8,13 @@ public class LevelStats implements ILevelStats {
     private int diamondCount;
     private int hp;
     private int levelNumber;
-    private LocalTime startTime;
+    private float timePassed;
     private boolean gameOver;
     private boolean isGameComplete;
     private boolean isGameWon;
 
     public LevelStats() {
-        this(0,3,1);
+        this(0,3,0);
     }
 
     public LevelStats(int diamondCount, int hp, int levelNumber) {
@@ -22,7 +22,7 @@ public class LevelStats implements ILevelStats {
         this.diamondCount = diamondCount;
         this.hp = hp;
         this.levelNumber = levelNumber;
-        this.startTime = LocalTime.now();
+        this.timePassed = 0;
         gameOver = false;
     }
 
@@ -43,7 +43,9 @@ public class LevelStats implements ILevelStats {
     }
 
     @Override
-    public Duration getTimeElapsed() {return Duration.between(startTime, LocalTime.now());}
+    public float getTimeElapsed() {return timePassed; }
+    @Override
+    public void update(float delta) {timePassed += delta;}
 
     @Override
     public int getLevelNumber() {
@@ -72,7 +74,7 @@ public class LevelStats implements ILevelStats {
     public void setIsGameWon(boolean gameWon) {this.isGameWon = gameWon;}
 
     public void resetLevelSTats() {
-        this.startTime = LocalTime.now();
+        this.timePassed = 0;
         setHP(3); //TODO: make it not always 3
         setScore(0);
         setDiamondCount(0);

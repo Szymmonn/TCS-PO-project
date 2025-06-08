@@ -5,6 +5,7 @@ import io.github.StoneDigger.model.Interfaces.IDestructable;
 import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Interfaces.IWalkableTile;
+import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
@@ -12,14 +13,14 @@ import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
-public class RockTile extends ATile implements ISelfUpdate, IWalkableTile, IDestructable {
-    private float rockDropTimer = 0;
-    private int moved = 0;
-    private UpdateManager updateManager;
-    private PlayerManager playerManager;
-    private LevelStats levelStats;
+public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
+    protected float rockDropTimer = 0;
+    protected int moved = 0;
+    protected UpdateManager updateManager;
+    protected PlayerManager playerManager;
+    protected ILevelStats levelStats;
 
-    public RockTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, LevelStats levelStats) {
+    public RockTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats) {
         this.boardManager = boardManager;
         this.position = start;
         this.updateManager = updateManager;
@@ -75,7 +76,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile, IDest
         }
     }
 
-    private void processFallingRocks() {
+    protected void processFallingRocks() {
         int x = position.x;
         int y = position.y;
 
@@ -92,14 +93,12 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile, IDest
             int side = tryRollSideways(x, y);
             if(side!=0) {
                 ((RockTile) boardManager.getTile(new GridPoint2(x + side, y))).setMoved(moved+1);
-                moved = 0;
-            } else {
-                moved = 0;
             }
+            moved = 0;
         }
     }
 
-    private boolean playerStops(int x,int y) {
+    protected boolean playerStops(int x, int y) {
         GridPoint2 pos = playerManager.getPlayer().getPosition();
 
         if(pos.x == x && pos.y + 1 == y && moved < 1) return true;
@@ -123,7 +122,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile, IDest
         return false;
     }
 
-    private boolean tryFallDown(int x, int y) {
+    protected boolean tryFallDown(int x, int y) {
         GridPoint2 from = new GridPoint2(x, y);
         GridPoint2 to = new GridPoint2(x, y - 1);
 
@@ -148,7 +147,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile, IDest
             boardManager.getTile(new GridPoint2(x-1,y-1)) instanceof EmptyTile;
     }
 
-    private int tryRollSideways(int x, int y) {
+    protected int tryRollSideways(int x, int y) {
         GridPoint2 pos = playerManager.getPlayer().getPosition();
 
         if (!(boardManager.getTile(new GridPoint2(x,y-1)) instanceof EmptyTile)) {

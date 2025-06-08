@@ -1,7 +1,7 @@
 package io.github.StoneDigger.viewmodel.viewmodels;
 
 
-import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
+import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.GameLogic.GameLogic;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
@@ -14,12 +14,9 @@ import java.util.List;
 public class GameViewModel {
     private final GameLogic gameLogic;
     private boolean newGame = false;
-    private boolean isGameWon = false;
-    ELevelType levelType;
-
-    public GameViewModel(ELevelType levelType) {
-        gameLogic = new GameLogic();
-        startTheGame(levelType);
+    public GameViewModel(ELevelType levelType, final WhatChanged whatChanged) {
+        gameLogic = new GameLogic(whatChanged, levelType);
+        startTheGame();
     }
 
     public IBoard getBoard() {
@@ -34,13 +31,8 @@ public class GameViewModel {
 
     public ILevelStats getLevelStats() { return gameLogic.getLevelStats(); }
 
-//    public List<Opponent> getOpponentList() {
-//        return opponentList;
-//    }
-
-    public void startTheGame(ELevelType levelType) {
-        isGameWon = false;
-        gameLogic.startTheGame(levelType);
+    public void startTheGame() {
+        gameLogic.startTheGame();
     }
 
     public void update(float delta) {
@@ -50,9 +42,6 @@ public class GameViewModel {
             newGame = true;
         }
 
-        if(gameLogic.getIsNewGame()) {
-            isGameWon = true;
-        }
     }
 
     public void handleInput(EDirections direction) {
@@ -63,6 +52,12 @@ public class GameViewModel {
         boolean newGameCopy = newGame;
         newGame = false;
         return newGameCopy;
+    }
+    public boolean isGameWon() {
+        return gameLogic.isGameWon();
+    }
+    public boolean isGameLost() {
+        return gameLogic.isGameLost();
     }
 
 }

@@ -19,13 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
+import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.configs.MenuScreenProperties;
 import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
-import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
-import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
+import static io.github.StoneDigger.view.Assets.*;
 
 public class MenuScreen extends ScreenAdapter {
     private final GameStart gameStart;
@@ -46,11 +45,21 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        menuMusic.play();
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(musicVolume);
+
         viewport = new ScalingViewport(Scaling.fit, properties.worldWidth, properties.worldHeight);
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
         createStage();
+    }
+
+    @Override
+    public void hide() {
+        //menuMusic.pause();
+        menuMusic.stop();
     }
 
     private void createStage() {

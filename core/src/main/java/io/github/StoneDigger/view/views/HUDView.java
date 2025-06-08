@@ -1,8 +1,6 @@
 package io.github.StoneDigger.view.views;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -16,13 +14,11 @@ import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 import io.github.StoneDigger.view.configs.HudViewProperties;
 import io.github.StoneDigger.view.configs.HudViewPropertiesLoader;
-import io.github.StoneDigger.view.screen.SettingsScreen;
 import io.github.StoneDigger.view.views.utility.BackgroundFactory;
 
 import java.time.Duration;
 
 import static io.github.StoneDigger.view.Assets.*;
-import static io.github.StoneDigger.view.screen.GameScreen.*;
 
 public class HUDView extends Group {
     private final GameStart gameStart;
@@ -35,8 +31,6 @@ public class HUDView extends Group {
     private Label timeElapsedLabel;
     private Label levelNumberLabel;
 
-    private ImageButton settingsButton;
-
     private Image diamondImage;
     private Image[] heartImages;
 
@@ -45,6 +39,7 @@ public class HUDView extends Group {
 
     private int prevHp;
     private int prevDiamonds;
+    private int prevDiaxCount;
     private int prevLevelNumber;
 
     private final float VISIBLE_WORLD_HEIGHT;
@@ -58,6 +53,7 @@ public class HUDView extends Group {
         this.prevHp = levelStats.getHP();
         this.prevDiamonds = levelStats.getDiamondCount();
         this.prevLevelNumber = levelStats.getLevelNumber();
+        this.prevDiaxCount = -1;
 
         config = HudViewPropertiesLoader.getInstance();
         GameScreenProperties gameConfig = GameScreenPropertiesLoader.getInstance();
@@ -68,7 +64,6 @@ public class HUDView extends Group {
         background = createBackground();
         createLabels();
         createImages();
-        createSettingsButton();
         diamondTable = createDiamondTable();
         hpTable = createHpTable();
 
@@ -89,7 +84,6 @@ public class HUDView extends Group {
         addActor(hpTable);
         addActor(timeElapsedLabel);
         addActor(levelNumberLabel);
-        addActor(settingsButton);
     }
 
     private Image createBackground() {
@@ -111,30 +105,6 @@ public class HUDView extends Group {
 
         configureTimeElapsedLabel();
         configureLevelLabel();
-    }
-
-    private void createSettingsButton() {
-        settingsButton = new ImageButton(new TextureRegionDrawable(SETTINGS_TEXTURE));
-
-
-        /*
-        settings button parameters
-         */
-        float button_position_x = VISIBLE_WORLD_WIDTH + config.settingsButtonPositionXOffset;
-        float button_position_y = VISIBLE_WORLD_HEIGHT;
-        float button_width = config.settingsButtonWidth;
-        float button_height = config.settingsButtonHeight;
-
-        settingsButton.setPosition(button_position_x, button_position_y);
-        settingsButton.setSize(button_width, button_height);
-
-        settingsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                gameStart.setScreen(new SettingsScreen(gameStart));
-            }
-        });
     }
 
     private BitmapFont createFont(int size, Color borderColor) {
@@ -196,6 +166,12 @@ public class HUDView extends Group {
             prevDiamonds = current;
             diamondCountLabel.setText(formatNumber(current));
         }
+        current = levelStats.getDiamondCount();
+        if(prevDiaxCount != current) {
+            prevDiaxCount = current;
+            diamondCollectedLabel.setText(formatNumber(current));
+        }
+
     }
 
     private void updateHp() {
@@ -209,9 +185,9 @@ public class HUDView extends Group {
     }
 
     private void updateTime() {
-        Duration duration = levelStats.getTimeElapsed();
-        long minutes = duration.getSeconds() / 60;
-        long seconds = duration.getSeconds() % 60;
+        long duration = (long) levelStats.getTimeElapsed();
+        long minutes = duration / 60;
+        long seconds = duration % 60;
 
         timeElapsedLabel.setText(formatNumber(minutes) + ":" + formatNumber(seconds));
     }
