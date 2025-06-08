@@ -37,7 +37,7 @@ public class Levels {
             "rrrac                               cr".toCharArray(),
             "araac           ccccccccc           cr".toCharArray(),
             "araac           cdrarrarc           cr".toCharArray(),
-            "rrrrc           carraarrc           cr".toCharArray(),
+            "rrrrc     h     carraarrc           cr".toCharArray(),
             "raaac           carradarc           ca".toCharArray(),
             "arrac           caaaararc           ca".toCharArray(),
             "arrac           crdrraarc           cr".toCharArray(),

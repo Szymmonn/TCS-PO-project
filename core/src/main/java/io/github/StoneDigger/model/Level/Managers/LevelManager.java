@@ -7,6 +7,7 @@ import io.github.StoneDigger.model.Boards.BoardGenerators.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Entities.IOpponent;
+import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
@@ -57,6 +58,7 @@ public class LevelManager {
                     case 'e': tile = new EndTile(pos, boardManager, levelStats, this); break;
                     case 'x': tile = new DeactivatedEndTile(pos, boardManager, levelStats, this); break;  // should use only this end tile
                     case 'b': tile = new BorderTile(pos, boardManager); break;
+                    case 'h': tile = new ShelterTile(pos,boardManager); break;
                     default:
                         throw new IllegalArgumentException(
                             "Nieznany znak: '" + ch + "' na pozycji (" + y + "," + x + ")"
@@ -113,7 +115,8 @@ public class LevelManager {
 
         System.out.println("levelmanager po przjesciach");
 
-        updateManager.addToUpdates(playerManager.getPlayer());
+        updateManager.addToUpdates((ISelfUpdate) playerManager.getPlayer());
+        updateManager.addToUpdates(opponentManager.getOpponent());
 
         startMechanics(levelStats.getLevelNumber(), boardManager.getBoard());
     }

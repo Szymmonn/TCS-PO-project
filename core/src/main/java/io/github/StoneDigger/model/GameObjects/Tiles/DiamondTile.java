@@ -7,8 +7,6 @@ import io.github.StoneDigger.model.Interfaces.IWalkableTile;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
-import io.github.StoneDigger.model.TileChangers.DiamondTileChanger;
-import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
     protected float dropDiamondTimer = 0;
