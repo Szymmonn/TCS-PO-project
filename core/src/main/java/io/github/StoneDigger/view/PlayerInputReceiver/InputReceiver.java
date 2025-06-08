@@ -2,6 +2,7 @@ package io.github.StoneDigger.view.PlayerInputReceiver;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import io.github.StoneDigger.view.configs.GlobalControls;
 import io.github.StoneDigger.viewmodel.viewmodels.GameViewModel;
 
 import java.util.HashSet;
@@ -21,7 +22,8 @@ public class InputReceiver extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN) {
+        if(keycode == GlobalControls.moveUpKey || keycode == GlobalControls.moveDownKey ||
+            keycode == GlobalControls.moveLeftKey || keycode == GlobalControls.moveRightKey) {
             heldKeys.add(keycode); // mark key as held
             return true;
         }
@@ -30,7 +32,8 @@ public class InputReceiver extends InputAdapter {
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT || keycode == Input.Keys.UP || keycode == Input.Keys.DOWN) {
+        if(keycode == GlobalControls.moveUpKey || keycode == GlobalControls.moveDownKey ||
+           keycode == GlobalControls.moveLeftKey || keycode == GlobalControls.moveRightKey){
             heldKeys.remove(keycode); // stop tracking when key is released
             return true;
         }
@@ -44,23 +47,18 @@ public class InputReceiver extends InputAdapter {
         int keycode = heldKeys.iterator().next();
 
         if (timeSinceLast >= inputRepeatDelay) {
-            switch (keycode) {
-                case Input.Keys.UP:
-                    gameViewModel.handleInput(UP);
-                    timeSinceLast = 0f; // reset timer for next repeat
-                    break;
-                case Input.Keys.DOWN:
-                    gameViewModel.handleInput(DOWN);
-                    timeSinceLast = 0f; // reset timer for next repeat
-                    break;
-                case Input.Keys.LEFT:
-                    gameViewModel.handleInput(LEFT);
-                    timeSinceLast = 0f; // reset timer for next repeat
-                    break;
-                case Input.Keys.RIGHT:
-                    gameViewModel.handleInput(RIGHT);
-                    timeSinceLast = 0f; // reset timer for next repeat
-                    break;
+            if (keycode == GlobalControls.moveUpKey) {
+                gameViewModel.handleInput(UP);
+                timeSinceLast = 0f; // reset timer for next repeat
+            } else if (keycode == GlobalControls.moveDownKey) {
+                gameViewModel.handleInput(DOWN);
+                timeSinceLast = 0f; // reset timer for next repeat
+            } else if(keycode == GlobalControls.moveLeftKey) {
+                gameViewModel.handleInput(LEFT);
+                timeSinceLast = 0f; // reset timer for next repeat
+            } else if(keycode == GlobalControls.moveRightKey) {
+                gameViewModel.handleInput(RIGHT);
+                timeSinceLast = 0f; // reset timer for next repeat
             }
         }
     }

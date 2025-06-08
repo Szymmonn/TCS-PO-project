@@ -1,6 +1,9 @@
 package io.github.StoneDigger.view.views;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +21,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.configs.*;
 import io.github.StoneDigger.view.screen.MenuScreen;
+import io.github.StoneDigger.view.configs.GlobalControls;
+
+import java.util.*;
 
 import static io.github.StoneDigger.view.Assets.*;
 
@@ -26,6 +32,8 @@ public class SettingsView extends Group {
     private final Viewport viewport;
     private final float VISIBLE_WORLD_WIDTH;
     private final float VISIBLE_WORLD_HEIGHT;
+
+    private final SettingsViewProperties properties = SettingsViewPropertiesLoader.getInstance();
 
     private boolean isEnabled = false;
     private boolean isKeyBindsOn = false;
@@ -42,6 +50,10 @@ public class SettingsView extends Group {
     private TextButton backToGameButton, bindsButton;
     private TextButton backKeyBindsButton, applyKeyBindsButton;
 
+    private final Map<TextButton, String> buttonKeyMap = new HashMap<>();
+    private final Map<String, Integer> editedKeyCodes = new HashMap<>();
+    private TextButton activeButton = null;
+
     public SettingsView(GameStart gameStart, Viewport viewport) {
         this.gameStart = gameStart;
         this.viewport = viewport;
@@ -56,6 +68,78 @@ public class SettingsView extends Group {
         addActor(buttonTable);
     }
 
+    private void resetButtonStyle(TextButton button) {
+        button.getLabel().setColor(Color.valueOf(properties.createTextButtonFontColor));
+    }
+
+    private void prepareKeyBindButton(TextButton button, String propertyKey, int keyCode) {
+        button.setText(Input.Keys.toString(keyCode));
+        buttonKeyMap.put(button, propertyKey);
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (activeButton != null) resetButtonStyle(activeButton);
+                activeButton = button;
+                button.setText("");
+                button.getLabel().setColor(Color.RED);
+            }
+        });
+    }
+
+    private int getKeyFromMap(String propertyKey) {
+        switch (propertyKey) {
+            case "moveUpKey":
+                return GlobalControls.moveUpKey;
+            case "moveDownKey":
+                return GlobalControls.moveDownKey;
+            case "moveLeftKey":
+                return GlobalControls.moveLeftKey;
+            case "moveRightKey":
+                return GlobalControls.moveRightKey;
+            default:
+                return Input.Keys.UNKNOWN;
+        }
+    }
+
+    private void applyEditedKeys() {
+        if (new HashSet<>(editedKeyCodes.values()).size() == 4) {
+            GlobalControls.moveUpKey = editedKeyCodes.get("moveUpKey");
+            GlobalControls.moveDownKey = editedKeyCodes.get("moveDownKey");
+            GlobalControls.moveLeftKey = editedKeyCodes.get("moveLeftKey");
+            GlobalControls.moveRightKey = editedKeyCodes.get("moveRightKey");
+            editedKeyCodes.clear();
+        }
+        updateApplyButtonState();
+    }
+
+    private void cancelEditedKeys() {
+        for (Map.Entry<TextButton, String> entry : buttonKeyMap.entrySet()) {
+            int original = getKeyFromMap(entry.getValue());
+            entry.getKey().setText(Input.Keys.toString(original));
+            resetButtonStyle(entry.getKey());
+        }
+        editedKeyCodes.clear();
+        activeButton = null;
+        updateApplyButtonState();
+    }
+
+    private void updateApplyButtonState() {
+        Collection<Integer> keycodes = editedKeyCodes.isEmpty()
+            ? Arrays.asList(GlobalControls.moveUpKey, GlobalControls.moveDownKey, GlobalControls.moveLeftKey, GlobalControls.moveRightKey)
+            : Arrays.asList(
+            editedKeyCodes.getOrDefault("moveUpKey", GlobalControls.moveUpKey),
+            editedKeyCodes.getOrDefault("moveDownKey", GlobalControls.moveDownKey),
+            editedKeyCodes.getOrDefault("moveLeftKey", GlobalControls.moveLeftKey),
+            editedKeyCodes.getOrDefault("moveRightKey", GlobalControls.moveRightKey)
+        );
+
+        boolean hasDuplicates = new HashSet<>(keycodes).size() < 4;
+
+        applyKeyBindsButton.setDisabled(hasDuplicates);
+        applyKeyBindsButton.getLabel().setColor(hasDuplicates ? Color.GRAY : Color.valueOf(properties.createTextButtonFontColor));
+    }
+
+
     private void initUI() {
         createSettingsButton();
         createSliders();
@@ -68,54 +152,52 @@ public class SettingsView extends Group {
 
     private void createSettingsButton() {
         settingsButton = new ImageButton(new TextureRegionDrawable(SETTINGS_TEXTURE));
-        settingsButton.setPosition(VISIBLE_WORLD_WIDTH - 100, VISIBLE_WORLD_HEIGHT);
-        settingsButton.setSize(100, 100);
+        settingsButton.setPosition(VISIBLE_WORLD_WIDTH + properties.settingsButtonOffsetX, VISIBLE_WORLD_HEIGHT);
+        settingsButton.setSize(properties.settingsButtonSize, properties.settingsButtonSize);
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 isEnabled = !isEnabled;
                 mainTable.setTouchable(isEnabled ? Touchable.enabled : Touchable.disabled);
                 buttonTable.setTouchable(isEnabled && isKeyBindsOn ? Touchable.enabled : Touchable.disabled);
+                if(buttonTable.isTouchable()) getStage().setKeyboardFocus(buttonTable);
             }
         });
     }
 
     private void createSliders() {
-        sliderMusic = createCustomSlider(700, 40);
+        sliderMusic = createCustomSlider();
         sliderMusic.setValue(musicVolume / musicVolumeMultiplier * sliderMusic.getMaxValue());
 
-        sliderSound = createCustomSlider(700, 40);
-        sliderSound.setValue(4);
+        sliderSound = createCustomSlider();
+        sliderSound.setValue(properties.sliderMaxValue);
     }
 
-    private Slider createCustomSlider(int width, int height) {
+    private Slider createCustomSlider() {
         Skin skin = new Skin();
         Slider.SliderStyle style = new Slider.SliderStyle();
-        style.background = createTrackDrawable(width, height, Color.GOLD);
-        style.knob = createRectKnobDrawable(24, 70, Color.ORANGE, Color.RED);
-        skin.add("custom-slider", style);
-        return new Slider(0, 4, 1, false, skin, "custom-slider");
+        style.background = createTrackDrawable((int) properties.sliderWidth, (int) properties.sliderHeight, Color.valueOf(properties.sliderColor));
+        style.knob = createRectKnobDrawable((int) properties.knobWidth, (int) properties.knobHeight, Color.valueOf(properties.knobColor), Color.valueOf(properties.knobBorderColor));
+        skin.add(properties.sliderStyleName, style);
+        return new Slider(properties.sliderMinValue, properties.sliderMaxValue, properties.sliderStepValue, false, skin, properties.sliderStyleName);
     }
 
     private void createLabels() {
-        Label.LabelStyle labelStyle = new Label.LabelStyle(createFont(40, Color.BLACK), Color.WHITE);
-        musicLabel = new Label("music", labelStyle);
-        soundLabel = new Label("sound", labelStyle);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(createFont((int) properties.musicSoundLabelFontSize, Color.valueOf(properties.musicSoundLabelFontBorderColor)), Color.valueOf(properties.musicSoundLabelFontColor));
+        musicLabel = new Label(properties.musicText, labelStyle);
+        soundLabel = new Label(properties.soundText, labelStyle);
 
-        titleLabel = new Label("SETTINGS", new Label.LabelStyle(createFont(60, Color.BLACK), Color.WHITE));
+        titleLabel = new Label(properties.settingsTitleText, new Label.LabelStyle(createFont((int) properties.settingsTitleFontSize, Color.valueOf(properties.settingsTitleFontBorderColor)), Color.valueOf(properties.settingsTitleFontColor)));
 
-        Label.LabelStyle keyStyle = new Label.LabelStyle(createFont(24, Color.BLACK), Color.BLACK);
-        keyStyle.background = createBg(Color.RED, Color.GREEN);
+        Label.LabelStyle keyStyle = new Label.LabelStyle(createFont((int) properties.keyStyleFontSize, Color.valueOf(properties.keyStyleFontBorderColor)), Color.valueOf(properties.keyStyleFontBorderColor));
+        keyStyle.background = createBg(Color.valueOf(properties.keyStyleBgColor), Color.valueOf(properties.keyStyleBorderColor));
 
-        // Center-align text
-        keyStyle.font = createFont(24, Color.BLACK);
+        keybindsTitle = new Label(properties.keybindsTitleText, new Label.LabelStyle(createFont((int) properties.keybindsTitleFontSize, Color.valueOf(properties.keybindsTitleFontBorderColor)), Color.valueOf(properties.keybindsTitleFontColor)));
 
-        keybindsTitle = new Label("KEY BINDS", new Label.LabelStyle(createFont(48, Color.BLACK), Color.WHITE));
-
-        moveUpLabel = new Label("Move Up Key", keyStyle);
-        moveDownLabel = new Label("Move Down Key", keyStyle);
-        moveLeftLabel = new Label("Move Left Key", keyStyle);
-        moveRightLabel = new Label("Move Right Key", keyStyle);
+        moveUpLabel = new Label(properties.moveUpText, keyStyle);
+        moveDownLabel = new Label(properties.moveDownText, keyStyle);
+        moveLeftLabel = new Label(properties.moveLeftText, keyStyle);
+        moveRightLabel = new Label(properties.moveRightText, keyStyle);
 
         moveUpLabel.setAlignment(Align.center);
         moveDownLabel.setAlignment(Align.center);
@@ -124,23 +206,27 @@ public class SettingsView extends Group {
     }
 
     private void createButtons() {
-        keyUpButton = createTextButton("keyUp");
-        keyDownButton = createTextButton("keyDown");
-        keyLeftButton = createTextButton("keyLeft");
-        keyRightButton = createTextButton("keyRight");
-        backToGameButton = createTextButton("Back to Menu");
-        bindsButton = createTextButton("Key Binds");
+        keyUpButton = createTextButton(properties.keyUpText);
+        keyDownButton = createTextButton(properties.keyDownText);
+        keyLeftButton = createTextButton(properties.keyLeftText);
+        keyRightButton = createTextButton(properties.keyRightText);
+        backToGameButton = createTextButton(properties.backToGameText);
+        bindsButton = createTextButton(properties.bindsButtonText);
 
-        // === ADD BACK & APPLY BUTTONS ===
-        applyKeyBindsButton = createTextButton("Apply");
-        backKeyBindsButton = createTextButton("Back");
+        applyKeyBindsButton = createTextButton(properties.applyText);
+        backKeyBindsButton = createTextButton(properties.backText);
+
+         prepareKeyBindButton(keyUpButton, "moveUpKey", GlobalControls.moveUpKey);
+         prepareKeyBindButton(keyDownButton, "moveDownKey", GlobalControls.moveDownKey);
+         prepareKeyBindButton(keyLeftButton, "moveLeftKey", GlobalControls.moveLeftKey);
+         prepareKeyBindButton(keyRightButton, "moveRightKey", GlobalControls.moveRightKey);
     }
 
     private TextButton createTextButton(String text) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = createFont(30, Color.BLUE);
-        style.up = createBg(Color.LIGHT_GRAY, Color.BLUE);
-        style.down = createBg(Color.DARK_GRAY, Color.BLUE);
+        style.font = createFont((int) properties.createTextButtonFontSize, Color.valueOf(properties.createTextButtonFontColor));
+        style.up = createBg(Color.valueOf(properties.createTextButtonStyleUpMainColor), Color.valueOf(properties.createTextButtonStyleUpBorderColor));
+        style.down = createBg(Color.valueOf(properties.createTextButtonStyleDownMainColor), Color.valueOf(properties.createTextButtonStyleDownBorderColor));
         TextButton button = new TextButton(text, style);
         button.pack();
         return button;
@@ -148,43 +234,42 @@ public class SettingsView extends Group {
 
     private void createTables() {
         mainTable = new Table();
-        mainTable.setSize(1000, 900);
-        mainTable.setPosition(550, 150);
+        mainTable.setSize(properties.mainTableWidth, properties.mainTableHeight);
+        mainTable.setPosition(properties.mainTablePosX, properties.mainTablePosY);
         mainTable.setTouchable(Touchable.disabled);
         mainTable.setDebug(false);
 
-        mainTable.add(titleLabel).height(200).colspan(2).padBottom(40).center();
+        mainTable.add(titleLabel).height(200).colspan(2).padBottom(properties.labelPadBottom).center();
         mainTable.row();
-        mainTable.add(musicLabel).width(200).padRight(20).left();
-        mainTable.add(sliderMusic).expandX().fillX().height(60).padBottom(20);
+        mainTable.add(musicLabel).width(properties.labelWidth).padRight(properties.labelPadRight).left();
+        mainTable.add(sliderMusic).expandX().fillX().height(properties.sliderHeightRow).padBottom(properties.labelPadBottom);
         mainTable.row();
-        mainTable.add(soundLabel).width(200).padRight(20).left();
-        mainTable.add(sliderSound).expandX().fillX().height(60);
+        mainTable.add(soundLabel).width(properties.labelWidth).padRight(properties.labelPadRight).left();
+        mainTable.add(sliderSound).expandX().fillX().height(properties.sliderHeightRow);
         mainTable.row();
-        mainTable.add(bindsButton).expandX().fillX().padTop(100).width(400).colspan(2);
+        mainTable.add(bindsButton).expandX().fillX().padTop(properties.bindsButtonPadTop).width(properties.bindsButtonWidth).colspan(2);
         mainTable.row();
-        mainTable.add(backToGameButton).expandX().fillX().center().padTop(50).width(600).colspan(2);
+        mainTable.add(backToGameButton).expandX().fillX().center().padTop(properties.backToGameButtonPadTop).width(properties.backToGameButtonWidth).colspan(2);
 
         buttonTable = new Table();
-        buttonTable.setSize(1000, 900);
-        buttonTable.setPosition(550, 150);
+        buttonTable.setSize(properties.mainTableWidth, properties.mainTableHeight);
+        buttonTable.setPosition(properties.mainTablePosX, properties.mainTablePosY);
 
-        // Title for key binds screen
-        buttonTable.add(keybindsTitle).colspan(2).padBottom(40);
+        buttonTable.add(keybindsTitle).colspan(2).padBottom(properties.labelPadBottom);
         buttonTable.row();
 
-        buttonTable.add(createKeyGroup(moveUpLabel, keyUpButton)).expandX().fill().pad(20);
-        buttonTable.add(createKeyGroup(moveDownLabel, keyDownButton)).expandX().fill().pad(20);
+        buttonTable.add(createKeyGroup(moveUpLabel, keyUpButton)).expandX().fill().pad(properties.keyGroupPad);
+        buttonTable.add(createKeyGroup(moveDownLabel, keyDownButton)).expandX().fill().pad(properties.keyGroupPad);
         buttonTable.row();
-        buttonTable.add(createKeyGroup(moveLeftLabel, keyLeftButton)).expandX().fill().pad(20);
-        buttonTable.add(createKeyGroup(moveRightLabel, keyRightButton)).expandX().fill().pad(20);
+        buttonTable.add(createKeyGroup(moveLeftLabel, keyLeftButton)).expandX().fill().pad(properties.keyGroupPad);
+        buttonTable.add(createKeyGroup(moveRightLabel, keyRightButton)).expandX().fill().pad(properties.keyGroupPad);
         buttonTable.row();
 
         Table buttonRow = new Table();
-        buttonRow.add(applyKeyBindsButton).width(300).pad(20);
-        buttonRow.add(backKeyBindsButton).width(300).pad(20);
+        buttonRow.add(applyKeyBindsButton).width(properties.keybindsButtonWidth).pad(properties.keyGroupPad);
+        buttonRow.add(backKeyBindsButton).width(properties.keybindsButtonWidth).pad(properties.keyGroupPad);
 
-        buttonTable.add(buttonRow).colspan(2).padTop(40);
+        buttonTable.add(buttonRow).colspan(2).padTop(properties.keybindsButtonRowPadTop).padRight(23);
     }
 
     private Table createKeyGroup(Label label, TextButton button) {
@@ -225,12 +310,14 @@ public class SettingsView extends Group {
                 isKeyBindsOn = true;
                 mainTable.setTouchable(Touchable.disabled);
                 buttonTable.setTouchable(Touchable.enabled);
+                if(buttonTable.isTouchable()) getStage().setKeyboardFocus(buttonTable);
             }
         });
 
         backKeyBindsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                cancelEditedKeys();
                 isKeyBindsOn = false;
                 mainTable.setTouchable(Touchable.enabled);
                 buttonTable.setTouchable(Touchable.disabled);
@@ -240,10 +327,12 @@ public class SettingsView extends Group {
         applyKeyBindsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Implement saving logic for key binds
-                isKeyBindsOn = false;
-                mainTable.setTouchable(Touchable.enabled);
-                buttonTable.setTouchable(Touchable.disabled);
+                if (!applyKeyBindsButton.isDisabled()) {
+                    applyEditedKeys();
+                    isKeyBindsOn = false;
+                    mainTable.setTouchable(Touchable.enabled);
+                    buttonTable.setTouchable(Touchable.disabled);
+                }
             }
         });
     }
@@ -256,6 +345,35 @@ public class SettingsView extends Group {
                     isEnabled = !isEnabled;
                     mainTable.setTouchable(isEnabled ? Touchable.enabled : Touchable.disabled);
                     buttonTable.setTouchable(isEnabled && isKeyBindsOn ? Touchable.enabled : Touchable.disabled);
+                    if(buttonTable.isTouchable()) getStage().setKeyboardFocus(buttonTable);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        buttonTable.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (activeButton != null) {
+                    activeButton.setText(Input.Keys.toString(keycode));
+                    editedKeyCodes.put(buttonKeyMap.get(activeButton), keycode);
+                    resetButtonStyle(activeButton);
+                    activeButton = null;
+                    updateApplyButtonState();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        buttonTable.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (activeButton != null) {
+                    resetButtonStyle(activeButton);
+                    activeButton.setText(Input.Keys.toString(getKeyFromMap(buttonKeyMap.get(activeButton))));
+                    activeButton = null;
                     return true;
                 }
                 return false;

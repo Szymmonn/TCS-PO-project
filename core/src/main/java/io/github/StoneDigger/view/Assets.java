@@ -24,6 +24,7 @@ public class Assets {
     public static String menuScreenPropertiesPath;
     public static String gameScreenPropertiesPath;
     public static String hudViewPropertiesPath;
+    public static String settingsViewPropertiesPath;
 
     public static float musicVolumeMultiplier = 0.4f;
     public static float musicVolume = musicVolumeMultiplier; // not the best place but fine for a simple game
@@ -61,6 +62,7 @@ public class Assets {
         menuScreenPropertiesPath = "config/MenuScreenProperties.properties";
         gameScreenPropertiesPath = "config/GameScreenProperties.properties";
         hudViewPropertiesPath = "config/HudViewProperties.properties";
+        settingsViewPropertiesPath = "config/SettingsViewProperties.properties";
 
         menuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Eric Skiff - Underclocked (underunderclocked mix).mp3"));
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("music/Kevin MacLeod - Itty Bitty 8 Bit.mp3"));
