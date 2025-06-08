@@ -13,14 +13,12 @@ import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 responsible for game cycle
  */
 public class GameLogic {
-    private final WhatChanged whatChanged;
     private boolean newGame = false;
     private boolean isGameWon = false;
     LevelManager levelManager;
     ELevelType levelType;
 
     public GameLogic(final WhatChanged whatChanged) {
-        this.whatChanged = whatChanged;
         levelManager = new LevelManager(whatChanged);
     }
 
