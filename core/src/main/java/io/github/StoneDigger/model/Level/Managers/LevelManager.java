@@ -63,8 +63,8 @@ public class LevelManager {
                 ATile tile;
                 switch (ch) {
                     case 'd': tile = new DirtTile(pos, boardManager); break;
-                    case 'r': tile = new RockTileChanger(pos, boardManager, updateManager, playerManager, levelStats, whatChanged); break;
-                    case 'a': tile = new DiamondTileChanger(pos, boardManager, updateManager, whatChanged); break;
+                    case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager, levelStats,whatChanged); break;
+                    case 'a': tile = new DiamondTile(pos, boardManager, updateManager,whatChanged); break;
                     case ' ': tile = new EmptyTile(pos, boardManager); break;
                     case 'c': tile = new BrickTile(pos, boardManager); break;
                     case 's': tile = new StartTile(pos, boardManager); break;
@@ -91,9 +91,6 @@ public class LevelManager {
         levelStats.incrementLevelNumber();
         GridPoint2 startPosition = new GridPoint2(1, 1);
 
-        /*
-        here
-         */
         char[][] raw;
         if(levelType == ELevelType.RANDOM) {
             raw = BoardGenerator.generateBoard(ELevelType.RANDOM, levelStats.getLevelNumber());
@@ -174,7 +171,7 @@ public class LevelManager {
 
         /// Adding to update Manager
 
-        updateManager.addToUpdates((ISelfUpdate) playerManager.getPlayer());
+        updateManager.addPlayerManager(playerManager);
 
         for (IOpponent opp : opponentManager.getOpponents())
             updateManager.addToUpdates(opp);
@@ -206,7 +203,7 @@ public class LevelManager {
         if(levelStats.getHP() == 0) {
             isGameLost = true;
         }
-        // not very optimal placement here
+
         if(levelStats.getLevelNumber() == 6) {
             isGameWon = true;
         }
@@ -229,7 +226,6 @@ public class LevelManager {
     public void movePlayer(EDirections direction) {
         playerManager.movePlayer(direction);
     }
-
     public boolean isGameLost() {
         return isGameLost;
     }

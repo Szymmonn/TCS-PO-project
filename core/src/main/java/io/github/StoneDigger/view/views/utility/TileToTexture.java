@@ -16,7 +16,8 @@ public class TileToTexture {
         if(tile instanceof DiamondTile)     { return DIAMOND_TEXTURE; }
         if(tile instanceof BrickTile)       { return BRICK_TEXTURE; }
         if(tile instanceof BorderTile)      { return BORDER_TEXTURE; }
-        if(tile instanceof DeactivatedEndTile)      { return BRICK_TEXTURE; }
+        if(tile instanceof DeactivatedEndTile)      { return END_DESK_TEXTURE; }
+        if(tile instanceof  ShelterTile) { return SHELTER_TEXTURE;}
 
         return null;
     }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OpponentManager {
-    private List<IOpponent> opponent;
+    private final List<IOpponent> opponent;
 
     OpponentManager(BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats, int counterO, int counterP) {
         opponent = new ArrayList<>();

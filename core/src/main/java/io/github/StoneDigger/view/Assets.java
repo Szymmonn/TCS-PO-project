@@ -23,6 +23,7 @@ public class Assets {
     public static Texture SHELTER_TEXTURE;
     public static Texture SAD_MINER_TEXTURE;
     public static Texture HAPPY_MINER_TEXTURE;
+    public static Texture END_DESK_TEXTURE;
 
     public static Texture OPPONENTAI_TEXTURE;
     public static FreeTypeFontGenerator REGULAR_FONT_GENERATOR;
@@ -55,7 +56,8 @@ public class Assets {
         DIRT_TEXTURE = new Texture("images/dirt-removebg-preview.png");
         DIAMOND_TEXTURE = new Texture("images/diamond-removebg-preview.png");
         BRICK_TEXTURE = new Texture("images/wall.png");
-        PLAYER_TEXTURE = new Texture("images/player-removebg-preview.png");
+        //PLAYER_TEXTURE = new Texture("images/player-removebg-preview.png");
+        PLAYER_TEXTURE = new Texture("images/Playereasy.png");
         START_TEXTURE = new Texture("images/start-removebg-preview.png");
         END_TEXTURE = new Texture("images/exit-removebg-preview.png");
         HEART_TEXTURE = new Texture("images/pixel_heart.png");
@@ -63,6 +65,7 @@ public class Assets {
         OPPONENT_TEXTURE = new Texture("images/police.png");
         SHELTER_TEXTURE = new Texture("images/shelter.png");
         OPPONENTAI_TEXTURE = new Texture("images/policeAI.png");
+        END_DESK_TEXTURE = new Texture("images/exitdesk.png");
         /*
         TO CHANGE
          */
@@ -109,6 +112,7 @@ public class Assets {
         SHELTER_TEXTURE.dispose();
         OPPONENTAI_TEXTURE.dispose();
         SAD_MINER_TEXTURE.dispose();
+        END_DESK_TEXTURE.dispose();
 
         REGULAR_FONT_GENERATOR.dispose();
 

@@ -7,16 +7,20 @@ import io.github.StoneDigger.model.Interfaces.IWalkableTile;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
     protected float dropDiamondTimer = 0;
     protected int moved = 0;
     protected UpdateManager updateManager;
+    private final WhatChanged whatChanged;
 
-    public DiamondTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager) {
+
+    public DiamondTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, WhatChanged whatChanged) {
         this.boardManager = boardManager;
         this.position = start;
         this.updateManager = updateManager;
+        this.whatChanged = whatChanged;
     }
 
     @Override public boolean isWalkable(EDirections dir) {
@@ -44,7 +48,8 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
             ((DiamondTile) boardManager.getTile(new GridPoint2(x, y - 1))).setMoved(moved+1);
             moved = 0;
 
-        } else if (moved>0){
+        } else if (moved>0) {
+            whatChanged.diamondFell();
             int side = tryRollSideways(x, y);
             if(side!=0) {
                 ((DiamondTile) boardManager.getTile(new GridPoint2(x + side, y))).setMoved(moved+1);
@@ -105,7 +110,7 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
 
     public void moveWithUpdate(GridPoint2 from, GridPoint2 to) {
         DiamondTile oldDiamond = (DiamondTile) boardManager.getTile(from);
-        DiamondTile newDiamond = new DiamondTile(to, boardManager, updateManager);
+        DiamondTile newDiamond = new DiamondTile(to, boardManager, updateManager,whatChanged);
 
         boardManager.setTile(to, newDiamond);
         boardManager.setTile(from, new EmptyTile(from, boardManager));

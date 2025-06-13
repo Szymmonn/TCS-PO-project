@@ -10,7 +10,7 @@ import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 public class DiamondTileChanger extends DiamondTile {
     private final WhatChanged whatChanged;
     public DiamondTileChanger(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, WhatChanged whatChanged) {
-        super(start, boardManager, updateManager);
+        super(start, boardManager, updateManager,whatChanged);
         this.whatChanged = whatChanged;
     }
 

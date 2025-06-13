@@ -17,7 +17,7 @@ public class RockTileChanger extends RockTile {
     private final WhatChanged whatChanged;
 
     public RockTileChanger(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats, WhatChanged whatChanged) {
-        super(start, boardManager, updateManager, playerManager, levelStats);
+        super(start, boardManager, updateManager, playerManager, levelStats,whatChanged);
         this.whatChanged = whatChanged;
     }
 
