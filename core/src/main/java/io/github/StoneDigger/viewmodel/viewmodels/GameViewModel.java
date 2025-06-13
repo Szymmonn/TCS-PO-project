@@ -2,10 +2,10 @@ package io.github.StoneDigger.viewmodel.viewmodels;
 
 
 import io.github.StoneDigger.model.GameLogic.ELevelType;
+import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.GameLogic.GameLogic;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
-import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.Level.LevelStats;
 
@@ -22,7 +22,7 @@ public class GameViewModel {
     public IBoard getBoard() {
         return gameLogic.getBoard();
     }
-    public IPlayer getPlayer() {
+    public Player getPlayer() {
         return gameLogic.getPlayer();
     }
     public List<IOpponent> getOpponents() {
