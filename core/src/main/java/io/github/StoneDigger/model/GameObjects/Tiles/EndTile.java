@@ -12,12 +12,18 @@ import io.github.StoneDigger.model.Directions.*;
 public class EndTile extends ATile implements IWalkableTile {
     LevelStats levelStats;
     LevelManager levelManager;
+    boolean active;
 
     public EndTile(GridPoint2 start, BoardManager boardManager, LevelStats levelStats, LevelManager levelManager) {
         this.boardManager = boardManager;
         this.position = start;
         this.levelStats = levelStats;
         this.levelManager = levelManager;
+        this.active = false;
+    }
+
+    public void activate() {
+        this.active = true;
     }
 
     @Override
@@ -27,8 +33,7 @@ public class EndTile extends ATile implements IWalkableTile {
 
     @Override
     public void onWalkBy(IEntity entity, EDirections dir) {
-        if(entity instanceof Player) {
-            //levelStats.setGameOverTrue();
+        if(entity instanceof Player && active) {
             levelStats.setIsGameComplete(true);
         }
     }

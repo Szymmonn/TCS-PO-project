@@ -28,7 +28,10 @@ public class DeactivatedEndTile extends ATile implements ISelfUpdate {
         int diamondsCollected = levelStats.getScore();
         int allDiamonds = levelStats.getDiamondCount();
         if(diamondsCollected * 2 > allDiamonds) {
-            boardManager.getBoard().setTile(position, new EndTile(position, boardManager, levelStats, levelManager));
+            if( boardManager.getBoard().getTile(position) instanceof EndTile ) {
+                ((EndTile) boardManager.getBoard().getTile(position)).activate();
+            }
+
         }
     }
 }
