@@ -58,15 +58,19 @@ public class Player implements IMovable, ISelfUpdate {
         pos.add(dir.getDx(), dir.getDy());
 
         /// Trigger tile-specific effects
-        if (targetTile instanceof DirtTile dirtTile) {
+        if (targetTile instanceof DirtTile) {
+            DirtTile dirtTile = (DirtTile) targetTile;
             dirtTile.onWalkBy(this, dir);
             whatChanged.playerMovedOnDirt();
-        } else if (targetTile instanceof EndTile endTile) {
+        } else if (targetTile instanceof EndTile) {
+            EndTile endTile = (EndTile) targetTile;
             endTile.onWalkBy(this, dir);
             whatChanged.endedLevel();
-        } else if (targetTile instanceof RockTile rockTile) {
+        } else if (targetTile instanceof RockTile) {
+            RockTile rockTile = (RockTile) targetTile;
             rockTile.onWalkBy(this, dir);
-        } else if (targetTile instanceof DiamondTile diamondTile) {
+        } else if (targetTile instanceof DiamondTile) {
+            DiamondTile diamondTile = (DiamondTile) targetTile;
             diamondTile.onWalkBy(this, dir);
         }
     }
