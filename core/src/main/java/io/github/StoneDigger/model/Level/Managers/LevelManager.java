@@ -160,7 +160,6 @@ public class LevelManager {
         }
 
         playerManager.getPlayer().setOnStartingPosition();
-        levelStats.setHP(3);
         levelStats.setDiamondCount(diamonds);
         levelStats.setLevelNumber(levelIndex);
     }
