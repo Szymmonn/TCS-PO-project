@@ -20,8 +20,8 @@ public class LevelManager {
 
     // === Core Components ===
     private final WhatChanged whatChanged;
-    private LevelStats levelStats;
-    private UpdateManager updateManager;
+    private final LevelStats levelStats;
+    private final UpdateManager updateManager;
     private PlayerManager playerManager;
     private OpponentManager opponentManager;
     private BoardManager boardManager;
@@ -56,22 +56,20 @@ public class LevelManager {
             for (int x = 0; x < cols; x++) {
                 char ch = board[y][x];
                 GridPoint2 pos = new GridPoint2(x, y);
-                ATile tile;
-
-                switch (ch) {
-                    case 'd': tile = new DirtTile(pos, boardManager); break;
-                    case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager, levelStats, whatChanged); break;
-                    case 'a': tile = new DiamondTile(pos, boardManager, updateManager, whatChanged); break;
-                    case 'c': tile = new BrickTile(pos, boardManager); break;
-                    case 's': tile = new StartTile(pos, boardManager); break;
-                    case 'e': tile = new EndTile(pos, boardManager, levelStats, this); break;
-                    case 'x': tile = new DeactivatedEndTile(pos, boardManager, levelStats, updateManager, this); break;
-                    case 'b': tile = new BorderTile(pos, boardManager); break;
-                    case 'h': tile = new ShelterTile(pos, boardManager); break;
-                    case 'o': case 'p': case '.': tile = new EmptyTile(pos, boardManager); break;
-                    default:
+                ATile tile = switch (ch) {
+                    case 'd' -> new DirtTile(pos, boardManager);
+                    case 'r' -> new RockTile(pos, boardManager, updateManager, playerManager, levelStats, whatChanged);
+                    case 'a' -> new DiamondTile(pos, boardManager, updateManager, whatChanged);
+                    case 'c' -> new BrickTile(pos, boardManager);
+                    case 's' -> new StartTile(pos, boardManager);
+                    case 'e' -> new EndTile(pos, boardManager, levelStats, this);
+                    case 'x' -> new DeactivatedEndTile(pos, boardManager, levelStats, updateManager, this);
+                    case 'b' -> new BorderTile(pos, boardManager);
+                    case 'h' -> new ShelterTile(pos, boardManager);
+                    case 'o', 'p', '.' -> new EmptyTile(pos, boardManager);
+                    default ->
                         throw new IllegalArgumentException("Nieznany znak: '" + ch + "' na pozycji (" + y + "," + x + ")");
-                }
+                };
 
                 tiles[x][y] = tile;
             }
@@ -89,6 +87,7 @@ public class LevelManager {
         char[][] raw = BoardGenerator.generateBoard(levelType, levelStats.getLevelNumber());
 
         // Pre-board setup
+        assert raw != null;
         ATile[][] placeholder = new ATile[raw[0].length][raw.length];
         boardManager = new BoardManager(new Board(placeholder));
         playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager, whatChanged);
@@ -159,7 +158,7 @@ public class LevelManager {
             }
         }
 
-        playerManager.getPlayer().setOnStartingPosition();
+        playerManager.movePlayerToStart();
         levelStats.setDiamondCount(diamonds);
         levelStats.setLevelNumber(levelIndex);
     }

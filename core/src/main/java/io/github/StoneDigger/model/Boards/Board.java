@@ -10,13 +10,19 @@ public class Board implements IBoard {
     public Board(ATile[][] tiles) {
         this.tiles = tiles;
     }
+    @Override
     public int getWidth() { return tiles.length; }
+    @Override
     public int getHeight() { return tiles[0].length; }
+    @Override
     public ATile getTile(GridPoint2 pos) { return tiles[pos.x][pos.y]; }
+    @Override
     public void setTile(GridPoint2 pos, ATile tile) { tiles[pos.x][pos.y] = tile; }
+    @Override
     public void setTiles(ATile [][] tiles) {
         this.tiles = tiles;
     }
+    @Override
     public ATile[][] getTiles() {
         return tiles;
     }

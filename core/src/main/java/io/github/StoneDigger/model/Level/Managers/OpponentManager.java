@@ -4,9 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.GameObjects.Entities.Opponent;
 import io.github.StoneDigger.model.GameObjects.Entities.OpponentAI;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
-import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Level.LevelStats;
-import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 import java.util.ArrayList;
 import java.util.List;

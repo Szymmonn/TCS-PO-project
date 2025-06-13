@@ -22,7 +22,6 @@ public class OpponentAI implements IOpponent, IMovable, ISelfUpdate {
     private boolean active = true;
     private GridPoint2 startingPosition;
     private float opponentMoveTime = 0;
-    private EDirections moveDirection = EDirections.RIGHT;
 
     private final BoardManager boardManager;
     private final UpdateManager updateManager;
@@ -169,7 +168,7 @@ public class OpponentAI implements IOpponent, IMovable, ISelfUpdate {
         /// Move opponent
         opponentMoveTime += delta;
         if (opponentMoveTime > 0.4f) {
-            moveDirection = determineMovement();
+            EDirections moveDirection = determineMovement();
             if (moveDirection != null) {
                 move(moveDirection);
             }

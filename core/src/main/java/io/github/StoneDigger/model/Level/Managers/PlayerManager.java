@@ -23,8 +23,6 @@ public class PlayerManager {
 
     public GridPoint2 getPosition() {return player.getPosition();}
 
-    public GridPoint2 getStartingPosition() {return player.getStartingPosition();}
-
     public void movePlayerToStart() {
         player.moveOnStart();
     }
