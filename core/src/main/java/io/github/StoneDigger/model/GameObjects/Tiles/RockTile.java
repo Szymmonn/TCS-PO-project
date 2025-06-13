@@ -164,7 +164,7 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile, IDest
         boardManager.setTile(to, newRock);
         boardManager.setTile(from, new EmptyTile(from, boardManager));
 
-        updateManager.removedFromUpdates((RockTile) boardManager.getTile(from));
+        updateManager.removedFromUpdates(this);
         updateManager.addToUpdates(newRock);
     }
 

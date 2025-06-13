@@ -22,6 +22,9 @@ public class RandomBoardGenerator implements IBoardGenerator {
         int w = size.x;
         int h = size.y;
         char[][] board = new char[h][w];
+        for(int i=0;i<h;i++)
+            for(int j=0;j<w;j++)
+                board[i][j] = '.';
 
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {

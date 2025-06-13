@@ -3,7 +3,7 @@ package io.github.StoneDigger.model.Level.Managers;
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
-import io.github.StoneDigger.model.Boards.BoardGenerators.Levels;
+import io.github.StoneDigger.model.Boards.BoardGenerators.LevelsLoader;
 import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
@@ -67,7 +67,7 @@ public class LevelManager {
                     case 'x': tile = new DeactivatedEndTile(pos, boardManager, levelStats, this); break;
                     case 'b': tile = new BorderTile(pos, boardManager); break;
                     case 'h': tile = new ShelterTile(pos, boardManager); break;
-                    case 'o': case 'p': case ' ': tile = new EmptyTile(pos, boardManager); break;
+                    case 'o': case 'p': case '.': tile = new EmptyTile(pos, boardManager); break;
                     default:
                         throw new IllegalArgumentException("Nieznany znak: '" + ch + "' na pozycji (" + y + "," + x + ")");
                 }
@@ -85,9 +85,7 @@ public class LevelManager {
         levelStats.incrementLevelNumber();
         GridPoint2 startPosition = new GridPoint2(1, 1);
 
-        char[][] raw = (levelType == ELevelType.RANDOM)
-            ? BoardGenerator.generateBoard(levelType, levelStats.getLevelNumber())
-            : Levels.boards[levelStats.getLevelNumber() + 1];
+        char[][] raw = BoardGenerator.generateBoard(levelType, levelStats.getLevelNumber());
 
         // Pre-board setup
         ATile[][] placeholder = new ATile[raw[0].length][raw.length];
@@ -174,7 +172,9 @@ public class LevelManager {
         if (levelStats.getHP() == 0)
             isGameLost = true;
 
-        if (levelStats.getLevelNumber() == 6)
+        if (levelType == ELevelType.RANDOM && levelStats.getLevelNumber() == LevelsLoader.levelsToWinRandom() + 1)
+            isGameWon = true;
+        else if(levelType == ELevelType.STANDARD && levelStats.getLevelNumber() == LevelsLoader.levelToWinStandard() + 1)
             isGameWon = true;
 
         opponentManager.tryClearOpponents(delta);
