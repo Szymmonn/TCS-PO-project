@@ -161,9 +161,7 @@ public class Opponent implements IOpponent, IMovable, ISelfUpdate, IDestructable
 
         /// Killing player
         if (playerPos.equals(pos)) {
-            if (playerPos.equals(playerManager.getStartingPosition())) {
-                levelStats.decreaseHP();
-            }
+            levelStats.decreaseHP();
             playerManager.movePlayerToStart();
         }
 

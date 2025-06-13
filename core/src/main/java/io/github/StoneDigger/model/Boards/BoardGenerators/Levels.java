@@ -61,7 +61,7 @@ public class Levels {
             "    caaac       caaac   ".toCharArray(),
             "    caaac       caaac   ".toCharArray(),
             "    ccccc       ccccc   ".toCharArray(),
-            "    d p d       d o d   ".toCharArray(),
+            "    d o d       d o d   ".toCharArray(),
             "    d   d       d   d   ".toCharArray(),
             "    d   d    h  d   d   ".toCharArray(),
             "    d ddd       d ddd   ".toCharArray(),
