@@ -4,4 +4,5 @@ import com.badlogic.gdx.math.GridPoint2;
 
 public interface IEntity {
     GridPoint2 getPosition();
+
 }

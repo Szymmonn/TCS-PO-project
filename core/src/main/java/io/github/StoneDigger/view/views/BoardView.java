@@ -1,19 +1,15 @@
 package io.github.StoneDigger.view.views;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import io.github.StoneDigger.model.Boards.IBoard;
+import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
-import io.github.StoneDigger.utils.config.Configuration;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 import io.github.StoneDigger.view.views.utility.TileToTexture;
-
-import static io.github.StoneDigger.view.screen.GameScreen.*;
 
 public class BoardView extends Actor {
     private IBoard board;

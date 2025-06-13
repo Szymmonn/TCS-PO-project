@@ -10,7 +10,7 @@ public abstract class ATile {
     protected BoardManager boardManager;
 
     public void destroy() {
-        boardManager.getBoard().setTile(position, new EmptyTile(position, boardManager));
+        boardManager.setTile(position, new EmptyTile(position, boardManager));
     }
 
     public GridPoint2 getPosition() {

@@ -1,5 +1,10 @@
 package io.github.StoneDigger.model.Interfaces;
 
-public interface IPlayer extends IMovable, ISelfUpdate {
+import com.badlogic.gdx.math.GridPoint2;
 
+public interface IPlayer extends IMovable, ISelfUpdate {
+    void setOnStartingPosition();
+    void setStartingPosition(GridPoint2 startingPosition);
+    GridPoint2 getPosition();
+    GridPoint2 getStartingPosition();
 }

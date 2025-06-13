@@ -1,6 +1,7 @@
 package io.github.StoneDigger.model.Boards.BoardGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Interfaces.IBoardGenerator;
 
 import java.util.Random;
 

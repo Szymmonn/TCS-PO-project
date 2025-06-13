@@ -2,12 +2,12 @@ package io.github.StoneDigger.viewmodel.viewmodels;
 
 
 import io.github.StoneDigger.model.GameLogic.ELevelType;
-import io.github.StoneDigger.model.Boards.IBoard;
+import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.GameLogic.GameLogic;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Directions.EDirections;
-import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.Level.LevelStats;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class GameViewModel {
         return gameLogic.getOpponents();
     }
 
-    public ILevelStats getLevelStats() { return gameLogic.getLevelStats(); }
+    public LevelStats getLevelStats() { return gameLogic.getLevelStats(); }
 
     public void startTheGame() {
         gameLogic.startTheGame();
@@ -38,7 +38,7 @@ public class GameViewModel {
     public void update(float delta) {
         gameLogic.tick(delta);
 
-        if (gameLogic.getIsNewGame()) {
+        if (gameLogic.isNewGame()) {
             newGame = true;
         }
 

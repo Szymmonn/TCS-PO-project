@@ -6,36 +6,42 @@ import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
 import io.github.StoneDigger.model.Directions.*;
 import io.github.StoneDigger.model.GameObjects.Tiles.EmptyTile;
 import io.github.StoneDigger.model.GameObjects.Tiles.RockTile;
-import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Interfaces.IDestructable;
 import io.github.StoneDigger.model.Interfaces.IMovable;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
+import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
-public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable {
+public class Opponent implements IOpponent, IMovable, ISelfUpdate, IDestructable {
     private boolean active = true;
     private GridPoint2 startingPosition;
     private float opponentMoveTime = 0;
-    private EDirections moveDirection;
+    private EDirections moveDirection = EDirections.RIGHT;
+
     private final BoardManager boardManager;
     private final UpdateManager updateManager;
     private final PlayerManager playerManager;
+    private final LevelStats levelStats;
 
     private GridPoint2 pos;
 
-    public Opponent(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager) {
-        this.updateManager = updateManager;
-        this.pos=start;
+    public Opponent(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, LevelStats levelStats) {
+        this.pos = new GridPoint2(start);
+        this.startingPosition = new GridPoint2(start);
         this.boardManager = boardManager;
-        this.moveDirection = EDirections.RIGHT;
+        this.updateManager = updateManager;
         this.playerManager = playerManager;
+        this.levelStats = levelStats;
     }
 
-    @Override public GridPoint2 getPosition() { return pos; }
-    public void setPosition(GridPoint2 p){ pos=p; }
+    @Override
+    public GridPoint2 getPosition() {
+        return pos;
+    }
+
 
     @Override
     public void setStartingPosition(GridPoint2 startingPosition) {
@@ -47,81 +53,96 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
         pos = new GridPoint2(startingPosition);
     }
 
-    public boolean canMove(EDirections dir) {
-        /// MAM TĄ FUNKCJE W DUPIE, PRZYKRO MI, JEST TROCHE USELESS
-        return true;
+
+    private ATile safeGetTile(GridPoint2 p) {
+        if (p == null) return null;
+        if (p.x < 0 || p.x >= boardManager.getWidth() || p.y < 0 || p.y >= boardManager.getHeight())
+            return null;
+        return boardManager.getTile(p);
     }
 
-    ///  Moving alongside a border
 
+    @Override
     public EDirections determineMovement() {
-        GridPoint2 left = null;
-        GridPoint2 next = null;
-        GridPoint2 right = null;
+        GridPoint2 left, next, right;
 
-        if (moveDirection == EDirections.UP) {
-            right = new GridPoint2(pos.x+1,pos.y);
-            left = new GridPoint2(pos.x-1,pos.y);
-            next = new GridPoint2(pos.x,pos.y+1);
-        } else if (moveDirection == EDirections.DOWN) {
-            right = new GridPoint2(pos.x-1,pos.y);
-            left = new GridPoint2(pos.x+1,pos.y);
-            next = new GridPoint2(pos.x,pos.y-1);
-        } else if (moveDirection == EDirections.RIGHT) {
-            right = new GridPoint2(pos.x,pos.y-1);
-            left = new GridPoint2(pos.x,pos.y+1);
-            next = new GridPoint2(pos.x+1,pos.y);
-        } else if (moveDirection == EDirections.LEFT) {
-            right = new GridPoint2(pos.x,pos.y+1);
-            left = new GridPoint2(pos.x,pos.y-1);
-            next = new GridPoint2(pos.x-1,pos.y);
+        switch (moveDirection) {
+            case UP:
+                right = new GridPoint2(pos.x + 1, pos.y);
+                left = new GridPoint2(pos.x - 1, pos.y);
+                next = new GridPoint2(pos.x, pos.y + 1);
+                break;
+            case DOWN:
+                right = new GridPoint2(pos.x - 1, pos.y);
+                left = new GridPoint2(pos.x + 1, pos.y);
+                next = new GridPoint2(pos.x, pos.y - 1);
+                break;
+            case RIGHT:
+                right = new GridPoint2(pos.x, pos.y - 1);
+                left = new GridPoint2(pos.x, pos.y + 1);
+                next = new GridPoint2(pos.x + 1, pos.y);
+                break;
+            case LEFT:
+                right = new GridPoint2(pos.x, pos.y + 1);
+                left = new GridPoint2(pos.x, pos.y - 1);
+                next = new GridPoint2(pos.x - 1, pos.y);
+                break;
+            default:
+                // Domyślnie idź w prawo
+                right = new GridPoint2(pos.x, pos.y - 1);
+                left = new GridPoint2(pos.x, pos.y + 1);
+                next = new GridPoint2(pos.x + 1, pos.y);
         }
 
-        ATile leftTileToOpponent = boardManager.getTile(left);
-        ATile nextTileToOpponent = boardManager.getTile(next);
-        ATile rightTileToOpponent = boardManager.getTile(right);
-//        System.out.println("next: "+nextTileToOpponent+" left: "+leftTileToOpponent+" right: "+rightTileToOpponent+"\n");
-        EDirections[] tmp = {EDirections.UP, EDirections.LEFT, EDirections.DOWN, EDirections.RIGHT};
-        int tmpPos = 0;
-        for(int i=0;i<4;i++) if(moveDirection == tmp[i]) tmpPos = i;
+        ATile leftTile = safeGetTile(left);
+        ATile nextTile = safeGetTile(next);
+        ATile rightTile = safeGetTile(right);
 
-        if(!(leftTileToOpponent instanceof EmptyTile)) {
+        EDirections[] directionsOrder = { EDirections.UP, EDirections.LEFT, EDirections.DOWN, EDirections.RIGHT };
+        int currentDirIndex = 0;
+        for (int i = 0; i < directionsOrder.length; i++) {
+            if (moveDirection == directionsOrder[i]) {
+                currentDirIndex = i;
+                break;
+            }
+        }
 
-
-            if(nextTileToOpponent instanceof EmptyTile) {
+        if (!(leftTile instanceof EmptyTile)) {
+            if (nextTile instanceof EmptyTile) {
                 return moveDirection;
-            } else if(rightTileToOpponent instanceof EmptyTile) {
-                return tmp[(tmpPos+3)%4];
+            } else if (rightTile instanceof EmptyTile) {
+                return directionsOrder[(currentDirIndex + 3) % 4]; // skręt w prawo
             } else {
-                return tmp[(tmpPos+2)%4];
+                return directionsOrder[(currentDirIndex + 2) % 4]; // zawróć
             }
         } else {
-            return tmp[(tmpPos+1)%4];
+            return directionsOrder[(currentDirIndex + 1) % 4]; // skręt w lewo
         }
     }
 
-    @Override public void move(EDirections dir) {
-        if(canMove(dir)) pos.add(dir.getDx(), dir.getDy());
+    @Override
+    public void move(EDirections dir) {
+        pos.add(dir.getDx(), dir.getDy());
     }
 
+    @Override
     public void destruct() {
-        for(int i= pos.x-1;i<=pos.x+1;i++) {
-            for(int j = pos.y-1;j<= pos.y+1;j++) {
-                ATile tile = boardManager.getTile(new GridPoint2(i,j));
-
-                if(tile instanceof IDestructable) {
+        for (int i = pos.x - 1; i <= pos.x + 1; i++) {
+            for (int j = pos.y - 1; j <= pos.y + 1; j++) {
+                GridPoint2 checkPos = new GridPoint2(i, j);
+                ATile tile = safeGetTile(checkPos);
+                if (tile instanceof IDestructable) {
                     if (tile instanceof ISelfUpdate) {
                         updateManager.removedFromUpdates((ISelfUpdate) tile);
                     }
-                    boardManager.getBoard().setTile(tile.getPosition(), new EmptyTile(tile.getPosition(), boardManager));
-
+                    tile.destroy();
                 }
             }
         }
         updateManager.removedFromUpdates(this);
         active = false;
-
     }
+
     @Override
     public boolean isActive() {
         return active;
@@ -129,56 +150,56 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
 
     @Override
     public void update(float delta) {
-        /// Killing player
         GridPoint2 playerPos = playerManager.getPosition();
 
-        ///  Opponent Death
-        if(boardManager.getTile(new GridPoint2(pos.x,pos.y)) instanceof RockTile) destruct();
+        /// Killing opponent
+        ATile currentTile = safeGetTile(pos);
+        if (currentTile instanceof RockTile) {
+            destruct();
+            return;
+        }
 
-        /// DO POPRAWY
-        if(playerPos.equals(pos)) playerManager.getPlayer().setOnStartingPosition();
+        /// Killing player
+        if (playerPos.equals(pos)) {
+            levelStats.decreaseHP();
+            playerManager.movePlayerToStart();
+        }
 
-        /// Moving opponent
-        opponentMoveTime+=delta;
-        if(opponentMoveTime > 0.3f) {
+        opponentMoveTime += delta;
+
+        if (opponentMoveTime > 0.3f) {
             if (emptyAroundOpponent()) {
                 move(EDirections.RIGHT);
-                return;
+            } else if (!blocksAroundOpponent()) {
+                moveDirection = determineMovement();
+                move(moveDirection);
             }
-            if(blocksAroundOpponent()) {
-                return;
-            }
-//            System.out.println("CHCE WEJSC W: "+determineMovement()+" A PORUSZAM SIE AKTUALNIE W: "+moveDirection);
-            moveDirection = determineMovement();
-            move(moveDirection);
-
             opponentMoveTime = 0;
         }
     }
 
     public boolean emptyAroundOpponent() {
-        if(!(boardManager.getTile(new GridPoint2(pos.x,pos.y+1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x,pos.y-1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y+1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y-1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y+1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y-1)) instanceof EmptyTile)) return false;
-
-        return true;
+        return checkSurroundingTiles(true);
     }
 
     public boolean blocksAroundOpponent() {
-        if((boardManager.getTile(new GridPoint2(pos.x,pos.y+1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x,pos.y-1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x-1,pos.y)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x+1,pos.y)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x+1,pos.y+1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x+1,pos.y-1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x-1,pos.y+1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x-1,pos.y-1)) instanceof EmptyTile)) return false;
+        return checkSurroundingTiles(false);
+    }
 
+    private boolean checkSurroundingTiles(boolean shouldBeEmpty) {
+        int[][] directions = {
+            {0, 1}, {0, -1}, {1, 0}, {-1, 0},
+            {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
+        };
+
+        for (int[] dir : directions) {
+            GridPoint2 checkPos = new GridPoint2(pos.x + dir[0], pos.y + dir[1]);
+            ATile tile = safeGetTile(checkPos);
+            boolean isEmpty = tile instanceof EmptyTile;
+            if (isEmpty != shouldBeEmpty) {
+                return false;
+            }
+        }
         return true;
     }
 }
