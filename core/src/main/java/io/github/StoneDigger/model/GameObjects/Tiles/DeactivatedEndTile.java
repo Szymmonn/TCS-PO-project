@@ -6,15 +6,18 @@ import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
+import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 
 public class DeactivatedEndTile extends ATile implements ISelfUpdate {
-    private LevelStats levelStats;
-    private LevelManager levelManager;
+    private final LevelStats levelStats;
+    private final UpdateManager updateManager;
+    private final LevelManager levelManager;
 
-    public DeactivatedEndTile(GridPoint2 start, BoardManager boardManager, LevelStats levelStats, LevelManager levelManager) {
+    public DeactivatedEndTile(GridPoint2 start, BoardManager boardManager, LevelStats levelStats, UpdateManager updateManager, LevelManager levelManager) {
         this.boardManager = boardManager;
         this.position = start;
         this.levelStats = levelStats;
+        this.updateManager = updateManager;
         this.levelManager = levelManager;
     }
 
@@ -28,10 +31,8 @@ public class DeactivatedEndTile extends ATile implements ISelfUpdate {
         int diamondsCollected = levelStats.getScore();
         int allDiamonds = levelStats.getDiamondCount();
         if(diamondsCollected * 2 > allDiamonds) {
-            if( boardManager.getBoard().getTile(position) instanceof EndTile ) {
-                ((EndTile) boardManager.getBoard().getTile(position)).activate();
-            }
-
+            updateManager.removeFromUpdates(this);
+            boardManager.setTile(position, new EndTile(position, boardManager, levelStats, levelManager));
         }
     }
 }

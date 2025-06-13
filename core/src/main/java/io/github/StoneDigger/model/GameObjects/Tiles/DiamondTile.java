@@ -113,7 +113,7 @@ public class DiamondTile extends ATile implements IWalkableTile, ISelfUpdate {
         boardManager.setTile(to, newDiamond);
         boardManager.setTile(from, new EmptyTile(from, boardManager));
 
-        updateManager.removedFromUpdates(oldDiamond);
+        updateManager.removeFromUpdates(oldDiamond);
         updateManager.addToUpdates(newDiamond);
     }
 

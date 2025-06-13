@@ -6,17 +6,10 @@ import io.github.StoneDigger.model.Interfaces.IBoardGenerator;
 import java.util.Random;
 
 public class RandomBoardGenerator implements IBoardGenerator {
-    private static double wallDensity = 0.1;
-    private static double rockDensity = 0.1;
-    private static double diamondDensity = 0.1;
-    private static Random random;
-
-    public RandomBoardGenerator(double w, double r, double d) {
-        wallDensity = w;
-        rockDensity = r;
-        diamondDensity = d;
-        random = new Random();
-    }
+    private static final double wallDensity = 0.1;
+    private static final double rockDensity = 0.1;
+    private static final double diamondDensity = 0.1;
+    private static final Random random = new Random();
 
     public static char[][] generate(GridPoint2 size, GridPoint2 start) {
         int w = size.x;

@@ -87,7 +87,7 @@ public class Player implements IPlayer {
             whatChanged.diamondCollected();
             levelStats.collectDiamond();
 
-            updateManager.removedFromUpdates((ISelfUpdate) currentTile);
+            updateManager.removeFromUpdates((ISelfUpdate) currentTile);
             boardManager.setTile(pos, new EmptyTile(pos, boardManager));
         }
     }
@@ -100,7 +100,7 @@ public class Player implements IPlayer {
 
                 if (tile instanceof IDestructable) {
                     if (tile instanceof ISelfUpdate) {
-                        updateManager.removedFromUpdates((ISelfUpdate) tile);
+                        updateManager.removeFromUpdates((ISelfUpdate) tile);
                     }
                     boardManager.setTile(tile.getPosition(), new EmptyTile(tile.getPosition(), boardManager));
                 }

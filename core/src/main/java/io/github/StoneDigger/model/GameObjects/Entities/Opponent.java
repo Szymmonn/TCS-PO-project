@@ -133,13 +133,13 @@ public class Opponent implements IOpponent, IMovable, ISelfUpdate, IDestructable
                 ATile tile = safeGetTile(checkPos);
                 if (tile instanceof IDestructable) {
                     if (tile instanceof ISelfUpdate) {
-                        updateManager.removedFromUpdates((ISelfUpdate) tile);
+                        updateManager.removeFromUpdates((ISelfUpdate) tile);
                     }
                     tile.destroy();
                 }
             }
         }
-        updateManager.removedFromUpdates(this);
+        updateManager.removeFromUpdates(this);
         active = false;
     }
 

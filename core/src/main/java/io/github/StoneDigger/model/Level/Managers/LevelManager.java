@@ -64,7 +64,7 @@ public class LevelManager {
                     case 'c': tile = new BrickTile(pos, boardManager); break;
                     case 's': tile = new StartTile(pos, boardManager); break;
                     case 'e': tile = new EndTile(pos, boardManager, levelStats, this); break;
-                    case 'x': tile = new DeactivatedEndTile(pos, boardManager, levelStats, this); break;
+                    case 'x': tile = new DeactivatedEndTile(pos, boardManager, levelStats, updateManager, this); break;
                     case 'b': tile = new BorderTile(pos, boardManager); break;
                     case 'h': tile = new ShelterTile(pos, boardManager); break;
                     case 'o': case 'p': case '.': tile = new EmptyTile(pos, boardManager); break;
