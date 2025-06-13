@@ -1,6 +1,5 @@
 package io.github.StoneDigger.model.Level.Managers;
 
-import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 
 import java.awt.geom.IllegalPathStateException;
@@ -20,7 +19,7 @@ public class UpdateManager {
         this.playerManager =  playerManager;
     }
 
-    public void removedFromUpdates(ISelfUpdate selfUpdate) {
+    public void removeFromUpdates(ISelfUpdate selfUpdate) {
         selfUpdates.remove(selfUpdate);
     }
 
