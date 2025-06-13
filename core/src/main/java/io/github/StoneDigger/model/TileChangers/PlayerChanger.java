@@ -14,7 +14,7 @@ public class PlayerChanger extends Player {
     private final WhatChanged whatChanged;
 
     public PlayerChanger(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager, WhatChanged whatChanged) {
-        super(start, boardManager, levelStats, updateManager);
+        super(start, boardManager, levelStats, updateManager,whatChanged);
         this.whatChanged = whatChanged;
     }
 

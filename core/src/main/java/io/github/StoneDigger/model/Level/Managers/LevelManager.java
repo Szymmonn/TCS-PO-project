@@ -13,8 +13,7 @@ import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
-import io.github.StoneDigger.model.TileChangers.DiamondTileChanger;
-import io.github.StoneDigger.model.TileChangers.RockTileChanger;
+
 import io.github.StoneDigger.view.configs.LevelsLoader;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 

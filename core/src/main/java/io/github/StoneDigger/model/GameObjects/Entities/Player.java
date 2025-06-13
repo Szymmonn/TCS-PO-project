@@ -14,6 +14,7 @@ import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 public class Player implements IPlayer {
     protected GridPoint2 pos;
@@ -21,13 +22,15 @@ public class Player implements IPlayer {
     protected final BoardManager boardManager;
     protected final ILevelStats levelStats;
     protected final UpdateManager updateManager;
+    private final WhatChanged whatChanged;
 
-    public Player(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager) {
+    public Player(GridPoint2 start, BoardManager boardManager, ILevelStats levelStats, UpdateManager updateManager, WhatChanged whatChanged) {
         pos = start;
         startingPosition = new GridPoint2(start);
         this.boardManager = boardManager;
         this.levelStats = levelStats;
         this.updateManager = updateManager;
+        this.whatChanged = whatChanged;
     }
 
     public void setOnStartingPosition() {
@@ -65,8 +68,10 @@ public class Player implements IPlayer {
 
         if(t instanceof DirtTile) {
             ((DirtTile) t).onWalkBy(this,dir);
+            whatChanged.playerMovedOnDirt();
         } else if (t instanceof EndTile) {
             ((EndTile) t).onWalkBy(this,dir);
+            whatChanged.endedLevel();
         } else if (t instanceof RockTile) {
             ((RockTile) t).onWalkBy(this,dir);
         } else if (t instanceof DiamondTile) {
@@ -77,7 +82,14 @@ public class Player implements IPlayer {
     @Override
     public void update(float delta) {
         ATile currentTile = boardManager.getTile(pos);
-        if(currentTile instanceof DiamondTile) {
+
+        if(currentTile instanceof RockTile) {
+            whatChanged.playerDied();
+
+            setOnStartingPosition();
+            levelStats.decreaseHP();
+        } else if(currentTile instanceof DiamondTile) {
+            whatChanged.diamondCollected();
             levelStats.collectDiamond();
             updateManager.removedFromUpdates((ISelfUpdate) currentTile);
             boardManager.setTile(pos, new EmptyTile(pos, boardManager));
