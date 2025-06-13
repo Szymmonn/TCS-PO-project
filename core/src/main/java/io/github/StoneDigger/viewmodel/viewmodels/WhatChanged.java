@@ -39,9 +39,6 @@ public class WhatChanged {
     public boolean hasLevelEnded() {
         return endedLevel;
     }
-    public boolean hasOpponentsMoved() {
-        return opponentMoved > 0;
-    }
     public boolean hasPlayerMovedOnDirt() {
         return playerMovedOnEmptyTile;
     }
