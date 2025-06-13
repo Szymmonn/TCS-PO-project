@@ -6,6 +6,7 @@ import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
 import io.github.StoneDigger.model.Boards.BoardGenerators.LevelsLoader;
 import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.model.Directions.EDirections;
+import io.github.StoneDigger.model.GameObjects.Entities.Player;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Interfaces.*;
 
@@ -181,7 +182,7 @@ public class LevelManager {
     }
 
     // === External Accessors ===
-    public IPlayer getPlayer() {
+    public Player getPlayer() {
         return playerManager.getPlayer();
     }
 

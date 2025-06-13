@@ -4,14 +4,15 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
 import io.github.StoneDigger.model.Interfaces.IDestructable;
-import io.github.StoneDigger.model.Interfaces.IPlayer;
+import io.github.StoneDigger.model.Interfaces.IEntity;
+import io.github.StoneDigger.model.Interfaces.IMovable;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
-public class Player implements IPlayer {
+public class Player implements IMovable, ISelfUpdate {
 
     private GridPoint2 pos;
     private GridPoint2 startingPosition;
@@ -30,22 +31,18 @@ public class Player implements IPlayer {
         this.whatChanged = whatChanged;
     }
 
-    @Override
     public void setOnStartingPosition() {
         pos = new GridPoint2(startingPosition);
     }
 
-    @Override
     public void setStartingPosition(GridPoint2 startingPosition) {
         this.startingPosition = new GridPoint2(startingPosition);
     }
 
-    @Override
     public GridPoint2 getPosition() {
         return pos;
     }
 
-    @Override
     public GridPoint2 getStartingPosition() {
         return startingPosition;
     }
@@ -61,16 +58,16 @@ public class Player implements IPlayer {
         pos.add(dir.getDx(), dir.getDy());
 
         /// Trigger tile-specific effects
-        if (targetTile instanceof DirtTile) {
-            ((DirtTile) targetTile).onWalkBy(this, dir);
+        if (targetTile instanceof DirtTile dirtTile) {
+            dirtTile.onWalkBy(this, dir);
             whatChanged.playerMovedOnDirt();
-        } else if (targetTile instanceof EndTile) {
-            ((EndTile) targetTile).onWalkBy(this, dir);
+        } else if (targetTile instanceof EndTile endTile) {
+            endTile.onWalkBy(this, dir);
             whatChanged.endedLevel();
-        } else if (targetTile instanceof RockTile) {
-            ((RockTile) targetTile).onWalkBy(this, dir);
-        } else if (targetTile instanceof DiamondTile) {
-            ((DiamondTile) targetTile).onWalkBy(this, dir);
+        } else if (targetTile instanceof RockTile rockTile) {
+            rockTile.onWalkBy(this, dir);
+        } else if (targetTile instanceof DiamondTile diamondTile) {
+            diamondTile.onWalkBy(this, dir);
         }
     }
 
