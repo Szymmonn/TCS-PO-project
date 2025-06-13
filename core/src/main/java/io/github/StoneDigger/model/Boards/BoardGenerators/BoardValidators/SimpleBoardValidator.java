@@ -1,15 +1,12 @@
 package io.github.StoneDigger.model.Boards.BoardGenerators.BoardValidators;
 
 import com.badlogic.gdx.math.GridPoint2;
+import io.github.StoneDigger.model.Directions.EDirections;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class SimpleBoardValidator implements IBoardValidator {
-    private static final GridPoint2[] DIRS = {
-        new GridPoint2(1, 0), new GridPoint2(-1, 0),
-        new GridPoint2(0, 1), new GridPoint2(0, -1)
-    };
 
     @Override
     public boolean validate(char[][] board) {
@@ -52,9 +49,9 @@ public class SimpleBoardValidator implements IBoardValidator {
             if (p.x == endX && p.y == endY) {
                 return true;
             }
-            for (GridPoint2 d : DIRS) {
-                int nx = p.x + d.x;
-                int ny = p.y + d.y;
+            for (EDirections dir : EDirections.values()) {
+                int nx = p.x + dir.getDx();
+                int ny = p.y + dir.getDy();
                 if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
                 if (visited[ny][nx]) continue;
                 char ch = board[ny][nx];
@@ -67,8 +64,6 @@ public class SimpleBoardValidator implements IBoardValidator {
     }
 
     private boolean isWalkableChar(char ch) {
-        // Niedostępne (nieruchome) kafle: 'b' (Border), 'c' (Brick), 'r' (Rock)
-        // Wszystkie pozostałe (np. 'd', 'a', 's', 'x', 'e', ' ') są traktowane jako możliwe do przejścia.
         return !(ch == 'b' || ch == 'c' || ch == 'r');
     }
 }
