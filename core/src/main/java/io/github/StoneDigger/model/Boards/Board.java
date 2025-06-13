@@ -2,6 +2,7 @@ package io.github.StoneDigger.model.Boards;
 
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.GameObjects.Tiles.ATile;
+import io.github.StoneDigger.model.Interfaces.IBoard;
 
 public class Board implements IBoard {
     private ATile[][] tiles;

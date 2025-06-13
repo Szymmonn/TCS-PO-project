@@ -11,7 +11,7 @@ import io.github.StoneDigger.model.Interfaces.IDestructable;
 import io.github.StoneDigger.model.Interfaces.IMovable;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
-import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.Level.Managers.PlayerManager;
 import io.github.StoneDigger.model.Level.Managers.UpdateManager;
@@ -24,11 +24,11 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
     private final BoardManager boardManager;
     private final UpdateManager updateManager;
     private final PlayerManager playerManager;
-    private final ILevelStats levelStats;
+    private final LevelStats levelStats;
 
     private GridPoint2 pos;
 
-    public Opponent(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats) {
+    public Opponent(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, LevelStats levelStats) {
         this.updateManager = updateManager;
         this.pos=start;
         this.boardManager = boardManager;
@@ -38,7 +38,8 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
     }
 
 
-    @Override public GridPoint2 getPosition() { return pos; }
+    @Override
+    public GridPoint2 getPosition() { return pos; }
     public void setPosition(GridPoint2 p){ pos=p; }
 
     @Override
@@ -51,13 +52,8 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
         pos = new GridPoint2(startingPosition);
     }
 
-    public boolean canMove(EDirections dir) {
-        /// MAM TĄ FUNKCJE W DUPIE, PRZYKRO MI, JEST TROCHE USELESS
-        return true;
-    }
-
     ///  Moving alongside a border
-
+    @Override
     public EDirections determineMovement() {
         GridPoint2 left = null;
         GridPoint2 next = null;
@@ -84,13 +80,11 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
         ATile leftTileToOpponent = boardManager.getTile(left);
         ATile nextTileToOpponent = boardManager.getTile(next);
         ATile rightTileToOpponent = boardManager.getTile(right);
-//        System.out.println("next: "+nextTileToOpponent+" left: "+leftTileToOpponent+" right: "+rightTileToOpponent+"\n");
         EDirections[] tmp = {EDirections.UP, EDirections.LEFT, EDirections.DOWN, EDirections.RIGHT};
         int tmpPos = 0;
         for(int i=0;i<4;i++) if(moveDirection == tmp[i]) tmpPos = i;
 
         if(!(leftTileToOpponent instanceof EmptyTile)) {
-
 
             if(nextTileToOpponent instanceof EmptyTile) {
                 return moveDirection;
@@ -104,10 +98,12 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
         }
     }
 
-    @Override public void move(EDirections dir) {
-        if(canMove(dir)) pos.add(dir.getDx(), dir.getDy());
+    @Override
+    public void move(EDirections dir) {
+        pos.add(dir.getDx(), dir.getDy());
     }
 
+    @Override
     public void destruct() {
         for(int i= pos.x-1;i<=pos.x+1;i++) {
             for(int j = pos.y-1;j<= pos.y+1;j++) {
@@ -117,15 +113,15 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
                     if (tile instanceof ISelfUpdate) {
                         updateManager.removedFromUpdates((ISelfUpdate) tile);
                     }
-                    boardManager.getBoard().setTile(tile.getPosition(), new EmptyTile(tile.getPosition(), boardManager));
+                    tile.destroy();
 
                 }
             }
         }
         updateManager.removedFromUpdates(this);
         active = false;
-
     }
+
     @Override
     public boolean isActive() {
         return active;
@@ -133,16 +129,17 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
 
     @Override
     public void update(float delta) {
-        /// Killing player
         GridPoint2 playerPos = playerManager.getPosition();
 
         ///  Opponent Death
         if(boardManager.getTile(new GridPoint2(pos.x,pos.y)) instanceof RockTile) destruct();
 
-        /// DO POPRAWY
+        ///  Player Killing
         if(playerPos.equals(pos)) {
-            playerManager.getPlayer().setOnStartingPosition();
-            levelStats.decreaseHP();
+            if(playerPos.equals(playerManager.getStartingPosition())) {
+                levelStats.decreaseHP();
+            }
+            playerManager.movePlayerToStart();
         }
 
         /// Moving opponent
@@ -164,27 +161,26 @@ public class Opponent implements IOpponent,IMovable, ISelfUpdate, IDestructable 
     }
 
     public boolean emptyAroundOpponent() {
-        if(!(boardManager.getTile(new GridPoint2(pos.x,pos.y+1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x,pos.y-1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y+1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x+1,pos.y-1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y+1)) instanceof EmptyTile)) return false;
-        if(!(boardManager.getTile(new GridPoint2(pos.x-1,pos.y-1)) instanceof EmptyTile)) return false;
-
-        return true;
+        return checkSurroundingTiles(true);
     }
 
     public boolean blocksAroundOpponent() {
-        if((boardManager.getTile(new GridPoint2(pos.x,pos.y+1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x,pos.y-1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x-1,pos.y)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x+1,pos.y)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x+1,pos.y+1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x+1,pos.y-1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x-1,pos.y+1)) instanceof EmptyTile)) return false;
-        if((boardManager.getTile(new GridPoint2(pos.x-1,pos.y-1)) instanceof EmptyTile)) return false;
+        return checkSurroundingTiles(false);
+    }
+
+    private boolean checkSurroundingTiles(boolean shouldBeEmpty) {
+        int[][] directions = {
+            {0, 1},  {0, -1}, {1, 0}, {-1, 0},
+            {1, 1},  {1, -1}, {-1, 1}, {-1, -1}
+        };
+
+        for (int[] dir : directions) {
+            GridPoint2 checkPos = new GridPoint2(pos.x + dir[0], pos.y + dir[1]);
+            boolean isEmpty = boardManager.getTile(checkPos) instanceof EmptyTile;
+            if (isEmpty != shouldBeEmpty) {
+                return false;
+            }
+        }
 
         return true;
     }

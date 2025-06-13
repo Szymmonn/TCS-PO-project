@@ -1,10 +1,10 @@
 package io.github.StoneDigger.model.GameLogic;
 
-import io.github.StoneDigger.model.Boards.IBoard;
+import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
-import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.LevelManager;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
@@ -47,7 +47,7 @@ public class GameLogic {
     public IBoard getBoard() {
         return levelManager.getBoard();
     }
-    public ILevelStats getLevelStats() {
+    public LevelStats getLevelStats() {
         return levelManager.getLevelStats();
     }
 

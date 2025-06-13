@@ -5,7 +5,8 @@ import io.github.StoneDigger.model.GameObjects.Entities.Opponent;
 import io.github.StoneDigger.model.GameObjects.Entities.OpponentAI;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
-import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.Level.LevelStats;
+import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class OpponentManager {
     private final List<IOpponent> opponent;
 
-    OpponentManager(BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats, int counterO, int counterP) {
+    OpponentManager(BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, LevelStats levelStats, int counterO, int counterP) {
         opponent = new ArrayList<>();
 
         for(int i=0;i<counterO;i++)

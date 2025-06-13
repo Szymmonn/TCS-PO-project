@@ -5,16 +5,14 @@ import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
 import io.github.StoneDigger.model.Boards.BoardGenerators.Levels;
 import io.github.StoneDigger.model.GameLogic.ELevelType;
-import io.github.StoneDigger.model.Boards.IBoard;
+import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
 import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
-import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 
-import io.github.StoneDigger.view.configs.LevelsLoader;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ import java.util.List;
 
 public class LevelManager {
     private final WhatChanged whatChanged;
-    private ILevelStats levelStats;
+    private LevelStats levelStats;
     private UpdateManager updateManager;
     private PlayerManager playerManager;
     private OpponentManager opponentManager;
@@ -215,7 +213,7 @@ public class LevelManager {
     public List<IOpponent> getOpponents() {
         return opponentManager.getOpponents();
     }
-    public ILevelStats getLevelStats() {
+    public LevelStats getLevelStats() {
         return levelStats;
     }
     public IBoard getBoard() {

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import io.github.StoneDigger.model.Level.ILevelStats;
+import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.view.Game.GameStart;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
@@ -22,7 +22,7 @@ import static io.github.StoneDigger.view.Assets.*;
 
 public class HUDView extends Group {
     private final GameStart gameStart;
-    private final ILevelStats levelStats;
+    private final LevelStats levelStats;
 
     private final Image background;
 
@@ -47,7 +47,7 @@ public class HUDView extends Group {
     private final float HUD_SIZE;
     private final HudViewProperties config;
 
-    public HUDView(ILevelStats levelStats, final GameStart gameStart) {
+    public HUDView(LevelStats levelStats, final GameStart gameStart) {
         this.gameStart = gameStart;
         this.levelStats = levelStats;
         this.prevHp = levelStats.getHP();

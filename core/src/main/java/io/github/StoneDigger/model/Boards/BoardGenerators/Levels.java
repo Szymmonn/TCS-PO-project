@@ -18,25 +18,27 @@ public class Levels {
     private static final char[][][] rawBoards = {
         /// TO DO: MOVE TO CONFIG
         {
-            "rrrrrrrrrrrrdadadddcd dccaaaar ar cxac".toCharArray(),
-            "rrrrrrrrrrrrrracdradr daaacccaddcdc ac".toCharArray(),
-            "ddddddddddddddddddcccccccccccccccdc ac".toCharArray(),
-            "               rr  a   aa         c ac".toCharArray(),
-            "                r  a    aa      aac ac".toCharArray(),
-            "                   a     dd       c ac".toCharArray(),
-            "                  ccccccccddccccccc ac".toCharArray(),
-            "                  c       cddc    c ac".toCharArray(),
-            "                 rcc        cddc  c ac".toCharArray(),
-            "                 rcacdcccdddddddc c ac".toCharArray(),
-            "                 rc           cddcc ac".toCharArray(),
-            "              rrccccccccrccccc cddc  c".toCharArray(),
-            "               rrccaa           cdd  c".toCharArray(),
-            "  a a a a a      rcccccccccccccccccccc".toCharArray(),
-            "                  rrrrrrrrrrrrrrrrrrr ".toCharArray()
-        },
-        {
 
         },
+        {},
+
+//        {
+//            "rrrrrrrrrrrrdadadddcd dccaaaar ar cxac".toCharArray(),
+//            "rrrrrrrrrrrrrracdradr daaacccaddcdc ac".toCharArray(),
+//            "ddddddddddddddddddcccccccccccccccdc ac".toCharArray(),
+//            "               rrr a   aa         c ac".toCharArray(),
+//            "               r d a    aa      aac ac".toCharArray(),
+//            "                 r a     dd       c ac".toCharArray(),
+//            "                  ccccccccddccccccc ac".toCharArray(),
+//            "                  c       cddc    c ac".toCharArray(),
+//            "                 rcc        cddc  c ac".toCharArray(),
+//            "                 rcacdcccdddddddc c ac".toCharArray(),
+//            "                 rc           cddcc ac".toCharArray(),
+//            "              rrccccccccrccccc cddc  c".toCharArray(),
+//            "               rrccaa           cdd  c".toCharArray(),
+//            "  a a a a a      rcccccccccccccccccccc".toCharArray(),
+//            "                  rrrrrrrrrrrrrrrrrrr ".toCharArray()
+//        },
 
 //        {
 //            "cc   a   c   a   cc".toCharArray(),
@@ -64,33 +66,33 @@ public class Levels {
             "    d   d    h  d   d   ".toCharArray(),
             "    d ddd       d ddd   ".toCharArray(),
             "     d           d      ".toCharArray(),
-            "     r           r      ".toCharArray(),
+            "     r           r      ".toCharArray()
 
         },
 
-
-        {
-            "sdddddddddddddddcx              ac".toCharArray(),
-            "ccccccccccccccddccccccccccccccccac".toCharArray(),
-            "c            cddc   p        ddcac".toCharArray(),
-            "c            cddc            crcac".toCharArray(),
-            "c  cccccccc  cddc            crcac".toCharArray(),
-            "c  caaaaaac  cddc            crcac".toCharArray(),
-            "c  ca   oac  cddc            crcac".toCharArray(),
-            "c  ca    ac  cddc            crcac".toCharArray(),
-            "c  ca    ac  cddc            crcac".toCharArray(),
-            "c  ca    ac  cddc            crcac".toCharArray(),
-            "c  cccddccc  cddc            crcac".toCharArray(),
-            "c            cddc     ccc    crcac".toCharArray(),
-            "c            cddc            crcac".toCharArray(),
-            "ccccccdcccccccddcccccccdccccccrc c".toCharArray(),
-            "drddddddddddrrdddddrrd   rrdddrc c".toCharArray(),
-            "rrrdddddddrrrddddrdrdr dddddddrd c".toCharArray(),
-            "ddrrrdcrcdddrdrdrrddrdcrcrddddcccc".toCharArray(),
-            "rdrdddcrcdrddrrrrdddddcrcdddrrddda".toCharArray()
-
-
-        },
+//
+//        {
+//            "sdddddddddddddddcx              ac".toCharArray(),
+//            "ccccccccccccccddccccccccccccccccac".toCharArray(),
+//            "c            cddc   p        ddcac".toCharArray(),
+//            "c            cddc            crcac".toCharArray(),
+//            "c  cccccccc  cddc            crcac".toCharArray(),
+//            "c  caaaaaac  cddc            crcac".toCharArray(),
+//            "c  ca   oac  cddc            crcac".toCharArray(),
+//            "c  ca    ac  cddc            crcac".toCharArray(),
+//            "c  ca    ac  cddc            crcac".toCharArray(),
+//            "c  ca    ac  cddc            crcac".toCharArray(),
+//            "c  cccddccc  cddc            crcac".toCharArray(),
+//            "c            cddc     ccc    crcac".toCharArray(),
+//            "c            cddc            crcac".toCharArray(),
+//            "ccccccdcccccccddcccccccdccccccrc c".toCharArray(),
+//            "drddddddddddrrdddddrrd   rrdddrc c".toCharArray(),
+//            "rrrdddddddrrrddddrdrdr dddddddrd c".toCharArray(),
+//            "ddrrrdcrcdddrdrdrrddrdcrcrddddcccc".toCharArray(),
+//            "rdrdddcrcdrddrrrrdddddcrcdddrrddda".toCharArray()
+//
+//
+//        },
 
         {
             "aaddcccccccccccccarrraaacccccccccccca".toCharArray(),

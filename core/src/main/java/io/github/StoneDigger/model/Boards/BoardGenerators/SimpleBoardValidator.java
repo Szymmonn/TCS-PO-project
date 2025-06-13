@@ -1,4 +1,4 @@
-package io.github.StoneDigger.model.Boards.BoardGenerators.BoardValidators;
+package io.github.StoneDigger.model.Boards.BoardGenerators;
 
 import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Directions.EDirections;
@@ -6,9 +6,9 @@ import io.github.StoneDigger.model.Directions.EDirections;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public class SimpleBoardValidator implements IBoardValidator {
+public class SimpleBoardValidator {
 
-    @Override
+
     public boolean validate(char[][] board) {
         if (board == null || board.length == 0 || board[0] == null || board[0].length == 0) {
             throw new IllegalArgumentException("Board nie może być pusty ani null.");

@@ -5,7 +5,6 @@ import io.github.StoneDigger.model.Interfaces.IDestructable;
 import io.github.StoneDigger.model.Interfaces.IEntity;
 import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.Interfaces.IWalkableTile;
-import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.Level.Managers.BoardManager;
 import io.github.StoneDigger.model.GameObjects.Entities.Player;
@@ -15,15 +14,15 @@ import io.github.StoneDigger.model.Level.Managers.UpdateManager;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 
-public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
+public class RockTile extends ATile implements ISelfUpdate, IWalkableTile, IDestructable {
     protected float rockDropTimer = 0;
     protected int moved = 0;
     protected UpdateManager updateManager;
     protected PlayerManager playerManager;
-    protected ILevelStats levelStats;
+    protected LevelStats levelStats;
     protected WhatChanged whatChanged;
 
-    public RockTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, ILevelStats levelStats,WhatChanged whatChanged) {
+    public RockTile(GridPoint2 start, BoardManager boardManager, UpdateManager updateManager, PlayerManager playerManager, LevelStats levelStats,WhatChanged whatChanged) {
         this.boardManager = boardManager;
         this.position = start;
         this.updateManager = updateManager;
@@ -50,28 +49,6 @@ public class RockTile extends ATile implements ISelfUpdate, IWalkableTile {
 
     @Override
     public void update(float delta) {
-
-        /// Boom Boom Rock + Killing
-        GridPoint2 playerPos = playerManager.getPosition();
-        if(playerPos.equals(position)) {
-
-            playerManager.getPlayer().setOnStartingPosition();
-            levelStats.decreaseHP();
-
-            for(int i= position.x-1;i<=position.x+1;i++) {
-                for(int j = position.y-1;j<= position.y+1;j++) {
-                    ATile tile = boardManager.getTile(new GridPoint2(i,j));
-
-                    if(tile instanceof IDestructable) {
-                        if (tile instanceof ISelfUpdate) {
-                            updateManager.removedFromUpdates((ISelfUpdate) tile);
-                        }
-                        tile.destroy();
-                    }
-                }
-            }
-        }
-
         /// Falling
         rockDropTimer += delta;
         if ((moved>0 && rockDropTimer >= 0.3f) || (moved==0 && rockDropTimer>=0.6f)) {
