@@ -1,6 +1,5 @@
 package io.github.StoneDigger.view.screen;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -19,10 +18,12 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.StoneDigger.view.Game.GameStart;
+import io.github.StoneDigger.view.configs.WinnerScreenProperties;
+import io.github.StoneDigger.view.configs.WinnerScreenPropertiesLoader;
 
-import static io.github.StoneDigger.view.Assets.*;
+import static io.github.StoneDigger.view.Assets.HAPPY_MINER_TEXTURE;
+import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
 
-// TODO: config this
 public class WinnerScreen extends ScreenAdapter {
     private final GameStart gameStart;
     private Viewport viewport;
@@ -32,45 +33,46 @@ public class WinnerScreen extends ScreenAdapter {
     private Label youWonLabel;
     private Label goBackToMenuLabel;
 
+    private final WinnerScreenProperties config = WinnerScreenPropertiesLoader.getInstance();
+
     public WinnerScreen(final GameStart gameStart) {
         this.gameStart = gameStart;
     }
 
     @Override
     public void show() {
-        viewport = new ScalingViewport(Scaling.fit, 800, 480);
+        viewport = new ScalingViewport(Scaling.fit, config.worldWidth, config.worldHeight);
         stage = new Stage(viewport);
-        setInputProcessor();
+        Gdx.input.setInputProcessor(stage);
 
-        createLabel();
+        createLabels();
         createImage();
         addListener();
         addActors();
     }
 
-    private void setInputProcessor() {
-        Gdx.input.setInputProcessor(stage);
-    }
+    private void createLabels() {
+        // "YOU WON" label
+        BitmapFont wonFont = createFont(config.wonFontSize, Color.valueOf(config.wonFontBorderColor));
+        Label.LabelStyle wonStyle = new Label.LabelStyle(wonFont, Color.valueOf(config.wonFontColor));
 
-    private void createLabel() {
-        BitmapFont lostFont = createFont(70, Color.BLACK);
-        Label.LabelStyle lostStyle = new Label.LabelStyle(lostFont, Color.RED);
+        youWonLabel = new Label("YOU   WON", wonStyle);
+        youWonLabel.setSize(config.wonLabelWidth, config.wonLabelHeight);
+        youWonLabel.setPosition(config.wonLabelPositionX, config.wonLabelPositionY);
 
-        youWonLabel = new Label("YOU   WON", lostStyle);
-        youWonLabel.setSize(700, 100);
-        youWonLabel.setPosition(70, 350);
+        // Back to menu label
+        BitmapFont backFont = createFont(config.backFontSize, Color.valueOf(config.backFontBorderColor));
+        Label.LabelStyle backStyle = new Label.LabelStyle(backFont, Color.valueOf(config.backFontColor));
 
-        BitmapFont backFont = createFont(30, Color.BLACK);
-        Label.LabelStyle backStyle = new Label.LabelStyle(backFont, Color.BLUE);
-
-        goBackToMenuLabel = new Label("Press ENTER to go back\n\nto the menu", backStyle);
+        goBackToMenuLabel = new Label("Press ENTER to go back\n\n to the menu", backStyle);
         goBackToMenuLabel.setAlignment(Align.center);
-        goBackToMenuLabel.setSize(700, 100);
-        goBackToMenuLabel.setPosition(50, 50);
+        goBackToMenuLabel.setSize(config.backLabelWidth, config.backLabelHeight);
+        goBackToMenuLabel.setPosition(config.backLabelPositionX, config.backLabelPositionY);
     }
 
     private BitmapFont createFont(int size, Color borderColor) {
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         parameter.borderColor = borderColor;
         return REGULAR_FONT_GENERATOR.generateFont(parameter);
@@ -78,15 +80,15 @@ public class WinnerScreen extends ScreenAdapter {
 
     private void createImage() {
         bg = new Image(new TextureRegion(HAPPY_MINER_TEXTURE));
-        bg.setPosition(0,0);
-        bg.setSize(800, 480);
+        bg.setPosition(0, 0);
+        bg.setSize(config.worldWidth, config.worldHeight);
     }
 
     private void addListener() {
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if(keycode == Input.Keys.ENTER) {
+                if (keycode == Input.Keys.ENTER) {
                     gameStart.setScreen(new MenuScreen(gameStart));
                     return true;
                 }
@@ -103,9 +105,8 @@ public class WinnerScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);   // any color is good // black is ok
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.draw();
     }
 

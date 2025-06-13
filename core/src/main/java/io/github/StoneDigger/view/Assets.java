@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import io.github.StoneDigger.model.GameObjects.Entities.Opponent;
 import io.github.StoneDigger.view.configs.MenuScreenPropertiesLoader;
+import io.github.StoneDigger.view.configs.MusicAndSoundPropertiesLoader;
 
 public class Assets {
     public static Texture ROCK_TEXTURE;
@@ -37,7 +38,7 @@ public class Assets {
     public static Music gameMusic;
     public static Music menuMusic;
 
-    public static float soundVolume = 1f;
+    public static float soundVolume = 1;
     public static Sound fallingDiamondSound;
     public static Sound diamondCollectedSound;
     public static Sound dieingSound;

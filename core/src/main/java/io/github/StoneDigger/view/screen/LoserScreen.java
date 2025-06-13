@@ -18,20 +18,22 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.StoneDigger.view.Game.GameStart;
+import io.github.StoneDigger.view.configs.LoserScreenProperties;
+import io.github.StoneDigger.view.configs.LoserScreenPropertiesLoader;
 
 import static io.github.StoneDigger.view.Assets.SAD_MINER_TEXTURE;
 import static io.github.StoneDigger.view.Assets.REGULAR_FONT_GENERATOR;
 
-// TODO: config this
 public class LoserScreen extends ScreenAdapter {
     private final GameStart gameStart;
     private Viewport viewport;
     private Stage stage;
 
-    private Label youLostlabel;
+    private Label youLostLabel;
     private Label goBackToMenuLabel;
-
     private Image bg;
+
+    private final LoserScreenProperties config = LoserScreenPropertiesLoader.getInstance();
 
     public LoserScreen(final GameStart gameStart) {
         this.gameStart = gameStart;
@@ -39,55 +41,55 @@ public class LoserScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        viewport = new ScalingViewport(Scaling.fit, 800, 480);
+        // use world dimensions from config
+        viewport = new ScalingViewport(Scaling.fit, config.worldWidth, config.worldHeight);
         stage = new Stage(viewport);
-        setInputProcessor();
+        Gdx.input.setInputProcessor(stage);
 
-        createLabel();
-        createImage();
-        addListener();
+        createLabels();
+        createBackground();
+        addInputListener();
         addActors();
     }
 
-    private void setInputProcessor() {
-        Gdx.input.setInputProcessor(stage);
-    }
+    private void createLabels() {
+        // YOU LOST label
+        BitmapFont lostFont = createFont(config.lostFontSize, Color.valueOf(config.lostFontBorderColor));
+        Label.LabelStyle lostStyle = new Label.LabelStyle(lostFont, Color.valueOf(config.lostFontColor));
 
-    private void createLabel() {
-        BitmapFont lostFont = createFont(70, Color.BLACK);
-        Label.LabelStyle lostStyle = new Label.LabelStyle(lostFont, Color.RED);
+        youLostLabel = new Label("YOU   LOST", lostStyle);
+        youLostLabel.setSize(config.lostLabelWidth, config.lostLabelHeight);
+        youLostLabel.setPosition(config.lostLabelPositionX, config.lostLabelPositionY);
 
-        youLostlabel = new Label("YOU   LOST", lostStyle);
-        youLostlabel.setSize(700, 100);
-        youLostlabel.setPosition(64, 350);
-
-        BitmapFont backFont = createFont(30, Color.BLACK);
-        Label.LabelStyle backStyle = new Label.LabelStyle(backFont, Color.BLUE);
+        // Back to menu label
+        BitmapFont backFont = createFont(config.backFontSize, Color.valueOf(config.backFontBorderColor));
+        Label.LabelStyle backStyle = new Label.LabelStyle(backFont, Color.valueOf(config.backFontColor));
 
         goBackToMenuLabel = new Label("Press ENTER to go back\n\nto the menu", backStyle);
         goBackToMenuLabel.setAlignment(Align.center);
-        goBackToMenuLabel.setSize(700, 100);
-        goBackToMenuLabel.setPosition(50, 50);
+        goBackToMenuLabel.setSize(config.backLabelWidth, config.backLabelHeight);
+        goBackToMenuLabel.setPosition(config.backLabelPositionX, config.backLabelPositionY);
     }
 
     private BitmapFont createFont(int size, Color borderColor) {
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         parameter.borderColor = borderColor;
         return REGULAR_FONT_GENERATOR.generateFont(parameter);
     }
 
-    private void createImage() {
+    private void createBackground() {
         bg = new Image(new TextureRegion(SAD_MINER_TEXTURE));
-        bg.setPosition(0,0);
-        bg.setSize(800, 480);
+        bg.setPosition(0, 0);
+        bg.setSize(config.worldWidth, config.worldHeight);
     }
 
-    private void addListener() {
+    private void addInputListener() {
         stage.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if(keycode == Input.Keys.ENTER) {
+                if (keycode == Input.Keys.ENTER) {
                     gameStart.setScreen(new MenuScreen(gameStart));
                     return true;
                 }
@@ -98,15 +100,14 @@ public class LoserScreen extends ScreenAdapter {
 
     private void addActors() {
         stage.addActor(bg);
-        stage.addActor(youLostlabel);
+        stage.addActor(youLostLabel);
         stage.addActor(goBackToMenuLabel);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);   // any color is good // black is ok
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.draw();
     }
 

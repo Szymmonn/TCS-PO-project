@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
 import io.github.StoneDigger.model.Boards.BoardGenerators.Levels;
+import io.github.StoneDigger.model.Boards.LevelsLoader;
 import io.github.StoneDigger.model.GameLogic.ELevelType;
 import io.github.StoneDigger.model.Boards.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
@@ -15,10 +16,10 @@ import io.github.StoneDigger.model.Level.ILevelStats;
 import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.model.TileChangers.DiamondTileChanger;
 import io.github.StoneDigger.model.TileChangers.RockTileChanger;
-import io.github.StoneDigger.view.configs.LevelsLoader;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LevelManager {
@@ -65,7 +66,8 @@ public class LevelManager {
                     case 'd': tile = new DirtTile(pos, boardManager); break;
                     case 'r': tile = new RockTileChanger(pos, boardManager, updateManager, playerManager, levelStats, whatChanged); break;
                     case 'a': tile = new DiamondTileChanger(pos, boardManager, updateManager, whatChanged); break;
-                    case ' ': tile = new EmptyTile(pos, boardManager); break;
+                    // CHANGED ' ' to '.'
+                    case '.': tile = new EmptyTile(pos, boardManager); break;
                     case 'c': tile = new BrickTile(pos, boardManager); break;
                     case 's': tile = new StartTile(pos, boardManager); break;
                     case 'e': tile = new EndTile(pos, boardManager, levelStats, this); break;
@@ -98,10 +100,12 @@ public class LevelManager {
         if(levelType == ELevelType.RANDOM) {
             raw = BoardGenerator.generateBoard(ELevelType.RANDOM, levelStats.getLevelNumber());
         } else {
-            raw = Levels.boards[levelStats.getLevelNumber() +1];
+            raw = LevelsLoader.getStandardLevel(1);//levelStats.getLevelNumber());
         }
 
-
+        if(raw == null) {
+            System.exit(11110);
+        }
         ATile[][] placeholder = new ATile[raw[0].length][raw.length];
         Board tempBoard = new Board(placeholder);
 

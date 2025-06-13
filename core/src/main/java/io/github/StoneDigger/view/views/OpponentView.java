@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import io.github.StoneDigger.model.GameObjects.Entities.Opponent;
 import io.github.StoneDigger.model.GameObjects.Entities.OpponentAI;
-import io.github.StoneDigger.model.Interfaces.IPlayer;
 import io.github.StoneDigger.view.configs.GameScreenProperties;
 import io.github.StoneDigger.view.configs.GameScreenPropertiesLoader;
 import io.github.StoneDigger.model.Interfaces.IOpponent;
@@ -42,15 +41,13 @@ public class OpponentView extends Actor {
         Color prev = batch.getColor();
         batch.setColor(1,1,1,1);
 
-        float playerXPosition=0;
-        float playerYPosition=0;
-
-        for(int i=0;i<opponent.size();i++) {
-            IOpponent opp = opponent.get(i);
-            playerXPosition = opp.getPosition().x*BLOCK_SIZE;
-            playerYPosition = opp.getPosition().y*BLOCK_SIZE;
-            if(opp instanceof Opponent) batch.draw(OPPONENT_TEXTURE, playerXPosition, playerYPosition, BLOCK_SIZE, BLOCK_SIZE);
-            else if(opp instanceof OpponentAI) batch.draw(OPPONENTAI_TEXTURE, playerXPosition, playerYPosition, BLOCK_SIZE, BLOCK_SIZE);
+        for (IOpponent opp : opponent) {
+            float oppPositionX = opp.getPosition().x * BLOCK_SIZE;
+            float oppPositionY = opp.getPosition().y * BLOCK_SIZE;
+            if (opp instanceof Opponent)
+                batch.draw(OPPONENT_TEXTURE, oppPositionX, oppPositionY, BLOCK_SIZE, BLOCK_SIZE);
+            else if (opp instanceof OpponentAI)
+                batch.draw(OPPONENTAI_TEXTURE, oppPositionX, oppPositionY, BLOCK_SIZE, BLOCK_SIZE);
 
         }
 
