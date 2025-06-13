@@ -31,9 +31,10 @@ public class BoardManager {
         return board.getWidth();
     }
 
-//    public void setTiles(ATile [][] tiles) {
-//        board.setTiles(tiles);
-//    }
+    public void setTiles(ATile [][] tiles) {
+        board.setTiles(tiles);
+    }
+
     public ATile[][] getTiles() {
         return board.getTiles();
     }

@@ -38,7 +38,7 @@ public class GameViewModel {
     public void update(float delta) {
         gameLogic.tick(delta);
 
-        if (gameLogic.getIsNewGame()) {
+        if (gameLogic.isNewGame()) {
             newGame = true;
         }
 

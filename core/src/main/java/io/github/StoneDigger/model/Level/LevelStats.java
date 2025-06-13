@@ -8,7 +8,6 @@ public class LevelStats {
     private int levelNumber;
     private float timePassed;
     private boolean isGameComplete;
-    private boolean isGameWon;
 
     public LevelStats() {
         this(0,3,0);
@@ -62,15 +61,12 @@ public class LevelStats {
     public void setLevelNumber(int levelNumber) {this.levelNumber = levelNumber;}
     public boolean isGameComplete() {return isGameComplete;}
     public void setIsGameComplete(boolean isGameComplete) {this.isGameComplete = isGameComplete;}
-    public boolean getIsGameWon() {return isGameWon;}
-    public void setIsGameWon(boolean gameWon) {this.isGameWon = gameWon;}
 
     public void resetLevelSTats() {
         this.timePassed = 0;
-        setHP(3); //TODO: make it not always 3
+        setHP(3);
         setScore(0);
         setDiamondCount(0);
-        setIsGameWon(false);
         setIsGameComplete(false);
     }
 }

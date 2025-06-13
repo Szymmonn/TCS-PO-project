@@ -5,77 +5,73 @@ import io.github.StoneDigger.model.Boards.Board;
 import io.github.StoneDigger.model.Boards.BoardGenerators.BoardGenerator;
 import io.github.StoneDigger.model.Boards.BoardGenerators.Levels;
 import io.github.StoneDigger.model.GameLogic.ELevelType;
-import io.github.StoneDigger.model.Interfaces.IBoard;
 import io.github.StoneDigger.model.Directions.EDirections;
-import io.github.StoneDigger.model.Interfaces.IOpponent;
-import io.github.StoneDigger.model.Interfaces.IPlayer;
-import io.github.StoneDigger.model.Interfaces.ISelfUpdate;
 import io.github.StoneDigger.model.GameObjects.Tiles.*;
-import io.github.StoneDigger.model.Level.LevelStats;
+import io.github.StoneDigger.model.Interfaces.*;
 
+import io.github.StoneDigger.model.Level.LevelStats;
 import io.github.StoneDigger.viewmodel.viewmodels.WhatChanged;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LevelManager {
+
+    // === Core Components ===
     private final WhatChanged whatChanged;
     private LevelStats levelStats;
     private UpdateManager updateManager;
     private PlayerManager playerManager;
     private OpponentManager opponentManager;
     private BoardManager boardManager;
-    private boolean isGameLost;
-    private boolean isGameWon;
 
-    private ELevelType levelType;
+    // === State Flags ===
+    private boolean isGameLost = false;
+    private boolean isGameWon = false;
 
+    private final ELevelType levelType;
+
+    // === Constructor ===
     public LevelManager(WhatChanged whatChanged, ELevelType levelType) {
-        levelStats = new LevelStats();
-        updateManager = new UpdateManager();
         this.whatChanged = whatChanged;
-
-        isGameLost = false;
-        isGameWon = false;
-
         this.levelType = levelType;
+        this.levelStats = new LevelStats();
+        this.updateManager = new UpdateManager();
     }
 
+    // === Board Conversion ===
     public ATile[][] convertBoard(char[][] board) {
-        if (board == null || board.length == 0 || board[0] == null || board[0].length == 0) {
+        if (board == null || board.length == 0 || board[0] == null || board[0].length == 0)
             throw new IllegalArgumentException("Board nie może być pusty lub null.");
-        }
 
         int rows = board.length;
         int cols = board[0].length;
         ATile[][] tiles = new ATile[cols][rows];
 
         for (int y = 0; y < rows; y++) {
-            if (board[y] == null || board[y].length != cols) {
+            if (board[y] == null || board[y].length != cols)
                 throw new IllegalArgumentException("Wszystkie wiersze muszą mieć tę samą długość.");
-            }
+
             for (int x = 0; x < cols; x++) {
                 char ch = board[y][x];
                 GridPoint2 pos = new GridPoint2(x, y);
                 ATile tile;
+
                 switch (ch) {
                     case 'd': tile = new DirtTile(pos, boardManager); break;
-                    case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager, levelStats,whatChanged); break;
-                    case 'a': tile = new DiamondTile(pos, boardManager, updateManager,whatChanged); break;
-                    case ' ': tile = new EmptyTile(pos, boardManager); break;
+                    case 'r': tile = new RockTile(pos, boardManager, updateManager, playerManager, levelStats, whatChanged); break;
+                    case 'a': tile = new DiamondTile(pos, boardManager, updateManager, whatChanged); break;
                     case 'c': tile = new BrickTile(pos, boardManager); break;
                     case 's': tile = new StartTile(pos, boardManager); break;
                     case 'e': tile = new EndTile(pos, boardManager, levelStats, this); break;
-                    case 'x': tile = new DeactivatedEndTile(pos, boardManager, levelStats, this); break;  // should use only this end tile
+                    case 'x': tile = new DeactivatedEndTile(pos, boardManager, levelStats, this); break;
                     case 'b': tile = new BorderTile(pos, boardManager); break;
-                    case 'h': tile = new ShelterTile(pos,boardManager); break;
-                    case 'o': tile = new EmptyTile(pos,boardManager);break;
-                    case 'p': tile = new EmptyTile(pos,boardManager);break;
+                    case 'h': tile = new ShelterTile(pos, boardManager); break;
+                    case 'o': case 'p': case ' ': tile = new EmptyTile(pos, boardManager); break;
                     default:
-                        throw new IllegalArgumentException(
-                            "Nieznany znak: '" + ch + "' na pozycji (" + y + "," + x + ")"
-                        );
+                        throw new IllegalArgumentException("Nieznany znak: '" + ch + "' na pozycji (" + y + "," + x + ")");
                 }
+
                 tiles[x][y] = tile;
             }
         }
@@ -83,150 +79,133 @@ public class LevelManager {
         return tiles;
     }
 
+    // === Level Initialization ===
     public void startNewLevel() {
         levelStats.resetLevelSTats();
         levelStats.incrementLevelNumber();
         GridPoint2 startPosition = new GridPoint2(1, 1);
 
-        char[][] raw;
-        if(levelType == ELevelType.RANDOM) {
-            raw = BoardGenerator.generateBoard(ELevelType.RANDOM, levelStats.getLevelNumber());
-        } else {
-            raw = Levels.boards[levelStats.getLevelNumber() +1];
-        }
+        char[][] raw = (levelType == ELevelType.RANDOM)
+            ? BoardGenerator.generateBoard(levelType, levelStats.getLevelNumber())
+            : Levels.boards[levelStats.getLevelNumber() + 1];
 
-
+        // Pre-board setup
         ATile[][] placeholder = new ATile[raw[0].length][raw.length];
-        Board tempBoard = new Board(placeholder);
-
-        boardManager = new BoardManager(tempBoard);
+        boardManager = new BoardManager(new Board(placeholder));
         playerManager = new PlayerManager(startPosition, boardManager, levelStats, updateManager, whatChanged);
 
+        // Read opponent positions
         List<GridPoint2> startOpponents = new ArrayList<>();
-
-        int rows = raw.length;
-        int cols = raw[0].length;
-        int counterO=0,counterP=0;
-
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
-                char ch = raw[y][x];
-                System.out.print(ch);
-                if(ch == 'o') {
-                    counterO++;
-                    startOpponents.add(new GridPoint2(x,y));
+        int counterO = 0, counterP = 0;
+        for (int pass = 0; pass < 2; pass++) {
+            for (int y = 0; y < raw.length; y++) {
+                for (int x = 0; x < raw[0].length; x++) {
+                    char ch = raw[y][x];
+                    if (pass == 0 && ch == 'o') {
+                        startOpponents.add(new GridPoint2(x, y));
+                        counterO++;
+                    } else if (pass == 1 && ch == 'p') {
+                        startOpponents.add(new GridPoint2(x, y));
+                        counterP++;
+                    }
                 }
             }
         }
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
-                char ch = raw[y][x];
-                System.out.print(ch);
-                if(ch == 'p') {
-                    counterP++;
-                    startOpponents.add(new GridPoint2(x,y));
-                }
-            }
-            System.out.println();
-        }
 
-        opponentManager = new OpponentManager(boardManager, updateManager,playerManager,levelStats,counterO,counterP);
+        opponentManager = new OpponentManager(boardManager, updateManager, playerManager, levelStats, counterO, counterP);
+        boardManager.setTiles(convertBoard(raw));
 
-
-        ///  Setting board
-
-        ATile[][] tiles = convertBoard(raw);
-
-        boardManager.setTiles(tiles);
-
+        // Set up updates
         updateManager.clearAll();
-
-        int h = raw.length, w = raw[0].length;
-        for (int y = 0; y < h; y++) {
-            for (int x = 0; x < w; x++) {
-                ATile t = boardManager.getBoard().getTile(new GridPoint2(x, y));
-                if (t instanceof StartTile) {
+        for (int y = 0; y < raw.length; y++) {
+            for (int x = 0; x < raw[0].length; x++) {
+                ATile tile = boardManager.getBoard().getTile(new GridPoint2(x, y));
+                if (tile instanceof StartTile)
                     startPosition = new GridPoint2(x, y);
-                }
-                if (t instanceof ISelfUpdate) {
-                    updateManager.addToUpdates((ISelfUpdate) t);
-                }
+                if (tile instanceof ISelfUpdate)
+                    updateManager.addToUpdates((ISelfUpdate) tile);
             }
         }
-        System.out.println("o : "+counterO+"   p: " + counterP+"\n"+startOpponents);
-        /// Updating player and opponents to its starting locations
 
+        // Set starting positions
         playerManager.getPlayer().setStartingPosition(startPosition);
-        for(int i=0;i<counterO;i++) {
-            opponentManager.getOpponents().get(i).setStartingPosition(startOpponents.get(i));
-            opponentManager.getOpponents().get(i).setOnStartingPosition();
+        for (int i = 0; i < counterO; i++) {
+            IOpponent opp = opponentManager.getOpponents().get(i);
+            opp.setStartingPosition(startOpponents.get(i));
+            opp.setOnStartingPosition();
         }
-        for(int i=counterO;i<counterO+counterP;i++) {
-            opponentManager.getOpponents().get(i).setStartingPosition(startOpponents.get(i));
-            opponentManager.getOpponents().get(i).setOnStartingPosition();
+        for (int i = 0; i < counterP; i++) {
+            IOpponent opp = opponentManager.getOpponents().get(i + counterO);
+            opp.setStartingPosition(startOpponents.get(i + counterO));
+            opp.setOnStartingPosition();
         }
 
-        /// Adding to update Manager
-
+        // Register components for updates
         updateManager.addPlayerManager(playerManager);
-
         for (IOpponent opp : opponentManager.getOpponents())
             updateManager.addToUpdates(opp);
 
         startMechanics(levelStats.getLevelNumber(), boardManager.getBoard());
     }
 
+    // === Game Mechanics Initialization ===
+    public void startMechanics(int levelIndex, IBoard board) {
+        int diamonds = 0;
 
-    public void startMechanics(int index, IBoard board) {
-        int count = 0;
-        int width = board.getWidth();
-        int height = board.getHeight();
-
-        for (int n = 0; n < width * height; n++) {
-            if (board.getTile(new GridPoint2(n % width, n / width)) instanceof DiamondTile) {
-                count++;
+        for (int y = 0; y < board.getHeight(); y++) {
+            for (int x = 0; x < board.getWidth(); x++) {
+                if (board.getTile(new GridPoint2(x, y)) instanceof DiamondTile) {
+                    diamonds++;
+                }
             }
         }
 
         playerManager.getPlayer().setOnStartingPosition();
         levelStats.setHP(3);
-        levelStats.setDiamondCount(count);
-        levelStats.setLevelNumber(index);
+        levelStats.setDiamondCount(diamonds);
+        levelStats.setLevelNumber(levelIndex);
     }
 
+    // === Game Tick ===
     public void tick(float delta) {
         updateManager.updateAll(delta);
         levelStats.update(delta);
-        if(levelStats.getHP() == 0) {
-            isGameLost = true;
-        }
 
-        if(levelStats.getLevelNumber() == 6) {
+        if (levelStats.getHP() == 0)
+            isGameLost = true;
+
+        if (levelStats.getLevelNumber() == 6)
             isGameWon = true;
-        }
+
         opponentManager.tryClearOpponents(delta);
     }
 
+    // === External Accessors ===
     public IPlayer getPlayer() {
         return playerManager.getPlayer();
     }
+
     public List<IOpponent> getOpponents() {
         return opponentManager.getOpponents();
     }
+
     public LevelStats getLevelStats() {
         return levelStats;
     }
+
     public IBoard getBoard() {
         return boardManager.getBoard();
     }
 
-    public void movePlayer(EDirections direction) {
-        playerManager.movePlayer(direction);
-    }
     public boolean isGameLost() {
         return isGameLost;
     }
+
     public boolean isGameWon() {
         return isGameWon;
+    }
+
+    public void movePlayer(EDirections direction) {
+        playerManager.movePlayer(direction);
     }
 }

@@ -26,9 +26,9 @@ public class UpdateManager {
     }
 
     public void updateAll(float delta) {
+
         List<ISelfUpdate> snapshot = new ArrayList<>(selfUpdates);
         for(ISelfUpdate selfUpdate : snapshot) {
-            if(selfUpdate instanceof IOpponent || selfUpdate instanceof IPlayer) System.out.println("ROBIMY UPDATE "+selfUpdate);
             selfUpdate.update(delta);
         }
         playerManager.getPlayer().update(delta);
